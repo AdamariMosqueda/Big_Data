@@ -1,1 +1,1 @@
-Aqui ponemos una portada chida
+Aqui ponemos una portada chida y se crea el índice de la info
