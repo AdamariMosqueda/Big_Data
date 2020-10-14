@@ -163,10 +163,46 @@ The number 7 is considered of fortune, this second function makes a sum between 
 The function is declared with def where the parameter to be received is a list and the result is an Int. The variable res is declared as 0 which is the one that is going to increase. A for loop is made to accumulate the sum, where n is each element in the list and list indicates where to stop (Number of elements). An if is declared indicating that if the number is 7, Add 14 to the result, otherwise the result is added the number of the list and at the end of the for loop return the result of the summation.
 
 >Third code
+```
+def balance(list:List[Int]): Boolean={
+    var primera = 0
+    var segunda = 0
 
+    segunda = list.sum
+
+    for(i <- Range(0,list.length)){
+        primera = primera + list(i)
+        segunda = segunda - list(i)
+        if(primera == segunda){
+            return true
+        }
+    }
+    return false 
+}
+
+val bl = List(3,2,1)
+val bl2 = List(2,3,3,2)
+val bl3 = List(10,30,90)
+
+balance(bl) //TRUE output 3 = 3
+balance(bl2) ///TRUE output 5 = 5
+balance(bl3) //FALSE output 0 /= 130
+```
 
 >Fourth code
+```
+def palindromo(palabra:String):Boolean ={
+    return (palabra == palabra.reverse)
+}
 
+val palabra = "OSO" 
+val palabra2 = "ANNA"
+val palabra3 = "JUAN"
+
+println(palindromo(palabra)) //TRUE output "OSO"
+println(palindromo(palabra2)) //TRUE output "ANNA"
+println(palindromo(palabra3)) //FALSE output "NAUJ"
+```
 
  <div id='pr4' />
 

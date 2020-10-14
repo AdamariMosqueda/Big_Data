@@ -76,6 +76,7 @@ println(afortunado(af))
 
 
 //Code 3
+
 def balance(list:List[Int]): Boolean={
     var primera = 0
     var segunda = 0
@@ -85,7 +86,6 @@ def balance(list:List[Int]): Boolean={
     for(i <- Range(0,list.length)){
         primera = primera + list(i)
         segunda = segunda - list(i)
-
         if(primera == segunda){
             return true
         }
@@ -97,20 +97,55 @@ val bl = List(3,2,1)
 val bl2 = List(2,3,3,2)
 val bl3 = List(10,30,90)
 
-balance(bl)
-balance(bl2)
-balance(bl3)
+balance(bl) //TRUE output 3 = 3
+balance(bl2) ///TRUE output 5 = 5
+balance(bl3) //FALSE output 0 /= 130
 
+//Se crea una funcion en la cual resivira como dato una lista esta regresara un dato de tipo Boolean
+//Se crean dos variables llamadas primera y segunda se inicializan en 0
+//A la variable "segunda" se le asigna el valor de la suma de todos los elementos de la lista que se resiva
+//Se crea un ciclo para que que se recorra toda la lista desde 0 hasta el final de la lista
+//Se le asigna en cada vuelta del ciclo a "primera" el resultado de el valor de "primera" que tiene en cada ciclo
+//y se le suma el valor de lista en la posiscion i (posiscion en la que va la vuelta del ciclo)
+//A la variable "segunda" se le asigan el valor de "segunda" que en un principio fue la suma total y a este
+//se le resta el valor del elemento de la lista en la posiscion de cada ciclo
+//En el  "if" se compara si el valor de la primera y la segunda variables son iguales en cada vuelta para regresar el true
+//en caso de que se termine el "for" y no encuentre ninguna igualdad regresa un "false"
+//Se crean tres listas diferentes con diferentes valores y se valoran en la funcion 
+
+//Pseudocode
+//funcion balance(list)
+//declarar primera
+//delarar  segunda
+//segunda = list.sum
+//Cycle for i = range 0 to list length
+//primera = primera + list(i)
+//segunda = segunda - list(i)
+//if primera equals segunda
+//return true
+//end for
+//return false 
+//end funcion
 
 //Code 4
+
 def palindromo(palabra:String):Boolean ={
     return (palabra == palabra.reverse)
 }
 
-val palabra = "OSO"
+val palabra = "OSO" 
 val palabra2 = "ANNA"
 val palabra3 = "JUAN"
 
-println(palindromo(palabra))
-println(palindromo(palabra2))
-println(palindromo(palabra3))
+println(palindromo(palabra)) //TRUE output "OSO"
+println(palindromo(palabra2)) //TRUE output "ANNA"
+println(palindromo(palabra3)) //FALSE output "NAUJ"
+
+//Se crea una funcion la cual resivira una variable de tipo String el cual regresara un dato Boolean
+//Se regresara el tipo de datos "TRUE or FALSE" al comparar la variable de entrada que sea igual a la 
+//variable de entrada pero con la funcion "reverse" esta funcion va a escribir el datos de nuestra variable al revez
+
+//Pseudocode
+//function palindromo (palabra)
+//return Boolean (palabra equals palabra.reverse)
+//end function
