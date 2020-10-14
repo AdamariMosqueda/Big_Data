@@ -101,22 +101,22 @@ balance(bl) //TRUE output 3 = 3
 balance(bl2) ///TRUE output 5 = 5
 balance(bl3) //FALSE output 0 /= 130
 
-//Se crea una funcion en la cual resivira como dato una lista esta regresara un dato de tipo Boolean
-//Se crean dos variables llamadas primera y segunda se inicializan en 0
-//A la variable "segunda" se le asigna el valor de la suma de todos los elementos de la lista que se resiva
-//Se crea un ciclo para que que se recorra toda la lista desde 0 hasta el final de la lista
-//Se le asigna en cada vuelta del ciclo a "primera" el resultado de el valor de "primera" que tiene en cada ciclo
-//y se le suma el valor de lista en la posiscion i (posiscion en la que va la vuelta del ciclo)
-//A la variable "segunda" se le asigan el valor de "segunda" que en un principio fue la suma total y a este
-//se le resta el valor del elemento de la lista en la posiscion de cada ciclo
-//En el  "if" se compara si el valor de la primera y la segunda variables son iguales en cada vuelta para regresar el true
-//en caso de que se termine el "for" y no encuentre ninguna igualdad regresa un "false"
-//Se crean tres listas diferentes con diferentes valores y se valoran en la funcion 
+//A function is created which will receive as data a list, this will return a data in Boolean mode
+//Two variables named *primera” and “segunda” are created and initiated in 0
+// Variable "segunda" is assigned the value of the sum of all elements from the list it receives
+// Creating a cycle that will run through the entire list from 0 to the end of list
+// Each cycle pass will be assigned to "primera" containing the value result from "primera" that is in each cycle
+//The list value is added in position i ( position of the cycles pass ) 
+// variable "segunda" is assigned the value of "segunda" which at primera was the total sum and to this
+// the lists' element value is subtracted at each cycles' position
+//in "if", variables "primera" and "segunda" are compared for similar value at each pass to return true
+//in case the "for" ends and finds no similarity it returns "false”
+//three lists are created with different value and are valued in function
 
 //Pseudocode
 //funcion balance(list)
-//declarar primera
-//delarar  segunda
+//declare primera
+//declare  segunda
 //segunda = list.sum
 //Cycle for i = range 0 to list length
 //primera = primera + list(i)
@@ -141,9 +141,10 @@ println(palindromo(palabra)) //TRUE output "OSO"
 println(palindromo(palabra2)) //TRUE output "ANNA"
 println(palindromo(palabra3)) //FALSE output "NAUJ"
 
-//Se crea una funcion la cual resivira una variable de tipo String el cual regresara un dato Boolean
-//Se regresara el tipo de datos "TRUE or FALSE" al comparar la variable de entrada que sea igual a la 
-//variable de entrada pero con la funcion "reverse" esta funcion va a escribir el datos de nuestra variable al revez
+
+//A function is created which will receive a variable in String mode and will return a Boolean data
+//Data types "TRUE or FALSE" will be returned when comparing the variable input that is the same as the
+//Variable input with the "reverse" function, this function will write the variables data in reverse
 
 //Pseudocode
 //function palindromo (palabra)

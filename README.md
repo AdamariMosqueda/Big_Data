@@ -188,6 +188,17 @@ balance(bl) //TRUE output 3 = 3
 balance(bl2) ///TRUE output 5 = 5
 balance(bl3) //FALSE output 0 /= 130
 ```
+A function is created which will receive as data a list, this will return a data in Boolean mode
+Two variables named *primera” and “segunda” are created and initiated in 0
+Variable "segunda" is assigned the value of the sum of all elements from the list it receives
+Creating a cycle that will run through the entire list from 0 to the end of list
+Each cycle pass will be assigned to "primera" containing the value result from "primera" that is in each cycle
+The list value is added in position i ( position of the cycles pass ) 
+variable "segunda" is assigned the value of "segunda" which at primera was the total sum and to this
+the lists' element value is subtracted at each cycles' position
+in "if", variables "primera" and "segunda" are compared for similar value at each pass to return true 
+in case the "for" ends and finds no similarity it returns "false”
+three lists are created with different value and are valued in function
 
 >Fourth code
 ```
@@ -203,6 +214,9 @@ println(palindromo(palabra)) //TRUE output "OSO"
 println(palindromo(palabra2)) //TRUE output "ANNA"
 println(palindromo(palabra3)) //FALSE output "NAUJ"
 ```
+
+A function is created which will receive a variable in String mode and will return a Boolean data types "TRUE or FALSE" will be returned when comparing the variable input that is the same as the variable input with the "reverse" function, this function will write the variables data in reverse
+
 
  <div id='pr4' />
 
