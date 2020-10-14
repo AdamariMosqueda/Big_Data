@@ -5,14 +5,14 @@
   <div id='pr1' />
 
   ## Practice 1 
-  En esta práctica creamos algoritmos y jugamos con las variables, ademas de definir la diferencia entre valor y variable en scala
+This practice creates algorithms and also variables can be played with, aside from defining the diference between value and variable in scala 
 
-> 1.- Develop a scala algorithm that calcules the radius of a circle
+> 1.- Develope a scala algorithm that calcules the radius of a circle
 ```
 import scala.math.sqrt
 val r: Double= sqrt(A/3.1416)
 ```
-La fórmula para sacar el radio con el área es r=√Area/π, utilizamos la función sqrt para sacar la raíz, scala no tiene predefinida la libreria por lo que lo importamos primero con import scala.math.sqrt
+This formula ( r=√ Area/π ) is used to retrieve the radius with the area. The sqrt function is used to retrieve the root. Scala does not have library predefined therefore we must first import with scala.math.sqrt
 
 > 2.- Develop a scala algorithm tells me if a number is prime
 ```
@@ -22,21 +22,21 @@ if (Num%2==0){
         println("It's prime")
         }
 ```
-Se crea la variable Num con el número que desee, un número primo es aquel que es divisible sólo por él mismo y por 1, con el algoritmo planteado si el residuo de su división es 0, nos imprime que no es primo, en caso contrario nos avisa que es primo
+Variable Num can be created with any desired number, a prime number is divisible only by itself and 1, with the algorithm in place if the residue of its division is 0, it prints out as a non prime, in contrary case it will inform number is prime.
 
 > 3.- Given the variable bird = "tweet", use interpolation of string to print "I'm writing a tweet"
 ```
 val bird = "tweet"
 val tweet = s"I'm writing a $bird"
 ```
-La variable tweet es una cadena de texto al cual se le suma la variable bird
+Variable tweet is a chain of text to which variable bird is added
 
 > 4.- Given the variable message = "Hello Luke, I am your father!" use slilce to extract the sequence "Luke"
 ```
 val message = "Hello Luke, I am your father!"
 message slice  (6,10)
 ```
-Message slice toma los caracteres que se le indica, a partir del caracter 6 comienza a tomar la información hasta el caracter 10
+Message slice takes the characters its indicated, starting from character 6 it begins taking information up until character 10.
 
 > 5.- What's the difference between value and variable in scala?
 ```
@@ -49,25 +49,31 @@ in "val" this data can't change because is immutable
 val MyTuple = (2,4,5,1,2,3,3.1416,23)
 MyTuple._7
 ```
-Al definir MyTuple._7 seleccionamos el elemento número 7 de aquella tupla
+When MyTuple._7 is defined the number 7 element is selected from that tuple
 
 <div id='pr2' />
 
 ## Practice 2 
-En esta practica hacemos uso de listas, arreglos y mapas 
+In this pratice we make use of lists, arrays and maps
 > 1.- Create a list called "list" with the elements "red", "white", "black"
 ```
 val list = List("red","white","black")
 ```
+A variable is created in list mode which will contain elements requested
 >2.- Add 5 more items to "list" "green", "yellow", "blue", "orange", "pearl"
 ```
 val list= collection.mutable.Set("red","white","black")
+```
+in order to add values into list, it first needs to be mutable
+```
 list+="green"
 list+= "yellow"
 list+="blue"
 list+= "orange"
 list+="pearl"
 ```
+Once the list is mutable the elements requested can be added
+
 >3.- Bring the items from "list" "green", "yellow", "blue"
 ```
 for (lists <- list) { 
@@ -75,32 +81,36 @@ for (lists <- list) {
     println(lists)
     }
 ```
-4.-  Create an Array of numbers in the range 1-1000 in steps of 5 by 5
+In order to print the required values a cycle (for) was created which will run through the entire list searching for elements that meet the condition of if, the similitude is print after it is found
+
+>4.-  Create an Array of numbers in the range 1-1000 in steps of 5 by 5
 ```
 val arrNum=Array.range(1,1000,5)
 ```
+A variable is created in Array mode, followed by the range function along side in which the initiating number is given seperated by coma then the finalizing number is added to finish off with the steps.
+
 > 5.- What are the unique elements of the list list(1,3,3,4,6,7,3,7)  use conversion to sets
 ```
 val list = List(1,3,3,4,6,7,3,7)
 list.toSet
 ```
-toSet converts the List to a Set, muestra los elementos sin repetir: Set(1, 6, 7, 3, 4)
+toSet converts the List to a Set, show the elements without repeating: Set(1, 6, 7, 3, 4)
 
 > 6.- Create a map mutable named Names containing the following elements: "Jose", 20, "Luis", 24, "Ana", 23, "Susana", "27"
 ```
 val Names = collection.mutable.Map(("Jose", 20), ("Luis", 24), ("Ana", 23), ("Susana", 27))
 Names
 ```
-El primer parametro es la llave y el segundo es su valor
+The first parameter is the key and the second is its value
 
 > 6(a).- Print all of the keys of the map
 ```
 Names.keys
 ```
-Va a imprimir solamente las llaves del mapa: Set(Susana, Ana, Luis, Jose)
+only the maps keys will be printed: Set(Susana, Ana, Luis, Jose)
 
 > 6(b).- Add the following value to the map("Miguel", 23)
 ```
 Names += ("Miguel" -> 23)
 ```
-Al escribir el nombre del mapa con += te permite agregar una nueva llave con valor en un mapa que ya está creado: Map(Susana -> 27, Ana -> 23, Miguel -> 23, Luis -> 24, Jose -> 20)
+when writting the maps name with += it allows the addage of a new key with value to a map already created: Map(Susana -> 27, Ana -> 23, Miguel -> 23, Luis -> 24, Jose -> 20)
