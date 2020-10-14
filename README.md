@@ -1,6 +1,8 @@
 **CONTENT**
 - [Practice 1](#practice-1)
 - [Practice 2](#practice-2)
+- [Practice 3](#practice-3)
+- [Practice 4](#practice-4)
   
   <div id='pr1' />
 
@@ -53,7 +55,7 @@ When MyTuple._7 is defined the number 7 element is selected from that tuple
 
 <div id='pr2' />
 
-## Practice 2 
+  ## Practice 2 
 In this pratice we make use of lists, arrays and maps
 > 1.- Create a list called "list" with the elements "red", "white", "black"
 ```
@@ -114,3 +116,134 @@ only the maps keys will be printed: Set(Susana, Ana, Luis, Jose)
 Names += ("Miguel" -> 23)
 ```
 when writting the maps name with += it allows the addage of a new key with value to a map already created: Map(Susana -> 27, Ana -> 23, Miguel -> 23, Luis -> 24, Jose -> 20)
+
+ <div id='pr3' />
+
+  ## Practice 3
+  In practice 3 we analyse the code of 4 functions and we explained with our own word, also we made the pseudocode (This one es in the practice)
+
+>First code
+```
+  def listEvens(list:List[Int]): String ={
+    for(n <- list){
+        if(n%2==0){
+            println(s"$n is even")
+        }else{
+            println(s"$n is odd")
+        }
+    }
+    return "Done"
+}
+```
+
+The first function tells us if in a list the number is even or odd:
+
+The function is declared with def where the parameter to be received is a list and the result is a string.
+A for loop is made to print all the results to the elements of the list, where n is each element in the list and list indicates where to stop (Number of elements).
+if is declared, n%2==0 indicates that the remainder of the division of n over 2 must be 0, if so, it will print that is even, otherwise it will print that it is odd.
+Once the for loop ends it will print a string that says "Done" to indicate that the function has finished.
+
+
+>Second Code
+```
+def afortunado(list:List[Int]): Int={
+    var res=0
+    for(n <- list){
+        if(n==7){
+            res = res + 14
+        }else{
+            res = res + n
+        }
+    }
+    return res
+}
+```
+The number 7 is considered of fortune, this second function makes a sum between the numbers of a list, but 7 is worth double:
+
+The function is declared with def where the parameter to be received is a list and the result is an Int. The variable res is declared as 0 which is the one that is going to increase. A for loop is made to accumulate the sum, where n is each element in the list and list indicates where to stop (Number of elements). An if is declared indicating that if the number is 7, Add 14 to the result, otherwise the result is added the number of the list and at the end of the for loop return the result of the summation.
+
+>Third code
+
+
+>Fourth code
+
+
+ <div id='pr4' />
+
+  ## Practice 4
+ In this practice we code five pseudocode of fibonacci sequence from [Wikipedia](https://es.wikipedia.org/wiki/Sucesión_de_Fibonacci)
+
+ > Recursive version
+ ```
+ def fib(N: Int): Int = {
+    if (N <2){
+        return N
+    }
+    else {
+       return fib(N-1) + fib (N-2)
+    }
+}
+```
+The first code is the recursive version, the parameter to be received is the number we want to calculate and the result is Int.
+
+If N is 0 or 1, it will return N, otherwise, it will do a sum of the function were we rest 1 at the first one, and the second one we rest 2.
+
+An example is that if we give N the value of 2, 2 is not < than 2, so it will go to the else code, it will sum fib (2-1) + fib (2-2) and the result is fib (1) + fib (0), we know that when N is 1 or 0, it will return N, the result is 1 + 0 = 1, the result of fib(2) is 1.
+
+Now let's see that with 3, in the else code it will sum fib(3-2) + fib(3-1), and the result is fib(2) + fib(1), since 2 is not < than 2, it will do the function again, we already know that from the previous example the answer of fib(2) is 1, the result is 1 + 1 = 2.
+
+> Version with explicit formula
+```
+import scala.math.sqrt
+import scala.math.BigDecimal
+
+def fib2(N: Int): Double = {
+if (N <2){
+        return N
+    }
+    else {
+        var i = (1+ sqrt(5))/2
+        var j = (scala.math.pow(i,N) - scala.math.pow((1-i),N))/sqrt(5)
+        
+        return BigDecimal(j).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
+    }
+}
+```
+This one is more complicated, the result of the function is Double because the libraries to raise a number to the N potency throw the results in double.
+if is the same, but else have 2 variables, i and j.
+
+The result of i will be the same regardless of the number we give to N, is the sum of 1 and 
+The square root of 5, where sqrt is the library we need (We have to import the library first), and the result is divided by 2
+
+In j we use scala.math.pow(,), this is to raise a number to the N potency, the first parameter is the number to raise and second one is the potency.
+
+BigDecimal() is to reduce decimals, some results came out with many decimals, so we return j with this conversion.
+
+
+The difference with this function and the first one is that you will not be entering the function again and again until N is 0 or 1, it will give the precise result the first time.
+
+> Iterative version
+```
+def fib3(N: Int): Int = {
+var a = 0
+var b = 1
+var c = 0
+
+var i = 0
+while (i < N) {
+    c = b + a
+    a = b 
+    b = c
+
+    i = i +1
+}
+return a
+}
+```
+The result of the function is int, we declare variables a, b and c, this are to accumulate the sum of the fibonacci sequence, and we declared i like a counter in the while cycle, it will sum the variables until i is not < than N, and return a.
+
+The difference with this function and the first and second one is that you will not be entering the function again and again and it does not give you the precise result the first time, but you know how many times it will go through the while cycle, not like the first function that you don't know how many times it will enter the function again
+
+>4
+
+>5
