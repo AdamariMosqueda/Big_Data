@@ -25,3 +25,28 @@ df1.union(df2).show
 //7. Sort. Returns a new Dataset sorted by the given expressions. desc = Descendant
 val sortdf = df.sort($"Volume".desc)
 sortdf.show()
+//8. withColumnRenamed. Cambia el nombre de la columna de la cual coloquemos el nombre separado con una , en nuevo nombre
+val renamedf= df.withColumnRenamed("Open","Inicio")
+renamedf.show()
+//9. cube. Crea un nuevo "dataset"
+val cubedf=df.cube($"High",$"Low").agg(Map("Low"-> "avg"))
+cubedf.show()
+//10. limit. Crea un nuevo "Dataset" con los primeros "x" renglones
+val limitdf= df.limit(10)
+limitdf.show()
+//11. dropDuplicates. Regresa un nuevo "Dataset" sin datos duplicados del "Dataset" anterio
+val dropdf=df.dropDuplicates("High")
+dropdf.show()
+//12. distinct. Devuelve un nuevo "Dataset" con solo filas unicas del "Dataset" original
+val distinctdf=df.distinct()
+distinctdf.show()
+//13. isStreaming. Evalua si estan entrando datos de algun lugar (capturados) regresa un valor "Boolean"
+val isStreamingdf=df.isStreaming
+//14. describe. Te arroga las operaciones basicas de estadistica count, mean, stddev, min, and max 
+val describedf=df.describe("High", "Low")
+describedf.show()
+//15. collectdf. Regresa el "Dataset" original a arreglos por separado 
+val collectdf=df.collect()
+collectdf
+//Imprimir de manera ordenada los arreglos de el "Dataset"
+for(arr <- collectdf) println(arr)
