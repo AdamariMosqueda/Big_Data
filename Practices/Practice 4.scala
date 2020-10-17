@@ -45,3 +45,33 @@ while (i < N) {
 }
 return a
 }
+//4. Iterative version
+def fib4(N: Int): Int ={
+    var a=0
+    var b=1
+    var i=0
+    while(i<N){
+        b=b+a
+        a=b-a
+        i=i+1
+    }
+    return a
+}
+//5. Iterative version vector
+def fib5(N: Int): Int = {
+    if (N<2) {
+        return N
+    }
+    else {
+        val Vector = Array.range (0, (N+1))
+        Vector(0) = 0
+        Vector(1) = 1
+        var k = 2
+        while (k < (N+1)) {
+            Vector(k) = Vector (k-1) + Vector (k-2)
+            k= k+1
+        }
+        return Vector(N)
+    }
+}
+

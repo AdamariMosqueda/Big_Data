@@ -294,6 +294,39 @@ The result of the function is int, we declare variables a, b and c, this are to 
 
 The difference with this function and the first and second one is that you will not be entering the function again and again and it does not give you the precise result the first time, but you know how many times it will go through the while cycle, not like the first function that you don't know how many times it will enter the function again
 
->4
+>Iterative version 2 variable
+```
+def fib4(N: Int): Int ={
+    var a=0
+    var b=1
+    var i=0
+    while(i<N){
+        b=b+a
+        a=b-a
+        i=i+1
+    }
+    return a
+}
+```
 
->5
+
+>Iterative version vector
+```
+def fib5(N: Int): Int = {
+    if (N<2) {
+        return N
+    }
+    else {
+        val Vector = Array.range (0, (N+1))
+        Vector(0) = 0
+        Vector(1) = 1
+        var k = 2
+        while (k < (N+1)) {
+            Vector(k) = Vector (k-1) + Vector (k-2)
+            k= k+1
+        }
+        return Vector(N)
+    }
+}
+
+```
