@@ -308,8 +308,10 @@ def fib4(N: Int): Int ={
     }
     return a
 }
-```
-
+``` 
+Function fib is created for “n” which will contain an assigned value of a and b and  will execute  the cycle “while” whenever variable “n” is  requested, the greatest being for varialble “b” and the latter for value "a"¸ expecting the return of value 
+"a" 
+Difference between this and the previous series is the sum of only two variables being used for the accumulation of the sum.
 
 >Iterative version vector
 ```
@@ -331,6 +333,10 @@ def fib5(N: Int): Int = {
 }
 
 ```
+Fib version is created with a value of “n” in which case the value is less than 2 and cannot verify the ‘N” value a vector operations will be created
+Vectors primary space will be assigned "k" variable and will contain a cycle to assist in retuning a value less than “N+1”
+Such operation will contain the sum of “k-1” along with with “k-2” which will be increased at each request 
+"N" value will be returned ( vector sum operation) 
 
 
  <div id='pr5' />
@@ -382,4 +388,46 @@ desc = Descendant
 ```
 val sortdf = df.sort($"Volume".desc)
 sortdf.show()
+```
+8. withColumnRenamed new renamed column
+``` 
+val renamedf= df.withColumnRenamed(“Open”,”start”)
+renamedf.show()
+```
+9. cube. Créate new “dataset”
+```
+val cubedf=df.cube($”High”,$”Low”).agg(Map(“Low”-> “avg”))
+cubedf.show()
+```
+10. limit. Créate new “Dataset” with  “x” string
+```
+val limitdf= df.limit(10)
+limitdf.show()
+```
+11. dropDuplicates. Return new “Dataset” without previous “Dataset” duplicates
+```
+val dropdf=df.dropDuplicates(“High”)
+dropdf.show()
+```
+12. distinct. Return new  “Dataset” only with  “Dataset” original
+```
+val distinctdf=df.distinct()
+distinctdf.show()
+```
+13. isStreaming. Evaluate outsource data (captured) return 
+```
+value “Boolean”
+val isStreamingdf=df.isStreaming
+```
+14. describe. Gives basic count information, mean, stddev, min, and max 
+```
+val describedf=df.describe(“High”, “Low”)
+describedf.show()
+```
+15. collect. Returns  “Dataset” separate original fixes
+```
+val collectdf=df.collect()
+collectdf
+//print fixed  “Dataset”
+for(arr <- collectdf) println(arr)
 ```

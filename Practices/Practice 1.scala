@@ -1,7 +1,10 @@
 //1. Develop a scala algorithm that calcules the radius of a circle
+import scala.math.sqrt
+val A=5
 val r: Double= sqrt(A/3.1416)
 
 //2. Develop a scala algorithm tells me if a number is prime
+val Num=5
 if (Num%2==0){
     println("It's not a number prime ")
     }else{
