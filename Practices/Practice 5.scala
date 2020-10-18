@@ -25,28 +25,28 @@ df1.union(df2).show
 //7. Sort. Returns a new Dataset sorted by the given expressions. desc = Descendant
 val sortdf = df.sort($"Volume".desc)
 sortdf.show()
-//8. withColumnRenamed. Cambia el nombre de la columna de la cual coloquemos el nombre separado con una , en nuevo nombre
+//8. withColumnRenamed. Change the name of the column from which we place the name separated with a, in new name
 val renamedf= df.withColumnRenamed("Open","Inicio")
 renamedf.show()
-//9. cube. Crea un nuevo "dataset"
+//9. cube. Créate new “dataset”
 val cubedf=df.cube($"High",$"Low").agg(Map("Low"-> "avg"))
 cubedf.show()
-//10. limit. Crea un nuevo "Dataset" con los primeros "x" renglones
+//10. limit. Créate new “Dataset” with  “x” string
 val limitdf= df.limit(10)
 limitdf.show()
-//11. dropDuplicates. Regresa un nuevo "Dataset" sin datos duplicados del "Dataset" anterio
+//11. dropDuplicates. Return new “Dataset” without previous “Dataset” duplicates
 val dropdf=df.dropDuplicates("High")
 dropdf.show()
-//12. distinct. Devuelve un nuevo "Dataset" con solo filas unicas del "Dataset" original
+//12. distinct. Return new  “Dataset” only with  “Dataset” original
 val distinctdf=df.distinct()
 distinctdf.show()
-//13. isStreaming. Evalua si estan entrando datos de algun lugar (capturados) regresa un valor "Boolean"
+//13. isStreaming. Evaluate outsource data (captured) return value “Boolean”
 val isStreamingdf=df.isStreaming
-//14. describe. Te arroga las operaciones basicas de estadistica count, mean, stddev, min, and max 
+//14. describe. Gives basic count information, mean, stddev, min, and max 
 val describedf=df.describe("High", "Low")
 describedf.show()
-//15. collectdf. Regresa el "Dataset" original a arreglos por separado 
+//15. collectdf. Returns  “Dataset” separate original fixes
 val collectdf=df.collect()
 collectdf
-//Imprimir de manera ordenada los arreglos de el "Dataset"
+//Print fixed "Dataset"
 for(arr <- collectdf) println(arr)
