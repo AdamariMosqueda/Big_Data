@@ -13,3 +13,9 @@ El “pair programming” se basa en que dos programadores trabajan juntos en un
 - Requiere mucho tiempo
 - Es adecuado para la formación de equipos, pero solo si ambos compañeros trabajan bien juntos.
 - Es posible que los problemas que puedan tener entre ellos ralentice los resultados aumentan hasta algo mucho peor.
+
+
+# References
+Autor anónimo. (2020). Pair Programming: principio de los cuatro ojos en el desarrollo de software. Octubre, 2020, de IONOS Sitio web: https://www.ionos.mx/digitalguide/paginas-web/desarrollo-web/pair-programming/
+
+Garzas, J. (2012). ¿Beneficios del pair programming? ¿Dos programadores en un solo ordenador es perder medio equipo?. Octubre, 2020, de javiergarzas.com Sitio web: https://www.javiergarzas.com/2012/06/beneficios-pair-programming.html
