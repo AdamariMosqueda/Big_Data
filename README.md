@@ -6,6 +6,19 @@
 - [Practice 5](#practice-5)
 - [Research 1](#research-1)
 - [Research 2](#research-2)
+- [Research 3](#research-3)
+  - [Pair coding](#pair-coding)
+  - [Introduction](#introduction)
+  - [Developing](#developing)
+  - [Advantage](#advantage)
+  - [Disadvantages](#disadvantages)
+  - [Conclusion](#conclusion)
+- [Research 4](#research-4)
+  - [Pearson's correlation](#pearsons-correlation)
+  - [Introduction](#introduction-1)
+  - [Developing](#developing-1)
+  - [Characteristics](#characteristics)
+  - [Conclusion](#conclusion-1)
  
 
 
@@ -460,3 +473,66 @@ It is based on two programmers working together on a single computer. One of the
 <div id='inv2' />
 
 ## Research 2
+
+## Research 3
+### Pair coding
+### Introduction
+In this small investigation we will see the concept of pair coding because it was not found as such, the concept of pair programming or pair programming is seen, in the breakdown of the investigation the benefits of using this type of programming are revealed and the difficulties of this.
+### Developing
+In pair programming, one developer codes while the other watches and reviews progress. Done right, pairwise programming can speed up development time, improve code quality, and prevent human error.
+Pair programming is an agile technique that originates from extreme programming (XP), in which two developers come together and work on one computer. The two people work together to design, code, and test user stories. Ideally, the two people would be equally skilled and each would have the same coding time.
+Pair programming uses the four-eye principle, ensuring that two pairs of eyes review the code being produced even when there is a division of labor. While a person writes test cases using test-based development techniques.
+### Advantage
+The potential benefits are when you do it, how to do it right, and motivate yourself to do it in tough times. The main goals of the matchmaking can help you with the quality of the software and the flow of the team.
+Knowledge sharing
+Reflection
+Keep focus
+Code review on the fly
+Two modes of thought combined
+Property of the Collective Code
+Keeps the team's WIP low
+Quick onboarding of new team members
+### Disadvantages
+Matchmaking can be exhausting
+Intense collaboration can be difficult
+Meeting interruptions
+Different skill levels
+Power dynamics
+Pairing with many strangers
+No time for yourself
+Rotations lead to context change
+Matchmaking requires vulnerability
+Convincing managers and coworkers
+### Conclusion
+It is a good practice for those who are starting or are already experts since, as we saw in this investigation, when one is programming and the other observing, errors are seen and the necessary changes can be made.
+For work teams that are of different levels as we saw it, it is a difficulty or disadvantage but it can also be taken as an advantage because knowledge is leveled and shared.
+
+## Research 4
+### Pearson's correlation
+### Introduction
+This research describes the Pearson correlation coefficient in which situations its characteristics are used as well as a simple and practical example to be able to understand the subject a little better.
+It is important to know in which situations we can use this coefficient, such as in the statistical relationship between two continuous variables, preferably linear, for this type of implicit relationship to exist.
+### Developing
+Pearson's correlation coefficient is a test that measures the statistical relationship between two continuous variables. If the association between the elements is not linear, then the coefficient is not adequately represented.
+
+The correlation coefficient can take a range of values ​​from +1 to -1. A value of 0 indicates that there is no association between the two variables. A value greater than 0 indicates a positive association. That is, as the value of one variable increases, so does the value of the other. A value less than 0 indicates a negative association; that is, as the value of one variable increases, the value of the other decreases.
+
+To carry out the Pearson correlation it is necessary to fulfill the following:
+
+- The measurement scale must be an interval or ratio scale.
+- The variables must be roughly distributed.
+- The association must be linear.
+- There should be no outliers in the data.
+
+The correlation between two variables reflects the degree to which the scores are associated. The classic formulation, known as Pearson's product moment correlation, is symbolized by the Greek letter rho (xy) when it has been calculated in the population. If it is obtained on a sample, it is designated by the letter "rxy".
+This type of statistic can be used to measure the degree of relationship of two variables if both use a measurement scale at the interval / ratio level (quantitative variables).
+### Characteristics
+It takes values ​​between [-1, 1], with 1 being a perfect positive linear correlation and -1 a perfect negative linear correlation.
+It is an independent measure of the scales in which the variables are measured.
+It does not vary if transformations are applied to the variables.
+It does not take into account that the variables are dependent or independent.
+Pearson's correlation coefficient is not equal to the slope of the regression line.
+It is sensitive to outliers, so it is recommended, if it can be justified, to exclude them from the analysis.
+### Conclusion
+This coefficient is used to analyze the correlation between two variables within statistical analysis, these must be linear or maintain a continuous final relationship to be used.
+A simple example would be space time with an object moving at a constant speed, this would be a perfectly positive linear correlation since they both increase at the same time in a correlational way.
