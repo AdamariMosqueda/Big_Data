@@ -4,7 +4,11 @@
 - [Practice 3](#practice-3)
 - [Practice 4](#practice-4)
 - [Practice 5](#practice-5)
-  
+- [Research 1](#research-1)
+- [Research 2](#research-2)
+ 
+
+
   <div id='pr1' />
 
   ## Practice 1 
@@ -389,7 +393,7 @@ desc = Descendant
 val sortdf = df.sort($"Volume".desc)
 sortdf.show()
 ```
-8. withColumnRenamed new renamed column
+1. withColumnRenamed new renamed column
 ``` 
 val renamedf= df.withColumnRenamed(“Open”,”start”)
 renamedf.show()
@@ -431,3 +435,28 @@ collectdf
 //print fixed  “Dataset”
 for(arr <- collectdf) println(arr)
 ```
+
+<div id='inv1' />
+
+## Research 1
+**Code Pairing**
+
+The code pairing specifies that there are always two people working on code at the same time and that they sit together as much as possible. One is in charge of writing the code and the other of monitoring in real time. At the same time, they are constantly exchanging impressions: they discuss problems, find solutions and develop creative ideas.
+
+It is based on two programmers working together on a single computer. One of them is in charge of developing while the other helps and reviews the partner's code.
+
+**Advantages**
+- The risk of errors is minimized.
+- Constant development of creativity
+- Intercom also ensures that problems can be better solved in less time.
+- More experienced workers share their knowledge with younger colleagues.
+
+**Disadvantages**
+- It takes a lot of time
+- It is suitable for team building, but only if both partners work well together.
+- It is possible that the problems they may have between them slow down the results and escalates to something much worse.
+
+
+<div id='inv2' />
+
+## Research 2
