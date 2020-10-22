@@ -1,32 +1,33 @@
 
-# Correlación de Perason
-El coeficiente de correlación de Pearson es una prueba que mide la relación estadística entre dos variables continuas. Si la asociación entre los elementos no es lineal, entonces el coeficiente no se encuentra representado adecuadamente.
+# Pearson Correlation
+Pearson correlation coefficient is a test that measures the statistical relationship between two continuous variables. If the association between the elements is not linear, then the coefficient is not adequately represented.
 
-La correlación de Pearson tiene independencia de la escala de medida de las variables. El coeficiente de correlación de Pearson puede tomarse como un índice que sirve para medir el grado de relación de dos variables, para lo que ambas variables deben ser cuantitativas y continuas.
+Pearson correlation is independent of the measurement scale of the variables. Pearson's correlation coefficient can be taken as an index that serves to measure the degree of relationship of two variables, for which both variables must be quantitative and continuous.
 
-Este coeficiente es una medida que indica la situación relativa de los sucesos respecto a las dos variables, es decir, representa la expresión numérica que indica el grado de correspondencia o relación que existe entre las 2 variables. Estos números varían entre límites de +1 y -1.
+This coefficient is a measure that indicates the relative situation of the events with respect to the two variables, that is, it represents the numerical expression that indicates the degree of correspondence or relationship that exists between the 2 variables. These numbers vary between limits of +1 and -1.
 
 ![Imgur](https://imgur.com/Cey0OEg.jpg)
 
-Su dimensión indica el nivel de asociación entre las variables.
+Its dimension indicates the level of association between the variables.
 
-Cuando es menor a cero (r < 0) Se dice que hay correlación negativa: Las variables se correlacionan en un sentido inverso.
-A valores altos en una de las variables, le suelen corresponder valores bajos en la otra variable y viceversa. Cuánto el valor esté más próximo a -1 dicho coeficiente de correlación más evidente será la covariación extrema.
+When it is less than zero (r <0) It is said that there is a negative correlation: The variables are correlated in an inverse sense.
+High values ​​in one of the variables usually correspond to low values ​​in the other variable and vice versa. The closer the value to -1 said correlation coefficient, the more evident the extreme covariation will be.
 
-Interpretación
-Este varía en el intervalo [-1,1], estableciendo el signo el sentido de la relación, y la interpretación de cada resultado es el siguiente:
+## Interpretation
 
-> Si r = 1: Correlación positiva perfecta. El índice refleja la dependencia total entre ambas variables, la que se denomina relación directa: cuando una de las variables aumenta, la otra variable aumenta en proporción constante.
+This varies in the interval [-1,1], establishing the sign the sense of the relationship, and the interpretation of each result is as follows:
 
-> Si 0 < r < 1: Refleja que se da una correlación positiva.
+> If r = 1: Perfect positive correlation. The index reflects the total dependence between both variables, which is called a direct relationship: when one of the variables increases, the other variable increases in constant proportion.
 
-> Si r = 0: En este caso no hay una relación lineal. Aunque no significa que las variables sean independientes, ya que puede haber relaciones no lineales entre ambas variables.
+> If 0 < r <1: Reflects that there is a positive correlation.
 
-> Si -1 < r < 0: Indica que existe una correlación negativa.
+> If r = 0: In this case there is no linear relationship. Although it does not mean that the variables are independent, since there may be non-linear relationships between both variables.
 
-> Si r = -1: Indica una correlación negativa perfecta y una dependencia total entre ambas variables, lo que se conoce como "relación inversa", que es cuando una de las variables aumenta, la otra variable en cambio disminuye en proporción constante.
+> If -1 < r <0: Indicates that there is a negative correlation.
 
-La correlación refleja la medida de asociación entre variables. Si se aplica en probabilidad y estadística, la correlación permite conocer la fuerza y dirección de la relación lineal que se dé entre dos variables aleatorias.
+> If r = -1: It indicates a perfect negative correlation and a total dependence between both variables, which is known as an "inverse relationship", which is when one of the variables increases, the other variable decreases in constant proportion.
+
+The correlation reflects the measure of association between variables. If applied in probability and statistics, the correlation allows us to know the strength and direction of the linear relationship that occurs between two random variables.
 
 
 
