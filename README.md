@@ -7,19 +7,8 @@
 - [Research 1](#research-1)
 - [Research 2](#research-2)
 - [Research 3](#research-3)
-  - [Pair coding](#pair-coding)
-  - [Introduction](#introduction)
-  - [Developing](#developing)
-  - [Advantage](#advantage)
-  - [Disadvantages](#disadvantages)
-  - [Conclusion](#conclusion)
 - [Research 4](#research-4)
-  - [Pearson's correlation](#pearsons-correlation)
-  - [Introduction](#introduction-1)
-  - [Developing](#developing-1)
-  - [Characteristics](#characteristics)
-  - [Conclusion](#conclusion-1)
- 
+
 
 
   <div id='pr1' />
@@ -456,25 +445,6 @@ for(arr <- collectdf) println(arr)
 
 The code pairing specifies that there are always two people working on code at the same time and that they sit together as much as possible. One is in charge of writing the code and the other of monitoring in real time. At the same time, they are constantly exchanging impressions: they discuss problems, find solutions and develop creative ideas.
 
-It is based on two programmers working together on a single computer. One of them is in charge of developing while the other helps and reviews the partner's code.
-
-**Advantages**
-- The risk of errors is minimized.
-- Constant development of creativity
-- Intercom also ensures that problems can be better solved in less time.
-- More experienced workers share their knowledge with younger colleagues.
-
-**Disadvantages**
-- It takes a lot of time
-- It is suitable for team building, but only if both partners work well together.
-- It is possible that the problems they may have between them slow down the results and escalates to something much worse.
-
-**References**
-
-Autor anónimo. (2020). Pair Programming: principio de los cuatro ojos en el desarrollo de software. Octubre, 2020, de IONOS Sitio web: https://www.ionos.mx/digitalguide/paginas-web/desarrollo-web/pair-programming/
-
-Garzas, J. (2012). ¿Beneficios del pair programming? ¿Dos programadores en un solo ordenador es perder medio equipo?. Octubre, 2020, de javiergarzas.com Sitio web: https://www.javiergarzas.com/2012/06/beneficios-pair-programming.html
-
 
 <div id='inv2' />
 
@@ -484,102 +454,12 @@ Garzas, J. (2012). ¿Beneficios del pair programming? ¿Dos programadores en un 
 
 Pearson correlation coefficient is a test that measures the statistical relationship between two continuous variables. If the association between the elements is not linear, then the coefficient is not adequately represented.
 
-Pearson correlation is independent of the measurement scale of the variables. Pearson's correlation coefficient can be taken as an index that serves to measure the degree of relationship of two variables, for which both variables must be quantitative and continuous.
-
-This coefficient is a measure that indicates the relative situation of the events with respect to the two variables, that is, it represents the numerical expression that indicates the degree of correspondence or relationship that exists between the 2 variables. These numbers vary between limits of +1 and -1.
-
-![Imgur](https://imgur.com/Cey0OEg.jpg)
-
-Its dimension indicates the level of association between the variables.
-
-When it is less than zero (r <0) It is said that there is a negative correlation: The variables are correlated in an inverse sense.
-High values ​​in one of the variables usually correspond to low values ​​in the other variable and vice versa. The closer the value to -1 said correlation coefficient, the more evident the extreme covariation will be.
-
-**Interpretation**
-
-This varies in the interval [-1,1], establishing the sign the sense of the relationship, and the interpretation of each result is as follows:
-
-> If r = 1: Perfect positive correlation. The index reflects the total dependence between both variables, which is called a direct relationship: when one of the variables increases, the other variable increases in constant proportion.
-
-> If 0 < r <1: Reflects that there is a positive correlation.
-
-> If r = 0: In this case there is no linear relationship. Although it does not mean that the variables are independent, since there may be non-linear relationships between both variables.
-
-> If -1 < r <0: Indicates that there is a negative correlation.
-
-> If r = -1: It indicates a perfect negative correlation and a total dependence between both variables, which is known as an "inverse relationship", which is when one of the variables increases, the other variable decreases in constant proportion.
-
-The correlation reflects the measure of association between variables. If applied in probability and statistics, the correlation allows us to know the strength and direction of the linear relationship that occurs between two random variables.
-
-**References**
-
-Autor anónimo. (----). ¿Qué es el coeficiente de correlación de Pearson?. Octubre, 2020, de Question Pro Sitio web: https://www.questionpro.com/blog/es/coeficiente-de-correlacion-de-pearson/
-
-Ignaciadd. (2018). ¿Cómo interpretar y para qué sirve el coeficiente de correlación?. Octubre 2020, de Rankia Sitio web: https://www.rankia.cl/blog/mejores-opiniones-chile/4090045-como-interpretar-para-que-sirve-coeficiente-correlacion
-
-Riquelme, M. (2019). ¿Qué es y cómo se interpreta el coeficiente de correlación de Pearson?. Octubre, 2020, de Web y empresas Sitio web: https://www.webyempresas.com/coeficiente-de-correlacion-de-pearson/
-
-
-
 ## Research 3
-### Pair coding
-### Introduction
+**Pair coding**
 In this small investigation we will see the concept of pair coding because it was not found as such, the concept of pair programming or pair programming is seen, in the breakdown of the investigation the benefits of using this type of programming are revealed and the difficulties of this.
-### Developing
-In pair programming, one developer codes while the other watches and reviews progress. Done right, pairwise programming can speed up development time, improve code quality, and prevent human error.
-Pair programming is an agile technique that originates from extreme programming (XP), in which two developers come together and work on one computer. The two people work together to design, code, and test user stories. Ideally, the two people would be equally skilled and each would have the same coding time.
-Pair programming uses the four-eye principle, ensuring that two pairs of eyes review the code being produced even when there is a division of labor. While a person writes test cases using test-based development techniques.
-### Advantage
-The potential benefits are when you do it, how to do it right, and motivate yourself to do it in tough times. The main goals of the matchmaking can help you with the quality of the software and the flow of the team.
-Knowledge sharing
-Reflection
-Keep focus
-Code review on the fly
-Two modes of thought combined
-Property of the Collective Code
-Keeps the team's WIP low
-Quick onboarding of new team members
-### Disadvantages
-Matchmaking can be exhausting
-Intense collaboration can be difficult
-Meeting interruptions
-Different skill levels
-Power dynamics
-Pairing with many strangers
-No time for yourself
-Rotations lead to context change
-Matchmaking requires vulnerability
-Convincing managers and coworkers
-### Conclusion
-It is a good practice for those who are starting or are already experts since, as we saw in this investigation, when one is programming and the other observing, errors are seen and the necessary changes can be made.
-For work teams that are of different levels as we saw it, it is a difficulty or disadvantage but it can also be taken as an advantage because knowledge is leveled and shared.
+
 
 ## Research 4
-### Pearson's correlation
-### Introduction
+**Pearson's correlation**
 This research describes the Pearson correlation coefficient in which situations its characteristics are used as well as a simple and practical example to be able to understand the subject a little better.
 It is important to know in which situations we can use this coefficient, such as in the statistical relationship between two continuous variables, preferably linear, for this type of implicit relationship to exist.
-### Developing
-Pearson's correlation coefficient is a test that measures the statistical relationship between two continuous variables. If the association between the elements is not linear, then the coefficient is not adequately represented.
-
-The correlation coefficient can take a range of values ​​from +1 to -1. A value of 0 indicates that there is no association between the two variables. A value greater than 0 indicates a positive association. That is, as the value of one variable increases, so does the value of the other. A value less than 0 indicates a negative association; that is, as the value of one variable increases, the value of the other decreases.
-
-To carry out the Pearson correlation it is necessary to fulfill the following:
-
-- The measurement scale must be an interval or ratio scale.
-- The variables must be roughly distributed.
-- The association must be linear.
-- There should be no outliers in the data.
-
-The correlation between two variables reflects the degree to which the scores are associated. The classic formulation, known as Pearson's product moment correlation, is symbolized by the Greek letter rho (xy) when it has been calculated in the population. If it is obtained on a sample, it is designated by the letter "rxy".
-This type of statistic can be used to measure the degree of relationship of two variables if both use a measurement scale at the interval / ratio level (quantitative variables).
-### Characteristics
-It takes values ​​between [-1, 1], with 1 being a perfect positive linear correlation and -1 a perfect negative linear correlation.
-It is an independent measure of the scales in which the variables are measured.
-It does not vary if transformations are applied to the variables.
-It does not take into account that the variables are dependent or independent.
-Pearson's correlation coefficient is not equal to the slope of the regression line.
-It is sensitive to outliers, so it is recommended, if it can be justified, to exclude them from the analysis.
-### Conclusion
-This coefficient is used to analyze the correlation between two variables within statistical analysis, these must be linear or maintain a continuous final relationship to be used.
-A simple example would be space time with an object moving at a constant speed, this would be a perfectly positive linear correlation since they both increase at the same time in a correlational way.
