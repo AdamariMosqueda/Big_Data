@@ -55,8 +55,10 @@ minVolume.show()
 val df3=df
 df3.show()
 //a. ¿Cuántos días fue la columna “Close” inferior a $ 600?
-val infcl = df2.filter($"Close" < 600 ).count()
+val infcl = df3.filter($"Close" < 600 ).count()
 //b. ¿Qué porcentaje del tiempo fue la columna “High” mayor que $ 500?
+val dfporcentaje = df3.filter($"High" > 500).count()
+val resultado: Double  = (dfporcentaje*100)/1259
 //c. ¿Cuál es la correlación de Pearson entre columna “High” y la columna “Volumen”?
 //d. ¿Cuál es el máximo de la columna “High” por año?
 //e. ¿Cuál es el promedio de columna “Close” para cada mes del calendario?
