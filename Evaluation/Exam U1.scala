@@ -60,5 +60,7 @@ val infcl = df3.filter($"Close" < 600 ).count()
 val dfporcentaje = df3.filter($"High" > 500).count()
 val resultado: Double  = (dfporcentaje*100)/1259
 //c. ¿Cuál es la correlación de Pearson entre columna “High” y la columna “Volumen”?
+df3.stat.corr("High", "Volume")
+df3.select(corr("High", "Volume")).show()
 //d. ¿Cuál es el máximo de la columna “High” por año?
 //e. ¿Cuál es el promedio de columna “Close” para cada mes del calendario?
