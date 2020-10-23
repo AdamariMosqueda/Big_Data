@@ -20,6 +20,11 @@ df.printSchema()
 //5. Imprime las primeras 5 columnas.
 df.head(5)
 //6. Usa describe () para aprender sobre el DataFrame.
+df.describe().show()
+// Nos crea una columna Summary, con los siguientes count sirve para decir la cantidad de datos que tiene, mean es la media, 
+// como unos datos son string, los pone nulos, al igual que la desviacion estandar, nos imprime los valores maximos y mínimos
+//de cada columna
+
 //7. Crea un nuevo dataframe con una columna nueva llamada “HV Ratio” que es la
 //relación entre el precio de la columna “High” frente a la columna “Volume” de
 //acciones negociadas por un día. (Hint: Es una operación de columnas).
