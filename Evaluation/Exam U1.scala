@@ -2,8 +2,9 @@
 import org.apache.spark.sql.SparkSession
 val spark = SparkSession.builder().getOrCreate()
 //2. Cargue el archivo Netflix Stock CSV, haga que Spark infiera los tipos de datos.
-val df = spark.read.option("header", "true").option("inferSchema","true")csv("Netflix_2011_2016")
+val df = spark.read.option("header", "true").option("inferSchema","true")csv("C:/Users/yurid/Documents/RepABigData/Big_Data/Evaluation/Netflix_2011_2016.csv")
 //3. ¿Cuáles son los nombres de las columnas?
+// Date, Open, High, Low, Close, Volume, Adj Close
 //4. ¿Cómo es el esquema?
 //5. Imprime las primeras 5 columnas.
 //6. Usa describe () para aprender sobre el DataFrame.
