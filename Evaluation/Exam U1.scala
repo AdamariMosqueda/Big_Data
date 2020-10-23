@@ -38,6 +38,10 @@ df.filter("Close = 707.610001").show()
 
 //9. Escribe con tus propias palabras en un comentario de tu codigo. ¿Cuál es el
 //significado de la columna Cerrar “Close”?
+/*
+Esta columna nos muestra los datos con los que las finanzas de Netflix al terminar el dia
+despues de la variacion entre Open, High y Low
+*/
 //10. ¿Cuál es el máximo y mínimo de la columna “Volume”?
 //11.Con Sintaxis Scala/Spark $ conteste los siguiente:
 //◦ Hint: Basicamente muy parecido a la session de dates, tendran que crear otro
