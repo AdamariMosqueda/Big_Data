@@ -43,6 +43,12 @@ Esta columna nos muestra los datos con los que las finanzas de Netflix al termin
 despues de la variacion entre Open, High y Low
 */
 //10. ¿Cuál es el máximo y mínimo de la columna “Volume”?
+
+val maxVolume = df.agg(Map("Volume" -> "max"))
+maxVolume.show()
+val minVolume = df.agg(Map("Volume" -> "min"))
+minVolume.show()
+
 //11.Con Sintaxis Scala/Spark $ conteste los siguiente:
 //◦ Hint: Basicamente muy parecido a la session de dates, tendran que crear otro
 //dataframe para contestar algunos de los incisos.
