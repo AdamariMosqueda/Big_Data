@@ -30,6 +30,12 @@ df.describe().show()
 //acciones negociadas por un día. (Hint: Es una operación de columnas).
 val df2 = df.withColumn("HV Ratio", df("High")+df("Volume"))
 //8. ¿Qué día tuvo el pico mas alto en la columna “Close”?
+val maxdf = df.agg(Map("Close" -> "max"))
+maxdf.show()
+
+df.filter("Close = 707.610001").show()
+//2015-07-13
+
 //9. Escribe con tus propias palabras en un comentario de tu codigo. ¿Cuál es el
 //significado de la columna Cerrar “Close”?
 //10. ¿Cuál es el máximo y mínimo de la columna “Volume”?
