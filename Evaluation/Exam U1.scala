@@ -19,6 +19,11 @@ df.printSchema()
  */
 //5. Imprime las primeras 5 columnas.
 df.head(5)
+//Para mas bonito
+val= df.head(5)
+colums.foreach{
+    println
+    }
 //6. Usa describe () para aprender sobre el DataFrame.
 df.describe().show()
 // Nos crea una columna Summary, con los siguientes count sirve para decir la cantidad de datos que tiene, mean es la media, 
@@ -65,3 +70,7 @@ df3.select(corr("High", "Volume")).show()
 //d. ¿Cuál es el máximo de la columna “High” por año?
 df3.groupBy(year(df("Date"))).max("High").show()
 //e. ¿Cuál es el promedio de columna “Close” para cada mes del calendario?
+val clavg=df3.groupBy(month(df("Date"))).avg("Close")
+//Para que se vea mas bonito
+val sort= clavg.sort(month(df("Date")).asc)
+sort.show()
