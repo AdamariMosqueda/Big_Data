@@ -1,4 +1,6 @@
 //1. Comienza una simple sesión Spark.
+import org.apache.spark.sql.SparkSession
+val spark = SparkSession.builder().getOrCreate()
 //2. Cargue el archivo Netflix Stock CSV, haga que Spark infiera los tipos de datos.
 //3. ¿Cuáles son los nombres de las columnas?
 //4. ¿Cómo es el esquema?
