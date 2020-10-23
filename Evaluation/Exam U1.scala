@@ -52,7 +52,10 @@ minVolume.show()
 //11.Con Sintaxis Scala/Spark $ conteste los siguiente:
 //◦ Hint: Basicamente muy parecido a la session de dates, tendran que crear otro
 //dataframe para contestar algunos de los incisos.
+val df3=df
+df3.show()
 //a. ¿Cuántos días fue la columna “Close” inferior a $ 600?
+val infcl = df2.filter($"Close" < 600 ).count()
 //b. ¿Qué porcentaje del tiempo fue la columna “High” mayor que $ 500?
 //c. ¿Cuál es la correlación de Pearson entre columna “High” y la columna “Volumen”?
 //d. ¿Cuál es el máximo de la columna “High” por año?
