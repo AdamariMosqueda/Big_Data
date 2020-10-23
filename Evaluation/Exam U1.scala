@@ -26,7 +26,7 @@ colums.foreach{
     }
 //6. Usa describe () para aprender sobre el DataFrame.
 df.describe().show()
-// Nos crea una columna Summary, con los siguientes count sirve para decir la cantidad de datos que tiene, mean es la media, 
+// Nos crea una columna Summary, con los siguientes elementos: count sirve para decir la cantidad de datos que tiene, mean es la media, 
 // como unos datos son string, los pone nulos, al igual que la desviacion estandar, nos imprime los valores maximos y mínimos
 //de cada columna
 
@@ -66,9 +66,10 @@ val dfporcentaje = df3.filter($"High" > 500).count()
 val resultado: Double  = (dfporcentaje*100)/1259
 //c. ¿Cuál es la correlación de Pearson entre columna “High” y la columna “Volumen”?
 df3.stat.corr("High", "Volume")
-df3.select(corr("High", "Volume")).show()
+df3.select(corr($"High", $"Volume")).show()
 //d. ¿Cuál es el máximo de la columna “High” por año?
 df3.groupBy(year(df("Date"))).max("High").show()
+df3.groupBy(year(df("Date"))).agg(max("High")).show()
 //e. ¿Cuál es el promedio de columna “Close” para cada mes del calendario?
 val clavg=df3.groupBy(month(df("Date"))).avg("Close")
 //Para que se vea mas bonito
