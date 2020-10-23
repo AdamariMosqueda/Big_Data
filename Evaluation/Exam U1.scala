@@ -8,7 +8,17 @@ df.columns
 // Date, Open, High, Low, Close, Volume, Adj Close
 //4. ¿Cómo es el esquema?
 df.printSchema()
+/*
+ |-- Date: timestamp (nullable = true)
+ |-- Open: double (nullable = true)
+ |-- High: double (nullable = true)
+ |-- Low: double (nullable = true)
+ |-- Close: double (nullable = true)
+ |-- Volume: integer (nullable = true)
+ |-- Adj Close: double (nullable = true)
+ */
 //5. Imprime las primeras 5 columnas.
+df.head(5)
 //6. Usa describe () para aprender sobre el DataFrame.
 //7. Crea un nuevo dataframe con una columna nueva llamada “HV Ratio” que es la
 //relación entre el precio de la columna “High” frente a la columna “Volume” de
