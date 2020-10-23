@@ -35,12 +35,8 @@ df.describe().show()
 //acciones negociadas por un día. (Hint: Es una operación de columnas).
 val df2 = df.withColumn("HV Ratio", df("High")+df("Volume"))
 //8. ¿Qué día tuvo el pico mas alto en la columna “Close”?
-val maxdf = df.agg(Map("Close" -> "max"))
-maxdf.show()
-
-df.filter("Close = 707.610001").show()
-//2015-07-13
-
+val DatemaxClose = df.sort($"Close".desc)
+DatemaxClose.select("Date", "Close").show(1)
 //9. Escribe con tus propias palabras en un comentario de tu codigo. ¿Cuál es el
 //significado de la columna Cerrar “Close”?
 /*
@@ -63,7 +59,7 @@ df3.show()
 val infcl = df3.filter($"Close" < 600 ).count()
 //b. ¿Qué porcentaje del tiempo fue la columna “High” mayor que $ 500?
 val dfporcentaje = df3.filter($"High" > 500).count()
-val resultado: Double  = (dfporcentaje*100)/1259
+val resultado: Double  = (dfporcentaje*100)/(df.count)
 //c. ¿Cuál es la correlación de Pearson entre columna “High” y la columna “Volumen”?
 df3.stat.corr("High", "Volume")
 df3.select(corr($"High", $"Volume")).show()
