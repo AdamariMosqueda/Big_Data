@@ -63,4 +63,5 @@ val resultado: Double  = (dfporcentaje*100)/1259
 df3.stat.corr("High", "Volume")
 df3.select(corr("High", "Volume")).show()
 //d. ¿Cuál es el máximo de la columna “High” por año?
+df3.groupBy(year(df("Date"))).max("High").show()
 //e. ¿Cuál es el promedio de columna “Close” para cada mes del calendario?
