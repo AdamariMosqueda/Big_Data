@@ -20,7 +20,7 @@ df.printSchema()
 //5. Imprime las primeras 5 columnas.
 df.head(5)
 //Para mas bonito
-val= df.head(5)
+val columns= df.head(5)
 colums.foreach{
     println
     }
