@@ -1,12 +1,12 @@
-//1. Comienza una simple sesión Spark.
+//1. Start a simple Spark session.
 import org.apache.spark.sql.SparkSession
 val spark = SparkSession.builder().getOrCreate()
-//2. Cargue el archivo Netflix Stock CSV, haga que Spark infiera los tipos de datos.
+//2. Upload Netflix Stock CSV file, have Spark infer the data types.
 val df = spark.read.option("header", "true").option("inferSchema","true")csv("C:/Users/yurid/Documents/RepABigData/Big_Data/Evaluation/Netflix_2011_2016.csv")
-//3. ¿Cuáles son los nombres de las columnas?
+//3. What are the column names?
 df.columns
 // Date, Open, High, Low, Close, Volume, Adj Close
-//4. ¿Cómo es el esquema?
+//4. How is the scheme?
 df.printSchema()
 /*
  |-- Date: timestamp (nullable = true)
@@ -17,57 +17,57 @@ df.printSchema()
  |-- Volume: integer (nullable = true)
  |-- Adj Close: double (nullable = true)
  */
-//5. Imprime las primeras 5 columnas.
+//5. Print the first 5 columns.
 df.head(5)
-//Para mas bonito
+//View the lines in an orderly and separate manner
 val columns= df.head(5)
-colums.foreach{
+columns.foreach{
     println
     }
-//6. Usa describe () para aprender sobre el DataFrame.
+//6. Use describe () to learn about the DataFrame.
 df.describe().show()
-// Nos crea una columna Summary, con los siguientes elementos: count sirve para decir la cantidad de datos que tiene, mean es la media, 
-// como unos datos son string, los pone nulos, al igual que la desviacion estandar, nos imprime los valores maximos y mínimos
-//de cada columna
+// It creates a Summary column, with the following elements: count is used to say the amount of data it has, mean is the mean,
+// as some data is a string, it sets them null, like the standard deviation, it prints the maximum and minimum values
+// of each column
 
-//7. Crea un nuevo dataframe con una columna nueva llamada “HV Ratio” que es la
-//relación entre el precio de la columna “High” frente a la columna “Volume” de
-//acciones negociadas por un día. (Hint: Es una operación de columnas).
+// 7. Create a new dataframe with a new column called "HV Ratio" which is the
+// relationship between the price of the column "High" versus the column "Volume" of
+// shares traded for one day. (Hint: It is a column operation).
 val df2 = df.withColumn("HV Ratio", df("High")+df("Volume"))
-//8. ¿Qué día tuvo el pico mas alto en la columna “Close”?
+//8. Which day had the highest peak in the “Close” column?
 val DatemaxClose = df.sort($"Close".desc)
 DatemaxClose.select("Date", "Close").show(1)
-//9. Escribe con tus propias palabras en un comentario de tu codigo. ¿Cuál es el
-//significado de la columna Cerrar “Close”?
+// 9. Write in your own words in a comment of your code. Which is the
+// meaning of the Close column “Close”?
 /*
-Esta columna nos muestra los datos con los que las finanzas de Netflix al terminar el dia
-despues de la variacion entre Open, High y Low
+This column shows us the data with which Netflix's finances at the end of the day
+after the variation between Open, High and Low
 */
-//10. ¿Cuál es el máximo y mínimo de la columna “Volume”?
+// 10. What is the maximum and minimum of the “Volume” column?
 
 val maxVolume = df.agg(Map("Volume" -> "max"))
 maxVolume.show()
 val minVolume = df.agg(Map("Volume" -> "min"))
 minVolume.show()
 
-//11.Con Sintaxis Scala/Spark $ conteste los siguiente:
-//◦ Hint: Basicamente muy parecido a la session de dates, tendran que crear otro
-//dataframe para contestar algunos de los incisos.
+//11.With Scala / Spark $ syntax answer the following:
+// ◦ Hint: Basically very similar to the dates session, you will have to create another
+// dataframe to answer some of the items.
 val df3=df
 df3.show()
-//a. ¿Cuántos días fue la columna “Close” inferior a $ 600?
+//a. How many days was the “Close” column less than $ 600?
 val infcl = df3.filter($"Close" < 600 ).count()
-//b. ¿Qué porcentaje del tiempo fue la columna “High” mayor que $ 500?
+//b. What percentage of the time was the “High” column greater than $ 500?
 val dfporcentaje = df3.filter($"High" > 500).count()
 val resultado: Double  = (dfporcentaje*100)/(df.count)
-//c. ¿Cuál es la correlación de Pearson entre columna “High” y la columna “Volumen”?
+//c. What is the Pearson correlation between column "High" and column "Volume"?
 df3.stat.corr("High", "Volume")
 df3.select(corr($"High", $"Volume")).show()
-//d. ¿Cuál es el máximo de la columna “High” por año?
+//d. What is the maximum in the “High” column per year?
 df3.groupBy(year(df("Date"))).max("High").show()
 df3.groupBy(year(df("Date"))).agg(max("High")).show()
-//e. ¿Cuál es el promedio de columna “Close” para cada mes del calendario?
+//e. What is the “Close” column average for each calendar month?
 val clavg=df3.groupBy(month(df("Date"))).avg("Close")
-//Para que se vea mas bonito
+//In an orderly manner throughout the months
 val sort= clavg.sort(month(df("Date")).asc)
 sort.show()

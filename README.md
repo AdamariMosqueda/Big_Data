@@ -481,17 +481,21 @@ It is important to know in which situations we can use this coefficient, such as
 import org.apache.spark.sql.SparkSession
 val spark = SparkSession.builder().getOrCreate()
 ```
+The libraries that will be needed for the dataframes and the sql syntax that we will need are imported
+A variable is declared to which the "Spark Session" packages are assigned
 2. Upload Netflix Stock CSV file, have Spark infer the data types.
 
 ```Scala
 val df = spark.read.option("header", "true").option("inferSchema","true")csv("C:/Users/yurid/Documents/RepABigData/Big_Data/Evaluation/Netflix_2011_2016.csv")
 ```
+The variable df is created, which will be a new "data frame" and the data from the csv file is assigned to it
+
 3. What are the column names?
 ```scala
 df.columns
 ```
 Date, Open, High, Low, Close, Volume, Adj Close
-
+This instruction will show us in the form of an arrangement the name of the columns mentioned above
 
 4. How is the scheme?
 
@@ -513,36 +517,40 @@ df.printSchema()
 5. Print the first 5 columns.
 ```Scala
 df.head(5)
+```
+To get only the first columns use this command
+```Scala
 val columns= df.head(5)
 colums.foreach{
     println
     }
 ```
+To visualize the previous command in a better way, we create a variable and this we assign the command of the first 5 lines. Then we go through this arrangement and print it in a linear way with line break
+
 6. Use describe () to learn about the DataFrame.
 ```Scala
 df.describe().show()
 ```
-Nos crea una columna Summary, con los siguientes elementos: count sirve para decir la cantidad de datos que tiene, mean es la media, como unos datos son string, los pone nulos, al igual que la desviacion estandar, nos imprime los valores maximos y mínimos de cada columna
-
+It creates a Summary column, with the following elements: count is used to say the amount of data it has, mean is the mean, as some data is string, it sets them null, like the standard deviation, it prints the maximum values and minimums of each column
 
 7. Create a new dataframe with a new column called “HV Ratio” which is the relationship between the price in the “High” column versus the “Volume” column of shares traded for a day. (Hint: It is a column operation).
 
 ```Scala
 val df2 = df.withColumn("HV Ratio", df("High")+df("Volume"))
 ```
+A new data frame is created where we will add the new column, this is done with the previous command in which it will be high vs volume
 8. What day had the highest peak in the “Close” column?
 
 ```Scala
 val DatemaxClose = df.sort($"Close".desc)
 DatemaxClose.select("Date", "Close").show(1)
 ```
-La forma que encontramos de mostrar la fecha con el máximo de Close fue por sort, hacemos que Close sea acomodado de forma descendente, por lo que el valor máximo ahora es el primer renglón, como solo nos interesa el máximo de Close y la fecha hicimos un select de las columnas Date y Close, dentro de show si se le agrega un número solo te imprime esa cantidad de filas, así mostramos el día que tuvo el pico más alto que fue el 15 de Julio del 2013
+The way we found to show the date with the maximum of Close was by sort, we make Close be arranged descendingly, so the maximum value is now the first line, as we are only interested in the maximum of Close and the date we did a select of the Date and Close columns, inside show if a number is added to it it only prints that number of rows, thus we show the day that had the highest peak which was July 15, 2013
 
 
 9. Write in your own words. What is the meaning of the Close column "Close"?
 
-> Esta columna nos muestra los datos con los que las finanzas de Netflix al terminar el dia después de la variacion entre Open, High y Low
-
+> This column shows us the data with which Netflix finances at the end of the day after the variation between Open, High and Low
 
 10.  What is the maximum and minimum of the “Volume” column?
 
@@ -552,9 +560,9 @@ maxVolume.show()
 val minVolume = df.agg(Map("Volume" -> "min"))
 minVolume.show()
 ```
-La función Agg agrega varias filas de datos en una única salida, si por ejemplo estás usando un group by para ordenar las fechas en las que hay datos, se le puede agregar una suma de todas las ventas del día, también se puede usar por sí solo como este ejemplo.
+The Agg function adds several rows of data in a single output, if for example you are using a group by to order the dates in which there is data, you can add a sum of all the sales of the day, it can also be used by itself just like this example.
 
-También se puede obtener de una forma más sencilla, en el mismo aggregate sin necesidad de un mapeo.
+It can also be obtained in a simpler way, in the same aggregate without the need for a mapping.
 ```Scala
 val maxminVolume = df.agg(min("Volume"), max("Volume"))
 maxminVolume.show() 
@@ -566,19 +574,22 @@ Hint: Basically very similar to the dates session, you will have to create anoth
 val df3=df
 df3.show()
 ```
+A new data frame is created to be used later in the following instructions
 - a. How many days was the “Close” column less than $ 600?
 
 ```Scala
 val infcl = df3.filter($"Close" < 600 ).count()
 ```
+A variable is created in which we will save the value of the count of the values that are less than 600
+We use "filter" with this we call the data of the close column that is less than 600 and with the count we make it count to know what the result
 - b. What percentage of the time was the “High” column greater than $ 500?
 ```Scala
 val dfporcentaje = df3.filter($"High" > 500).count()
 val resultado: Double  = (dfporcentaje*100)/(df.count)
 ```
-Hacemos lo mismo que el inciso a, obtener la cantidad de datos en las que High es mayor a 500 que fue de 62, pero no nos pide los días, nos pide los porcentajes por lo que hicimos una regla de 3, a la cantidad de datos donde High es mayor a 500 se le multiplica 100 y se le divide la cantidad total de datos dentro del dataframe.
+We do the same as part a, obtain the amount of data in which High is greater than 500, which was 62, but it does not ask us for the days, it asks us for the percentages so we made a rule of 3, to the amount of data where High is greater than 500 is multiplied by 100 and the total amount of data within the dataframe is divided.
 
-El 4% del tiempo la columna High fue mayor que $500
+4% of the time the High column was greater than $ 500
 
 
 - c. What is the Pearson correlation between column "High" and column "Volume"?
@@ -586,18 +597,23 @@ El 4% del tiempo la columna High fue mayor que $500
 df3.stat.corr("High", "Volume")
 df3.select(corr($"High", $"Volume")).show()
 ```
+We found two ways of deriving the correlation coefficient.
+One using stat and the other using a select, both show the same data only select shows it in a visually pleasing way and uses implicit scala language and no stats
 - d. What is the maximum in the “High” column per year?
 ```Scala
 df3.groupBy(year(df("Date"))).max("High").show()
 df3.groupBy(year(df("Date"))).agg(max("High")).show()
 ```
-Para esta instrucción usamos la función groupBy, para ordenar por fechas, lo queremos mostrar por año por lo que ponemos "year", y al final le pedimos que saque el máximo de High de acuerdo a la agrupación, se puede declarar que saque el max directamente o se puede con agg también, ambos códigos imprimen de la misma forma.
+For this instruction we use the groupBy function, to order by dates, we want to show it by year so we put "year", and at the end we ask it to get the maximum of High according to the grouping, it can be declared to get the max directly or you can with agg too, both codes print in the same way.
 
 
-- e. ¿Cuál es el promedio de columna “Close” para cada mes del calendario?
+- e. What is the “Close” column average for each calendar month?
 ```Scala
 val clavg=df3.groupBy(month(df("Date"))).avg("Close")
-
+```
+To obtain the average of each month from the close column, a variable was created in which we grouped the data by months from the "Date" column and from this we took the average of "Close"
+```Scala
 val sort= clavg.sort(month(df("Date")).asc)
 sort.show()
 ```
+Since it shows us the months in a random way, we decided to arrange them in an ascending way so that they were displayed in a simple way
