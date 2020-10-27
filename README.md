@@ -483,6 +483,7 @@ val spark = SparkSession.builder().getOrCreate()
 ```
 The libraries that will be needed for the dataframes and the sql syntax that we will need are imported
 A variable is declared to which the "Spark Session" packages are assigned
+
 2. Upload Netflix Stock CSV file, have Spark infer the data types.
 
 ```Scala
@@ -539,6 +540,7 @@ It creates a Summary column, with the following elements: count is used to say t
 val df2 = df.withColumn("HV Ratio", df("High")+df("Volume"))
 ```
 A new data frame is created where we will add the new column, this is done with the previous command in which it will be high vs volume
+
 8. What day had the highest peak in the “Close” column?
 
 ```Scala
