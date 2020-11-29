@@ -66,7 +66,6 @@ df.show
 
 // Ajuste el modelo para los datos y llame a este modelo lrModelo
 
-
 // Imprima the  coefficients y intercept para la regresion lineal
 
 // Resuma el modelo sobre el conjunto de entrenamiento imprima la salida de algunas metricas!
