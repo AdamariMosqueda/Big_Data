@@ -447,7 +447,7 @@ for(arr <- collectdf) println(arr)
 
 The code pairing specifies that there are always two people working on code at the same time and that they sit together as much as possible. One is in charge of writing the code and the other of monitoring in real time. At the same time, they are constantly exchanging impressions: they discuss problems, find solutions and develop creative ideas.
 
-[Full version](https://github.com/AdamariMosqueda/Big_Data/blob/Unit_1/Investigations/CodePairing_Mosqueda.md)
+[Full version](https://github.com/AdamariMosqueda/Big_Data/blob/Unit_1/U1/Investigations/CodePairing_Mosqueda.md)
 
 <div id='inv2' />
 
@@ -457,14 +457,14 @@ The code pairing specifies that there are always two people working on code at t
 
 Pearson correlation coefficient is a test that measures the statistical relationship between two continuous variables. If the association between the elements is not linear, then the coefficient is not adequately represented.
 
-[Full version](https://github.com/AdamariMosqueda/Big_Data/blob/Unit_1/Investigations/PearsonCorrelation_Mosqueda.md)
+[Full version](https://github.com/AdamariMosqueda/Big_Data/blob/Unit_1/U1/Investigations/PearsonCorrelation_Mosqueda.md)
 
 ## Research 3
 
 **Pair coding**
 In this small investigation we will see the concept of pair coding because it was not found as such, the concept of pair programming or pair programming is seen, in the breakdown of the investigation the benefits of using this type of programming are revealed and the difficulties of this.
 
-[Full Version](https://github.com/AdamariMosqueda/Big_Data/blob/Unit_1/Investigations/CodePairing_Gutierrez.md)
+[Full Version](https://github.com/AdamariMosqueda/Big_Data/blob/Unit_1/U1/Investigations/CodePairing_Gutierrez.md)
 
 ## Research 4
 
@@ -472,7 +472,7 @@ In this small investigation we will see the concept of pair coding because it wa
 This research describes the Pearson correlation coefficient in which situations its characteristics are used as well as a simple and practical example to be able to understand the subject a little better.
 It is important to know in which situations we can use this coefficient, such as in the statistical relationship between two continuous variables, preferably linear, for this type of implicit relationship to exist.
 
-[Full Version](https://github.com/AdamariMosqueda/Big_Data/blob/Unit_1/Investigations/PearsonCorrelation_Gutierrez.md)
+[Full Version](https://github.com/AdamariMosqueda/Big_Data/blob/Unit_1/U1/Investigations/PearsonCorrelation_Gutierrez.md)
 
 ## Evaluation Unit 1
 
