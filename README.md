@@ -9,6 +9,9 @@
 - [Research 3](#research-3)
 - [Research 4](#research-4)
 - [Evaluation Unit 1](#evaluation-unit-1)
+- [UNIT 2](#unit-2)
+- [Practice 1 U2](#practice-1-u2)
+- [Practice 2 U2](#practice-2-u2)
 
 
 
@@ -619,3 +622,148 @@ val sort= clavg.sort(month(df("Date")).asc)
 sort.show()
 ```
 Since it shows us the months in a random way, we decided to arrange them in an ascending way so that they were displayed in a simple way
+
+## UNIT 2
+
+## Practice 1 U2
+En esta práctica se realizó un ejercicio de regresión linear en la cual debíamos seguir las instrucciones dadas para llegar al resultado.
+1. Importa LinearRegression
+
+```Scala
+import org.apache.spark.ml.regression.LinearRegression
+import org.apache.spark.sql.SparkSession
+```
+Para ello usamos org.apache.spark.ml.regression, pero no es la única librería que se necesita importar, como en todos los dataframes debemos importar la sesión de spark.
+
+- Opcional: Utilice el siguiente código para configurar errores
+```Scala
+import org.apache.log4j._
+Logger.getLogger("org").setLevel(Level.ERROR)
+```
+Ese código ya venía en la práctica, esto hace que aparezcan los mensajes pero también se pueden eliminar esos mensajes configurandolo a Level.OFF.
+
+2. Inicie una simple Sesión Spark
+```Scala
+val spark = SparkSession.builder().getOrCreate()
+```
+Creamos nuestra variable spark que contiene la sesión de spark importada.
+
+3. Utilice Spark para el archivo csv Clean-Ecommerce.
+```Scala
+val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("Clean-Ecommerce.csv")
+```
+Creamos la variable data que va a contener todos los datos de Clean.Ecommerce, para ello spark lee la información.
+
+4. Imprima el schema en el DataFrame.
+```Scala
+data.printSchema
+/*
+ |-- Email: string (nullable = true)
+ |-- Avatar: string (nullable = true)
+ |-- Avg Session Lenght: double (nullable = true)
+ |-- Time on App: double (nullable = true)
+ |-- Time on Website: double (nullable = true)
+ |-- Lenght of Membership: double (nullable = true)
+ |-- Yearly Amount Spent: double (nullable = true)
+ */
+```
+Podemos observar que el data frame contiene la columna Email que es un string, el Avatar que también es un string, que más adelante se entiende el porqué es un string, el promedio de lo que dura en la sesión, que es un valor número, al igual que el tiempo en la aplicación y en la página web, por último tiene lo que ha durado su membresía con lo que gasta al año
+
+5. Imprima un renglón de ejemplo del Data Frame.
+```Scala
+data.show(1)
+/*
++--------------------+------+------------------+-----------------+-----------------+--------------------+-------------------+
+|               Email|Avatar|Avg Session Length|      Time on App|  Time on Website|Length of Membership|Yearly Amount Spent|
++--------------------+------+------------------+-----------------+-----------------+--------------------+-------------------+
+|mstephenson@ferna...|Violet| 34.49726772511229|12.65565114916675|39.57766801952616|  4.0826206329529615|  587.9510539684005|
++--------------------+------+------------------+-----------------+-----------------+--------------------+-------------------+
+*/
+```
+Podemos observar que el primer usuario tiene un avatar violeta, por eso la columna era un valor string, dura más tiempo en la página web que en la misma aplicación, no sabemos si esos números se refieren a horas o minutos, pero pero es probable que lo que gasta al año sean dólares.
+
+6. Transforme el data frame para que tome la forma de ("label","features").
+```Scala
+val colnames = data.columns
+val firstrow = data.head(1)(0)
+```
+Para ello creamos dos variables, una contiene las primeras dos columnas que van a ser nuestro label y features.
+
+7. Importe VectorAssembler y Vectors.
+```Scala
+import org.apache.spark.ml.feature.VectorAssembler
+import org.apache.spark.ml.linalg.Vectors
+```
+Aquí se agregan nuevas librerías para las instrucciones de más adelante.
+
+8. Renombre la columna Yearly Amount Spent como "label".
+```Scala
+data.select(data("Yearly Amount Spent").as("label")).show
+```
+Seleccionamos de Data la columna “Yearly Amount Spent” (YAS) y la mostramos cómo label con “as”.
+
+
+9. También de los datos tome solo las columnas numéricas.
+```Scala
+data.select(data("Yearly Amount Spent").as("label"), $"Avg Session Length", $"Time on App",$"Time on Website", $"Length of Membership").show
+```
+Volvemos a seleccionar YAS como label, e identificamos cuáles son las columnas que contienen valores numéricos gracias a la instrucción 4, estos también los seleccionamos en la misma función.
+
+La información solo muestra nuestra columna label y todas las columnas numéricas.
+
+10. Deje todo esto como un nuevo Data Frame que se llame df
+Para trabajar con esta información se debe crear un nuevo data frame con esta misma selección.
+```Scala
+val df = data.select(data("Yearly Amount Spent").as("label"), $"Avg Session Length", $"Time on App",$"Time on Website", $"Length of Membership")
+df.show
+```
+
+11. 
+
+## Practice 2 U2
+
+La práctica 2 fue un análisis del código del archivo lr.scala, entender lo que se hizo y explicarlo con nuestras propias palabras.
+```Scala
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.ml.regression.LinearRegression
+```
+Antes se deben importar dos librerías, la primera Spark Session que es la que lee los archivos csv y con ella podemos trabajar con dataframes, la segunda Linear Regression que como su nombre lo dice, con ella podemos realizar las regresiones lineales.
+```Scala
+import org.apache.log4j._
+Logger.getLogger("org").setLevel(Level.ERROR)
+```
+Lo que hacen estas líneas de código es quitar muchos errores y siguen apareciendo mensajes, pero se reducen, si no desea que aparezca tan siquiera un mensaje de error se puede configurar a Level.OFF.
+
+```Scala
+val spark = SparkSession.builder().getOrCreate()
+val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("Clean-USA-Housing.csv")
+data.printSchema
+data.head(1)
+```
+Se creó una variable spark, que es la que va a leer el el archivo CSV, al data frame se le dio el nombre de data, con spark.read es posible pasar la información a este nuevo data frame, le indicamos que el formato es csv y en el load va el nombre del archivo, debe estar en la misma carpeta donde está nuestro archivo lr.scala, imprime el data frame y la primera fila para ver la información.
+
+```Scala
+val colnames = data.columns
+val firstrow = data.head(1)(0)
+println("\n")
+println("Example data row")
+for(ind <- Range(1, colnames.length)){
+    println(colnames(ind))
+    println(firstrow(ind))
+    println("\n")
+}
+```
+La variable colnames tiene las columnas de data, firstrow contiene el primer row del dataframe, al imprimir “\n” se imprime un espacio en blanco, es para hacer una separación al imprimir los resultados, después hay un for donde ind tiene un rango de 1 a la cantidad de columnas, imprime la primera columna, la primera fila, un espacio, entra de nuevo al for y vuelve a imprimir hasta que llegue a la cantidad de columnas.
+
+```Scala
+import org.apache.spark.ml.feature.VectorAssembler
+import org.apache.spark.ml.linalg.Vectors
+```
+Se importan nuevas librerías de vectores que se van a necesitar para realizar la regresión lineal.
+
+```Scala
+data.columns
+val df = data.select(data("Price").as("label"), $"Avg Area Income", $"Avg Area House Age", $"Avg Area Number of Rooms", $"Avg Area Number of Bedrooms", $"Area Population")
+```
+
+Imprime las columnas para ver cuales son los que admiten numéricos, df es un nuevo data frame que contiene la información de data, de este se seleccionó Price como label, "Avg Area Income", "Avg Area House Age", "Avg Area Number of Rooms", "Avg Area Number of Bedrooms", y "Area Population".
