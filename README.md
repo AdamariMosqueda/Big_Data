@@ -12,6 +12,8 @@
 - [UNIT 2](#unit-2)
 - [Practice 1 U2](#practice-1-u2)
 - [Practice 2 U2](#practice-2-u2)
+  - [2-1](#2-1)
+  - [2-2](#2-2)
 
 
 
@@ -722,12 +724,16 @@ df.show
 
 ## Practice 2 U2
 
-La práctica 2 fue un análisis del código del archivo lr.scala, entender lo que se hizo y explicarlo con nuestras propias palabras.
+La práctica 2 fue un análisis del código de los archivos lr.scala (Regresión lineal) y PracticaLogisticRegression (Regresión logística), explicamos el código usado con nuestras propias palabras
+
+### 2-1
+> Regresion Lineal
+
 ```Scala
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.ml.regression.LinearRegression
 ```
-Antes se deben importar dos librerías, la primera Spark Session que es la que lee los archivos csv y con ella podemos trabajar con dataframes, la segunda Linear Regression que como su nombre lo dice, con ella podemos realizar las regresiones lineales.
+Antes se deben importar dos librerías, la primera SparkSession que es la que lee los archivos csv y con ella podemos trabajar con dataframes, la segunda LinearRegression que como su nombre lo dice, con ella podemos realizar las regresiones lineales.
 ```Scala
 import org.apache.log4j._
 Logger.getLogger("org").setLevel(Level.ERROR)
@@ -740,7 +746,7 @@ val data  = spark.read.option("header","true").option("inferSchema", "true").for
 data.printSchema
 data.head(1)
 ```
-Se creó una variable spark, que es la que va a leer el el archivo CSV, al data frame se le dio el nombre de data, con spark.read es posible pasar la información a este nuevo data frame, le indicamos que el formato es csv y en el load va el nombre del archivo, debe estar en la misma carpeta donde está nuestro archivo lr.scala, imprime el data frame y la primera fila para ver la información.
+Se creó una variable spark, que es la que va a leer el el archivo CSV, al data frame se le dio el nombre de data, con spark.read es posible pasar la información a este nuevo data frame, le indicamos que el formato es csv y en el load va el nombre del archivo, debe estar en la misma carpeta donde está nuestro archivo (Tambien se puede colocar el enlace exacto de donde se encuentra el archivo csv), imprime el data frame y la primera fila para ver la información.
 
 ```Scala
 val colnames = data.columns
@@ -767,3 +773,50 @@ val df = data.select(data("Price").as("label"), $"Avg Area Income", $"Avg Area H
 ```
 
 Imprime las columnas para ver cuales son los que admiten numéricos, df es un nuevo data frame que contiene la información de data, de este se seleccionó Price como label, "Avg Area Income", "Avg Area House Age", "Avg Area Number of Rooms", "Avg Area Number of Bedrooms", y "Area Population".
+
+Aquí sigue la otra mitad
+
+### 2-2 
+
+> Regresion Logistica
+
+```Scala
+import org.apache.spark.ml.classification.LogisticRegression
+import org.apache.spark.sql.SparkSession
+import org.apache.log4j._
+Logger.getLogger("org").setLevel(Level.ERROR)
+val spark = SparkSession.builder().getOCreate()
+val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("advertising.csv")
+```
+Inicia muy parecido al ejemplo de regresión lineal, solo que en lugar de importar la librería LinearRegression estamos importando LogisticRegression, agregamos un Logger con Level.Error para de disminuyan los mensajes de advertencia y creamos nuestra variable spark, con esa le damos los valores del archivo advertising.csv a nuestro nuevo dataframe data.
+
+```Scala
+val colnames = data.columns
+val firstrow = data.head(1)(0)
+println("\n")
+println("Example data row")
+for(ind <- Range(1, colnames.length)){
+    println(colnames(ind))
+    println(firstrow(ind))
+    println("\n")
+}
+```
+La variable colnames tiene las columnas de data, firstrow contiene el primer row del dataframe, al imprimir “\n” se imprime un espacio en blanco, es para hacer una separación al imprimir los resultados, después hay un for donde ind tiene un rango de 1 a la cantidad de columnas, imprime la primera columna, la primera fila, un espacio, entra de nuevo al for y vuelve a imprimir hasta que llegue a la cantidad de columnas.
+
+```Scala
+val timedata = data.withColumn("Hour",hour(data("Timestamp")))
+```
+Se creó un nuevo dataframe llamado timedata al cual se le va a dar los mismos valores de Data, con la diferencia de que se le va a agregar una nueva columna llamada Hour, después de la coma se declara hour que es el tipo de datos de tipo time que va a mostrar y esto los tomará de Timestamp.
+
+```Scala
+val logregdata = timedata.select(data("Clicked on Ad").as("label"), $"Daily Time Spent on Site", $"Age", $"Area Income", $"Daily Internet Usage", $"Hour", $"Male")
+```
+Se crea otro Data frame ahora llamado logredata, este va a seleccionar de timedata la columna "Clicked on Ad" la cual tendrá el nombre de "label", y también selecciona otras columnas, pero solamente las que tienen datos numéricos ("Daily Time Spent on Site", "Age", "Area Income", "Daily Internet Usage", "Hour" y "Male")
+
+```Scala
+import org.apache.spark.ml.feature.VectorAssembler
+import org.apache.spark.ml.linalg.Vectors
+```
+Se importan nuevas librerías de vectores que se van a necesitar para realizar la regresión logistica.
+
+Y aquí va la explicación de la otra mitad
