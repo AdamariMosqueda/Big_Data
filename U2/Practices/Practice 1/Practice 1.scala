@@ -4,11 +4,11 @@
 /////////////////////////////////////////
 // Import LinearRegression
 import org.apache.spark.ml.regression.LinearRegression
-import org.apache.spark.sql.SparkSession
 // Opcional: Utilice el siguiente codigo para configurar errores
 import org.apache.log4j._
 Logger.getLogger("org").setLevel(Level.ERROR)
 // Inicie una simple Sesion Spark
+import org.apache.spark.sql.SparkSession
 val spark = SparkSession.builder().getOrCreate()
 // Utilice Spark para el archivo csv Clean-Ecommerce .
 val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("C:/Users/yurid/Documents/RepABigData/Big_Data/U2/Practices/Practice 1/Clean-Ecommerce.csv")
@@ -42,13 +42,13 @@ data.select(data("Yearly Amount Spent").as("label"), $"Avg Session Length", $"Ti
 val df = data.select(data("Yearly Amount Spent").as("label"), $"Avg Session Length", $"Time on App",$"Time on Website", $"Length of Membership")
 df.show
 // Que el objeto assembler convierta los valores de entrada a un vector
-
-// Utilice el objeto VectorAssembler para convertir la columnas de entradas del df a una sola columna de salida de un arreglo llamado  "features"
-
-// Configure las columnas de entrada de donde se supone que leemos los valores.
+val assembler = (Vector("Avg Session Length","Time on App","Time on Website","Length of Membership"))
+// Utilice el objeto VectorAssembler para convertir las columnas de entradas del df a una sola columna de salida de un arreglo llamado  "features"
+val assembler= new VectorAssembler().setInputCols(Array( "Avg Session Length", "Time on App","Time on Website", "Length of Membership")).setOutputCol("features")
+// Configure las columnas de entrada de donde se supone que leemos los valores
 
 // Llamar a esto nuevo assambler.
-val assembler =
+
 // Utilice el assembler para transform nuestro DataFrame a dos columnas: label and features
 val output= assembler.transform(df).select($"label", $"features")
 //------------------    ---------------------------------------------------------------------------------------------------------------------------------//
@@ -58,9 +58,9 @@ val lr = new LinearRegression()
 // Ajuste el modelo para los datos y llame a este modelo lrModelo
 val lrModel = lr.fit(output)
 // Imprima the  coefficients e intercept para la regresion lineal
-
+  println(s"Coefficients: ${lrModel.coefficients} Intercept: ${lrModel.intercept}")
 // Resuma el modelo sobre el conjunto de entrenamiento imprima la salida de algunas metricas!
-lrModel.show()
+println(lrModel)
 // Utilize metodo .summary de nuestro  modelo para crear un objeto llamado trainingSummary
 val trainingSummary = lrModel.summary
 // Muestre los valores de residuals, el RMSE, el MSE, y tambien el R^2 .
