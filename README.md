@@ -1,24 +1,23 @@
 **CONTENT**
-- [Practice 1](#practice-1)
-- [Practice 2](#practice-2)
-- [Practice 3](#practice-3)
-- [Practice 4](#practice-4)
-- [Practice 5](#practice-5)
-- [Research 1](#research-1)
-- [Research 2](#research-2)
-- [Research 3](#research-3)
-- [Research 4](#research-4)
-- [Evaluation Unit 1](#evaluation-unit-1)
+- [UNIT 1](#unit-1)
+  - [Practice 1](#practice-1)
+  - [Practice 2](#practice-2)
+  - [Practice 3](#practice-3)
+  - [Practice 4](#practice-4)
+  - [Practice 5](#practice-5)
+  - [Research 1](#research-1)
+  - [Research 2](#research-2)
+  - [Research 3](#research-3)
+  - [Research 4](#research-4)
+  - [Evaluation Unit 1](#evaluation-unit-1)
 - [UNIT 2](#unit-2)
-- [Practice 1 U2](#practice-1-u2)
-- [Practice 2 U2](#practice-2-u2)
-  - [2-1](#2-1)
-  - [2-2](#2-2)
-
-
-
+  - [Practice 1](#practice-1-1)
+  - [Practice 2](#practice-2-1)
+    - [2-1](#2-1)
+    - [2-2](#2-2)
+  
   <div id='pr1' />
-
+# UNIT 1
   ## Practice 1 
 This practice creates algorithms and also variables can be played with, aside from defining the diference between value and variable in scala 
 
@@ -625,38 +624,36 @@ sort.show()
 ```
 Since it shows us the months in a random way, we decided to arrange them in an ascending way so that they were displayed in a simple way
 
-## UNIT 2
+# UNIT 2
 
-## Practice 1 U2
-En esta práctica se realizó un ejercicio de regresión linear en la cual debíamos seguir las instrucciones dadas para llegar al resultado.
-1. Importa LinearRegression
-
+## Practice 1 
+In this practice, a linear regression exercise is carried out in which we must follow the instructions given to arrive at the result. 
+1. It matters linear regression
 ```Scala
 import org.apache.spark.ml.regression.LinearRegression
 import org.apache.spark.sql.SparkSession
 ```
-Para ello usamos org.apache.spark.ml.regression, pero no es la única librería que se necesita importar, como en todos los dataframes debemos importar la sesión de spark.
+For this we use org.apache.spark.ml.regression, but it is not the only library that needs to be imported, as in all dataframes we must import the spark session.
 
-- Opcional: Utilice el siguiente código para configurar errores
+- Optional: Use the following code to configure errors
 ```Scala
 import org.apache.log4j._
 Logger.getLogger("org").setLevel(Level.ERROR)
 ```
-Ese código ya venía en la práctica, esto hace que aparezcan los mensajes pero también se pueden eliminar esos mensajes configurandolo a Level.OFF.
+That code was already in practice, this makes the messages appear but those messages can also be eliminated by setting it to Level.OFF.
 
-2. Inicie una simple Sesión Spark
+2. Start a simple Spark Session
 ```Scala
 val spark = SparkSession.builder().getOrCreate()
 ```
-Creamos nuestra variable spark que contiene la sesión de spark importada.
+We create our spark variable that contains the imported spark session.
 
-3. Utilice Spark para el archivo csv Clean-Ecommerce.
+3. Use Spark for Clean-Ecommerce csv file.
 ```Scala
 val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("Clean-Ecommerce.csv")
 ```
-Creamos la variable data que va a contener todos los datos de Clean.Ecommerce, para ello spark lee la información.
-
-4. Imprima el schema en el DataFrame.
+We create the data variable that will contain all the Clean.Ecommerce data, for this spark reads the information.
+4. Print the schema in the DataFrame.
 ```Scala
 data.printSchema
 /*
@@ -669,9 +666,9 @@ data.printSchema
  |-- Yearly Amount Spent: double (nullable = true)
  */
 ```
-Podemos observar que el data frame contiene la columna Email que es un string, el Avatar que también es un string, que más adelante se entiende el porqué es un string, el promedio de lo que dura en la sesión, que es un valor número, al igual que el tiempo en la aplicación y en la página web, por último tiene lo que ha durado su membresía con lo que gasta al año
+We can see that the data frame contains the Email column which is a string, the Avatar which is also a string, which later on we will understand why it is a string, the average of the duration of the session, which is a number value, Like the time in the application and on the website, finally you have what your membership has lasted with what you spend per year
 
-5. Imprima un renglón de ejemplo del Data Frame.
+5. Print a sample line of the Data Frame.
 ```Scala
 data.show(1)
 /*
@@ -682,47 +679,96 @@ data.show(1)
 +--------------------+------+------------------+-----------------+-----------------+--------------------+-------------------+
 */
 ```
-Podemos observar que el primer usuario tiene un avatar violeta, por eso la columna era un valor string, dura más tiempo en la página web que en la misma aplicación, no sabemos si esos números se refieren a horas o minutos, pero pero es probable que lo que gasta al año sean dólares.
+We can see that the first user has a purple avatar, that's why the column was a string value, it lasts longer on the web page than in the application itself, we don't know if these numbers refer to hours or minutes, but it is likely that what you spend per year are dollars.
 
-6. Transforme el data frame para que tome la forma de ("label","features").
+6. Transform the data frame to take the form of ("label", "features").
 ```Scala
 val colnames = data.columns
-val firstrow = data.head(1)(0)
+val firstrow = data.head (1) (0)
 ```
-Para ello creamos dos variables, una contiene las primeras dos columnas que van a ser nuestro label y features.
+To do this we create two variables, one contains the first two columns that will be our label and features.
 
-7. Importe VectorAssembler y Vectors.
+7. Import VectorAssembler and Vectors.
 ```Scala
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.linalg.Vectors
 ```
-Aquí se agregan nuevas librerías para las instrucciones de más adelante.
+New libraries are added here for instructions below.
 
-8. Renombre la columna Yearly Amount Spent como "label".
+8. Rename the column Yearly Amount Spent as "label".
 ```Scala
-data.select(data("Yearly Amount Spent").as("label")).show
+data.select (data ("Yearly Amount Spent"). as ("label")). show
 ```
-Seleccionamos de Data la columna “Yearly Amount Spent” (YAS) y la mostramos cómo label con “as”.
+We select from Data the column "Yearly Amount Spent" (YAS) and show it as label with "as".
 
 
-9. También de los datos tome solo las columnas numéricas.
+9. Also from the data take only the numeric columns.
 ```Scala
-data.select(data("Yearly Amount Spent").as("label"), $"Avg Session Length", $"Time on App",$"Time on Website", $"Length of Membership").show
+data.select (data ("Yearly Amount Spent"). as ("label"), $ "Avg Session Length", $ "Time on App", $ "Time on Website", $ "Length of Membership"). show
 ```
-Volvemos a seleccionar YAS como label, e identificamos cuáles son las columnas que contienen valores numéricos gracias a la instrucción 4, estos también los seleccionamos en la misma función.
+We return to select YAS as label, and we identify which are the columns that contain numerical values ​​thanks to instruction 4, we also select these in the same function.
 
-La información solo muestra nuestra columna label y todas las columnas numéricas.
+The information only shows our label column and all numeric columns.
 
-10. Deje todo esto como un nuevo Data Frame que se llame df
-Para trabajar con esta información se debe crear un nuevo data frame con esta misma selección.
+10. Leave all this as a new Data Frame called df
+To work with this information, a new data frame must be created with this same selection.
 ```Scala
-val df = data.select(data("Yearly Amount Spent").as("label"), $"Avg Session Length", $"Time on App",$"Time on Website", $"Length of Membership")
+val df = data.select (data ("Yearly Amount Spent"). as ("label"), $ "Avg Session Length", $ "Time on App", $ "Time on Website", $ "Length of Membership" )
 df.show
 ```
+*spanish*
+11. Que el objeto assembler convierta los valores de entrada a un vector
+```Scala
+val assembler = (Vector("label","Avg Session Length","Time on App","Time on Website","Length of Membership"))
+```
+A la variable assembler se le asigna los valores de entrada para que se carguen en el vector por medio de los nombre de las columnas
 
-11. 
+12. Utilice el objeto VectorAssembler para convertir las columnas de entradas del df a una sola columna de salida de un arreglo llamado  "features".
+Configure las columnas de entrada de donde se supone que leemos los valores.
+Llamar a esto nuevo assambler.
+```Scala
+val assembler = new VectorAssembler().setInputCols(Array("Avg Session Length","Time on App","Time on Website","Length of Membership")).setOutputCol("features")
+```
+Se toma la variable assembler para crear un objeto en el cual se aplica que al Array de las columnas de entrada para convertirse en una sola columna de salida con nombre features
+13. Utilice el assembler para transform nuestro DataFrame a dos columnas: label and features
+```Scala
+val output= assembler.transform(df).select($"label", $"features")
+```
 
-## Practice 2 U2
+14.  Crear un objeto para modelo de regresion linea.
+```Scala
+val lr = new LinearRegression()
+```
+Se crea un objeto con el nombre lr el cual sera el modelo para el modelo de regresion linea
+15. Ajuste el modelo para los datos y llame a este modelo lrModelo
+```Scala
+val lrModel = lr.fit(output)
+```
+Se crea una variable la cual ajustara el modelo de lr ajustara los datos tomados de output nuestro 
+16. Imprima the  coefficients e intercept para la regresion lineal
+```Scala
+  println(s"Coefficients: ${lrModel.coefficients} Intercept: ${lrModel.intercept}")
+```
+
+17. Resuma el modelo sobre el conjunto de entrenamiento imprima la salida de algunas metricas
+```Scala
+println(lrModel)
+```
+
+18. Utilize metodo .summary de nuestro  modelo para crear un objeto llamado trainingSummary
+```Scala
+val trainingSummary = lrModel.summary
+```
+
+19. Muestre los valores de residuals, el RMSE, el MSE, y tambien el R^2.
+```Scala
+trainingSummary.resuduals.show()
+trainingSummary.predictions.show()
+trainingSummary.r2 
+trainingSummary.rootMeanSquaredError
+```
+
+## Practice 2
 
 La práctica 2 fue un análisis del código de los archivos lr.scala (Regresión lineal) y PracticaLogisticRegression (Regresión logística), explicamos el código usado con nuestras propias palabras
 
