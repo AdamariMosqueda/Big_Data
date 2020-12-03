@@ -42,13 +42,11 @@ data.select(data("Yearly Amount Spent").as("label"), $"Avg Session Length", $"Ti
 val df = data.select(data("Yearly Amount Spent").as("label"), $"Avg Session Length", $"Time on App",$"Time on Website", $"Length of Membership")
 df.show
 // Que el objeto assembler convierta los valores de entrada a un vector
-val assembler = (Vector("Avg Session Length","Time on App","Time on Website","Length of Membership"))
+val assembler = (Vector("label","Avg Session Length","Time on App","Time on Website","Length of Membership"))
 // Utilice el objeto VectorAssembler para convertir las columnas de entradas del df a una sola columna de salida de un arreglo llamado  "features"
-val assembler= new VectorAssembler().setInputCols(Array( "Avg Session Length", "Time on App","Time on Website", "Length of Membership")).setOutputCol("features")
 // Configure las columnas de entrada de donde se supone que leemos los valores
-
 // Llamar a esto nuevo assambler.
-
+val assembler = new VectorAssembler().setInputCols(Array("Avg Session Length","Time on App","Time on Website","Length of Membership")).setOutputCol("features")
 // Utilice el assembler para transform nuestro DataFrame a dos columnas: label and features
 val output= assembler.transform(df).select($"label", $"features")
 //------------------    ---------------------------------------------------------------------------------------------------------------------------------//
