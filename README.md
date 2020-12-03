@@ -15,6 +15,10 @@
   - [Practice 2](#practice-2-1)
     - [2-1](#2-1)
     - [2-2](#2-2)
+  - [Practice 3](#practice-3-1)
+  - [Practice 4](#practice-4-1)
+  - [Practice 5](#practice-5-1)
+  - [Practice 6](#practice-6)
   
   <div id='pr1' />
 # UNIT 1
@@ -866,3 +870,278 @@ import org.apache.spark.ml.linalg.Vectors
 Se importan nuevas librerías de vectores que se van a necesitar para realizar la regresión logistica.
 
 Y aquí va la explicación de la otra mitad
+
+## Practice 3
+
+## Practice 4
+> Decision tree classifier
+
+Un árbol de decisión es una forma gráfica y analítica de representar todos los eventos (sucesos) que pueden surgir a partir de una decisión asumida en cierto momento.
+
+```Scala
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.classification.DecisionTreeClassificationModel
+import org.apache.spark.ml.classification.DecisionTreeClassifier
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+import org.apache.spark.ml.feature.{IndexToString, StringIndexer, VectorIndexer}
+import org.apache.spark.sql.SparkSession
+```
+Antes se importan las librerías pipeline (es una técnica para implementar simultaneidad a nivel de instrucciones dentro de un solo procesador.), de clasificación donde indicamos que es  DecisionTreeClassificationModel, DecisionTreeClassifier, una de evaluación que es MulticlassClassificationEvaluation y los feature donde incluye los index.
+
+```Scala
+object DecisionTree {
+  def main(args: Array[String]): Unit = {
+    val spark = SparkSession.builder.appName("dtree").getOrCreate()
+```
+Se crea un objeto llamado Decision Tree, este va a tener todo el código que necesitamos, se crea la variable spark que contiene el sparksession del achivo dtree.
+```Scala
+val data = spark.read.format("libsvm").load("C:/sample_libsvm_data.txt")
+```
+Creamos la variable data que será el dataframe, este va a leer con spark el archivo sample_libsvm_data.
+
+```Scala
+val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexedLabel").fit(data)
+val featureIndexer = new VectorIndexer().setInputCol("features").setOutputCol("indexedFeatures").setMaxCategories(4).fit(data)
+```
+Creamos las variables labelIndexer y featureIndexer, el primero será nuestra columna “label” con la información de data, el segundo será nuestra columna features donde. 
+
+```Scala
+val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3))
+```
+Creamos la variable Array que contiene lo de trainingData y testData, este será igual a una división aleatoria entre 70 a 30%.
+
+```Scala
+val dt = new DecisionTreeClassifier().setLabelCol("indexedLabel").setFeaturesCol("indexedFeatures")
+val labelConverter = new IndexToString().setInputCol("prediction").setOutputCol("predictedLabel").setLabels(labelIndexer.labels)
+val pipeline = new Pipeline().setStages(Array(labelIndexer, featureIndexer, dt, labelConverter))
+val model = pipeline.fit(trainingData)
+val predictions = model.transform(testData)
+```
+Ahora creamos dt que contiene las columnas creadas anteriormente, todo en la función DecisionTreeClassifier, luego hacemos una conversión para hacer la predicción de label, ahora pipeline tendrá toda esta información.
+
+```Scala
+predictions.select("predictedLabel", "label", "features").show()
+/*
++--------------+-----+--------------------+
+|predictedLabel|label|            features|
++--------------+-----+--------------------+
+|           0.0|  0.0|(692,[100,101,102...|
+|           0.0|  0.0|(692,[122,123,124...|
+|           0.0|  0.0|(692,[122,123,148...|
+|           0.0|  0.0|(692,[126,127,128...|
+|           0.0|  0.0|(692,[127,128,129...|
+|           0.0|  0.0|(692,[152,153,154...|
+|           1.0|  0.0|(692,[154,155,156...|
+|           1.0|  0.0|(692,[154,155,156...|
+|           0.0|  0.0|(692,[155,156,180...|
+|           0.0|  0.0|(692,[181,182,183...|
+|           1.0|  1.0|(692,[123,124,125...|
+|           1.0|  1.0|(692,[124,125,126...|
+|           1.0|  1.0|(692,[125,126,127...|
+|           1.0|  1.0|(692,[125,126,127...|
+|           1.0|  1.0|(692,[126,127,128...|
+|           1.0|  1.0|(692,[126,127,128...|
+|           1.0|  1.0|(692,[126,127,128...|
+|           1.0|  1.0|(692,[127,128,129...|
+|           1.0|  1.0|(692,[127,128,129...|
+|           1.0|  1.0|(692,[127,128,154...|
++--------------+-----+--------------------+
+*/
+```
+Como se  puede observar en las respuestas, tiene PredictedLabel y label, para que sea 100% correcta deben coincidir los valores, se puede observar que solo se equivocó en una predicción.
+
+```Scala
+val evaluator = new MulticlassClassificationEvaluator().setLabelCol("indexedLabel").setPredictionCol("prediction").setMetricName("accuracy")
+val accuracy = evaluator.evaluate(predictions)
+//accuracy: Double = 0.9310344827586207
+println(s"Test Error = ${(1.0 - accuracy)}")
+// Test Error = 0.06896551724137934
+val treeModel = model.stages(2).asInstanceOf[DecisionTreeClassificationModel]
+println(s"Learned classification tree model:\n ${treeModel.toDebugString}")
+  }
+}
+/*
+  If (feature 406 <= 9.5)
+   Predict: 1.0
+  Else (feature 406 > 9.5)
+   Predict: 0.0
+*/
+```
+Se crea una variable evaluadora, este contendrá las predicciones, esto es para ver la exactitud de los resultados, también se crea la variable accuracy que va a tomar el “porcentaje de error” y treemodel que va imprimir el modelo.
+La exactitud fue de 0.9310 y el test error fue de 0.0689 que da a entender que los errores son muy bajos lo cual fue correcto porque en las primeras 20 líneas solo apareció un error.
+
+Ahora este fue el resultado final. Si feature 406 era menor o igual a 9.5, asume que el valor a predecir es 1.0, en caso contrario es 0.0
+
+## Practice 5
+
+## Practice 6
+
+> Gradient-boosted tree classifier
+
+El aumento de gradiente es una técnica de aprendizaje automático para problemas de regresión y clasificación que produce un modelo de predicción en forma de un conjunto de modelos de predicción débiles.
+
+```Scala
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.classification.{GBTClassificationModel, GBTClassifier}
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+import org.apache.spark.ml.feature.{IndexToString, StringIndexer, VectorIndexer}
+```
+Lo primero que se hace es importar las librerías pipeline, GBTClassificationModel (Gradient-Boosted-tree), MulticlassClassificationEvaluator y los index.
+
+```Scala
+val data = spark.read.format("libsvm").load("C:/sample_libsvm_data.txt")
+```
+Creamos la variable data que será el dataframe, este va a leer con spark el archivo sample_libsvm_data.
+
+```Scala
+val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexedLabel").fit(data)
+val featureIndexer = new VectorIndexer().setInputCol("features").setOutputCol("indexedFeatures").setMaxCategories(4).fit(data)
+```
+Creamos las variables labelIndexer y featureIndexer, el primero será nuestra columna “label” con la información de data, el segundo será nuestra columna features donde. 
+
+```Scala
+val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3))
+```
+Creamos la variable Array que contiene lo de trainingData y testData, este será igual a una división aleatoria entre 70 a 30%.
+
+```Scala
+val gbt = new GBTClassifier().setLabelCol("indexedLabel").setFeaturesCol("indexedFeatures").setMaxIter(10).setFeatureSubsetStrategy("auto")
+```
+Se crea nuestra variable gbt que va a ser nuestro clasificador Gradient boosted tree, se pone MaxIter a 10 y que la Estrategia de subconjunto de funciones sea automática.
+
+```Scala
+val labelConverter = new IndexToString().setInputCol("prediction").setOutputCol("predictedLabel").setLabels(labelIndexer.labels)
+val pipeline = new Pipeline().setStages(Array(labelIndexer, featureIndexer, gbt, labelConverter))
+val model = pipeline.fit(trainingData)
+```
+Hacemos una conversión para hacer la predicción de label, ahora pipeline tendrá toda esta información en un modelo.
+
+```Scala
+val predictions = model.transform(testData)
+predictions.select("predictedLabel", "label", "features").show(20)
+
+/*
++--------------+-----+--------------------+
+|predictedLabel|label|            features|
++--------------+-----+--------------------+
+|           0.0|  0.0|(692,[100,101,102...|
+|           0.0|  0.0|(692,[122,123,124...|
+|           0.0|  0.0|(692,[122,123,148...|
+|           0.0|  0.0|(692,[123,124,125...|
+|           0.0|  0.0|(692,[123,124,125...|
+|           0.0|  0.0|(692,[124,125,126...|
+|           0.0|  0.0|(692,[125,126,127...|
+|           0.0|  0.0|(692,[126,127,128...|
+|           0.0|  0.0|(692,[126,127,128...|
+|           0.0|  0.0|(692,[126,127,128...|
+|           0.0|  0.0|(692,[126,127,128...|
+|           0.0|  0.0|(692,[126,127,128...|
+|           0.0|  0.0|(692,[126,127,128...|
+|           0.0|  0.0|(692,[127,128,129...|
+|           0.0|  0.0|(692,[129,130,131...|
+|           0.0|  0.0|(692,[151,152,153...|
+|           0.0|  0.0|(692,[152,153,154...|
+|           1.0|  1.0|(692,[97,98,99,12...|
+|           1.0|  1.0|(692,[119,120,121...|
+|           1.0|  1.0|(692,[124,125,126...|
++--------------+-----+--------------------+
+*/
+```
+
+Declaramos nuestra variable predicciones que contiene la transformación del modelo y mostramos las primeras 20 líneas de PredictLabel, label y features. Como se puede observar en los resultados, la predicción con las primeras 20 no hubo errores, coinciden los valores de la predicción con label
+
+```Scala
+val evaluator = new MulticlassClassificationEvaluator().setLabelCol("indexedLabel").setPredictionCol("prediction").setMetricName("accuracy")
+val accuracy = evaluator.evaluate(predictions)
+//accuracy: Double = 1.0
+println(s"Test Error = ${1.0 - accuracy}")
+//Test Error = 0.0
+val gbtModel = model.stages(2).asInstanceOf[GBTClassificationModel]
+println(s"Learned classification GBT model:\n ${gbtModel.toDebugString}")
+
+/*
+Tree 0 (weight 1.0):
+    If (feature 434 <= 70.5)
+     If (feature 99 in {2.0})
+      Predict: -1.0
+     Else (feature 99 not in {2.0})
+      Predict: 1.0
+    Else (feature 434 > 70.5)
+     Predict: -1.0
+  Tree 1 (weight 0.1):
+    If (feature 517 <= 59.0)
+     If (feature 239 <= 253.5)
+      Predict: 0.47681168808847024
+     Else (feature 239 > 253.5)
+      Predict: -0.4768116880884694
+    Else (feature 517 > 59.0)
+     Predict: -0.47681168808847
+  Tree 2 (weight 0.1):
+    If (feature 462 <= 62.5)
+     If (feature 293 <= 253.5)
+      Predict: 0.4381935810427206
+     Else (feature 293 > 253.5)
+      Predict: -0.43819358104271977
+    Else (feature 462 > 62.5)
+     Predict: -0.4381935810427205
+  Tree 3 (weight 0.1):
+    If (feature 490 <= 43.0)
+     If (feature 239 <= 253.5)
+      Predict: 0.40514968028459825
+     Else (feature 239 > 253.5)
+      Predict: -0.4051496802845982
+    Else (feature 490 > 43.0)
+     Predict: -0.4051496802845982
+  Tree 4 (weight 0.1):
+    If (feature 490 <= 43.0)
+     If (feature 344 <= 253.5)
+      Predict: 0.37658413183529926
+     Else (feature 344 > 253.5)
+      Predict: -0.3765841318352994
+    Else (feature 490 > 43.0)
+     Predict: -0.37658413183529915
+  Tree 5 (weight 0.1):
+    If (feature 462 <= 62.5)
+     If (feature 320 <= 253.5)
+      Predict: 0.35166478958101
+     Else (feature 320 > 253.5)
+      Predict: -0.3516647895810099
+    Else (feature 462 > 62.5)
+     Predict: -0.35166478958101
+  Tree 6 (weight 0.1):
+    If (feature 490 <= 43.0)
+     If (feature 295 <= 253.5)
+      Predict: 0.32974984655529926
+     Else (feature 295 > 253.5)
+      Predict: -0.32974984655530015
+    Else (feature 490 > 43.0)
+     Predict: -0.32974984655529926
+  Tree 7 (weight 0.1):
+    If (feature 434 <= 70.5)
+     If (feature 293 <= 253.5)
+      Predict: 0.3103372455197956
+     Else (feature 293 > 253.5)
+      Predict: -0.31033724551979525
+    Else (feature 434 > 70.5)
+     Predict: -0.3103372455197956
+  Tree 8 (weight 0.1):
+    If (feature 434 <= 70.5)
+     If (feature 568 <= 253.5)
+      Predict: 0.2930291649125433
+     Else (feature 568 > 253.5)
+      Predict: -0.29302916491254294
+    Else (feature 434 > 70.5)
+     Predict: -0.29302916491254327
+  Tree 9 (weight 0.1):
+    If (feature 434 <= 70.5)
+     If (feature 568 <= 253.5)
+      Predict: 0.2775066643835825
+     Else (feature 568 > 253.5)
+      Predict: -0.2775066643835826
+    Else (feature 434 > 70.5)
+     Predict: -0.2775066643835825
+*/
+```
+Ahora se crea una variable evaluadora, esta contendrá las predicciones, esto es para ver la exactitud de los resultados, también se crea la variable accuracy que va a tomar el “porcentaje de error” y gbtModel  que va imprimir el modelo. Test Error fue 0 porque no hubo error con las primeras 20 filas.
+
+Gadient Boosted realiza las decisiones con varios árboles, en este ejemplo nos imprimió hasta 10 árboles que le ayudaron a realizar una predicción más precisa.
