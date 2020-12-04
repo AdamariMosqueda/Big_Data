@@ -1307,7 +1307,66 @@ Ahora se crea una variable evaluadora, esta contendrá las predicciones, esto es
 
 Gadient Boosted realiza las decisiones con varios árboles, en este ejemplo nos imprimió hasta 10 árboles que le ayudaron a realizar una predicción más precisa.
 ## Practice 7
->Multilayer Perceptron Classifier
+> Multilayer Perceptron Classifier
+
+El clasificador de perceptrones multicapa (MLPC) es un clasificador basado en la red neuronal artificial feedforward . MLPC consta de múltiples capas de nodos. Cada capa está completamente conectada a la siguiente capa de la red. Los nodos de la capa de entrada representan los datos de entrada. Todos los demás nodos mapean entradas a las salidas realizando una combinación lineal de las entradas con los pesos y el sesgo del nodo y aplicando una función de activación.
+
+```Scala
+import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+import org.apache.spark.sql.SparkSession
+```
+Lo primero que se hace es importar las librerías MultilayerPerceptronClassifier, MulticlassCLassificationEvaluator y SparkSession.
+
+```Scala
+object MultilayerPerceptronClassifierExample {
+
+  def main(args: Array[String]): Unit = {
+    val spark = SparkSession
+      .builder
+      .appName("MultilayerPerceptronClassifierExample")
+      .getOrCreate()
+```
+Se crea un objeto que va a contener todo el código para la predicción, donde se crea nuestra variable spark, esta contiene el SparkSession donde el appName es "MultilayerPerceptronClassifierExample"
+
+```Scala    
+    val data = spark.read.format("libsvm").load("C:/sample_multiclass_classification_data.txt")
+```
+La  variable data va a ser el dataframe que contendrá todos los datos a predecir, esta va a cargar los dato de "sample_multiclass_classification_data.txt"
+
+```Scala
+    val splits = data.randomSplit(Array(0.6, 0.4), seed = 1234L)
+    val train = splits(0)
+    val test = splits(1)
+```
+Dividimos la información en train y test, el split va a ser con valores random entre 0.6 y 0.4 con la semilla 1234L, creamos train donde le damos el valor 0 de splits y también creamos a test donde le damos el valor de 1 de splits.
+
+```Scala
+    val layers = Array[Int](4, 5, 4, 3)
+```
+Se definen las capas con un arreglo en la variable layers, el primer valor es el tamaño de la entrada el cual es de 4, con dos intermediarios de tamaño 5 y 4, el último valor es el tamaño de la salida que será de 3, estos valores no pueden cambiar y siempre debe ser entrada 4, salida 3.
+
+``` Scala
+    val trainer = new MultilayerPerceptronClassifier().setLayers(layers).setBlockSize(128).setSeed(1234L).setMaxIter(100)
+    val model = trainer.fit(train)
+```
+Creamos la variable trainer que contiene la función MultilayerPerceptron, en setLayer van las capas qa definir que se hizo en la variable layers, el tamaño de bloque es de 128 y la semilla 1234L, donde MaxIter será de 100. Esta variable trainer se la pasamos a la nueva variable model que emite un transformador.
+
+```Scala
+    val result = model.transform(test)
+    val predictionAndLabels = result.select("prediction", "label")
+    val evaluator = new MulticlassClassificationEvaluator().setMetricName("accuracy")
+
+    println(s"Test set accuracy = ${evaluator.evaluate(predictionAndLabels)}")
+    // Output: Test set accuracy = 0.9523809523809523
+
+    spark.stop()
+  }
+}
+```
+Se tranforma el modelo con test y creamos las predicciones que son las columnas prediction y label de result, se crea la variable evaluator que va a tener el MulticlassClassificationEvaluator y le ponemos nombre a la métrica que será "accuracy", ya con eso imprimimos la exactitud donde evaluator va a evaluar "predictionAndLabels".
+Al final nos arroja una simple que es la exactitud de predicción la cual fue de 0.942, con eso nos da a entender que aunque no tenga una exactitud de 100%, se acerca demasiado a los resultados reales.
+
 ## Practice 8
 > Linear Support Vector
 ## Practice 9
