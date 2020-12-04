@@ -21,7 +21,7 @@ object MultilayerPerceptronClassifierExample {
     // $example on$
     // Load the data stored in LIBSVM format as a DataFrame.
     val data = spark.read.format("libsvm")
-      .load("data/mllib/sample_multiclass_classification_data.txt")
+      .load("C:/sample_multiclass_classification_data.txt")
 
     // Split the data into train and test
     val splits = data.randomSplit(Array(0.6, 0.4), seed = 1234L)
@@ -34,11 +34,7 @@ object MultilayerPerceptronClassifierExample {
     val layers = Array[Int](4, 5, 4, 3)
 
     // create the trainer and set its parameters
-    val trainer = new MultilayerPerceptronClassifier()
-      .setLayers(layers)
-      .setBlockSize(128)
-      .setSeed(1234L)
-      .setMaxIter(100)
+    val trainer = new MultilayerPerceptronClassifier().setLayers(layers).setBlockSize(128).setSeed(1234L).setMaxIter(100)
 
     // train the model
     val model = trainer.fit(train)
@@ -46,8 +42,7 @@ object MultilayerPerceptronClassifierExample {
     // compute accuracy on the test set
     val result = model.transform(test)
     val predictionAndLabels = result.select("prediction", "label")
-    val evaluator = new MulticlassClassificationEvaluator()
-      .setMetricName("accuracy")
+    val evaluator = new MulticlassClassificationEvaluator().setMetricName("accuracy")
 
     println(s"Test set accuracy = ${evaluator.evaluate(predictionAndLabels)}")
     // $example off$
