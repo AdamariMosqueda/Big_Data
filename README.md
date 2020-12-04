@@ -1350,7 +1350,7 @@ Se definen las capas con un arreglo en la variable layers, el primer valor es el
     val trainer = new MultilayerPerceptronClassifier().setLayers(layers).setBlockSize(128).setSeed(1234L).setMaxIter(100)
     val model = trainer.fit(train)
 ```
-Creamos la variable trainer que contiene la función MultilayerPerceptron, en setLayer van las capas qa definir que se hizo en la variable layers, el tamaño de bloque es de 128 y la semilla 1234L, donde MaxIter será de 100. Esta variable trainer se la pasamos a la nueva variable model que emite un transformador.
+Creamos la variable trainer que contiene la función MultilayerPerceptron, en setLayer van las capas a definir que ya se hizo en la variable layers, el tamaño de bloque es de 128 y la semilla 1234L, donde MaxIter será de 100. Esta variable trainer se la pasamos a la nueva variable model que emite un transformador.
 
 ```Scala
     val result = model.transform(test)
@@ -1365,7 +1365,7 @@ Creamos la variable trainer que contiene la función MultilayerPerceptron, en se
 }
 ```
 Se tranforma el modelo con test y creamos las predicciones que son las columnas prediction y label de result, se crea la variable evaluator que va a tener el MulticlassClassificationEvaluator y le ponemos nombre a la métrica que será "accuracy", ya con eso imprimimos la exactitud donde evaluator va a evaluar "predictionAndLabels".
-Al final nos arroja una simple que es la exactitud de predicción la cual fue de 0.942, con eso nos da a entender que aunque no tenga una exactitud de 100%, se acerca demasiado a los resultados reales.
+Al final nos arroja una simple respuesta que es la exactitud de predicción la cual fue de 0.942, con eso nos da a entender que aunque no tenga una exactitud de 100%, se acerca demasiado a los resultados reales.
 
 ## Practice 8
 > Linear Support Vector
