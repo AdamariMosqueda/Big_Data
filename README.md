@@ -23,6 +23,8 @@
   - [Practice 5](#practice-5-1)
   - [Practice 6](#practice-6)
   - [Practice 7](#practice-7)
+  - [Practice 8](#practice-8)
+  - [Practice 9](#practice-9)
   
   <div id='pr1' />
 # UNIT 1
@@ -1305,6 +1307,10 @@ Ahora se crea una variable evaluadora, esta contendrá las predicciones, esto es
 
 Gadient Boosted realiza las decisiones con varios árboles, en este ejemplo nos imprimió hasta 10 árboles que le ayudaron a realizar una predicción más precisa.
 ## Practice 7
+>Multilayer Perceptron Classifier
+## Practice 8
+> Linear Support Vector
+## Practice 9
 > One vs Rest
 
 Realiza para cada clase una clasificacion binaria 
