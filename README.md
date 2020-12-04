@@ -22,6 +22,7 @@
   - [Practice 4](#practice-4-1)
   - [Practice 5](#practice-5-1)
   - [Practice 6](#practice-6)
+  - [Practice 7](#practice-7)
   
   <div id='pr1' />
 # UNIT 1
@@ -1000,33 +1001,38 @@ COUNT: Busca la cantidad de valores incluidos en los cálculos estadísticos. Es
 FIRST: Busca el primer registro de la entrada y utiliza el valor de campo especificado.
 LAST: Busca el último registro de la entrada y utiliza el valor de campo especificado.
 ```Scala
-// $example on$
 import org.apache.spark.ml.linalg.{Vector, Vectors}
 import org.apache.spark.ml.stat.Summarizer
-// $example off$
 import org.apache.spark.sql.SparkSession
-    val spark = SparkSession.builder.appName("SummarizerExample").getOrCreate()
+```
 
+```Scala
+  val spark = SparkSession.builder.appName("SummarizerExample").getOrCreate()
     import spark.implicits._
     import Summarizer._
+```
 
-    // $example on$
+```Scala
     val data = Seq(
       (Vectors.dense(2.0, 3.0, 5.0), 1.0),
       (Vectors.dense(4.0, 6.0, 7.0), 2.0)
     )
+```
 
+```Scala
     val df = data.toDF("features", "weight")
 
     val (meanVal, varianceVal) = df.select(metrics("mean", "variance").summary($"features", $"weight").as("summary")).select("summary.mean", "summary.variance").as[(Vector, Vector)].first()
-
+```
+```Scala
     println(s"with weight: mean = ${meanVal}, variance = ${varianceVal}")
 
     val (meanVal2, varianceVal2) = df.select(mean($"features"), variance($"features")).as[(Vector, Vector)].first() 
 
     println(s"without weight: mean = ${meanVal2}, sum = ${varianceVal2}")
-    // $example off$
 ```
+
+
 
 ## Practice 4
 > Decision tree classifier
@@ -1298,3 +1304,10 @@ Tree 0 (weight 1.0):
 Ahora se crea una variable evaluadora, esta contendrá las predicciones, esto es para ver la exactitud de los resultados, también se crea la variable accuracy que va a tomar el “porcentaje de error” y gbtModel  que va imprimir el modelo. Test Error fue 0 porque no hubo error con las primeras 20 filas.
 
 Gadient Boosted realiza las decisiones con varios árboles, en este ejemplo nos imprimió hasta 10 árboles que le ayudaron a realizar una predicción más precisa.
+## Practice 7
+> One vs Rest
+
+Realiza para cada clase una clasificacion binaria 
+Se toma la clase que quieres comparar con el resto 
+Se puede aplicar con metodos de machin learnig
+Se debe elegir con que modelo sse va a hacer
