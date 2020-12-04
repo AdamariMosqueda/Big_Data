@@ -16,6 +16,9 @@
     - [2-1](#2-1)
     - [2-2](#2-2)
   - [Practice 3](#practice-3-1)
+    - [Correlation](#correlation)
+    - [Hypothesis testing](#hypothesis-testing)
+    - [Summarizer](#summarizer)
   - [Practice 4](#practice-4-1)
   - [Practice 5](#practice-5-1)
   - [Practice 6](#practice-6)
@@ -629,7 +632,6 @@ sort.show()
 Since it shows us the months in a random way, we decided to arrange them in an ascending way so that they were displayed in a simple way
 
 # UNIT 2
-
 ## Practice 1 
 In this practice, a linear regression exercise is carried out in which we must follow the instructions given to arrive at the result. 
 1. It matters linear regression
@@ -688,7 +690,7 @@ We can see that the first user has a purple avatar, that's why the column was a 
 6. Transform the data frame to take the form of ("label", "features").
 ```Scala
 val colnames = data.columns
-val firstrow = data.head (1) (0)
+val firstrow = data.head (1)(0)
 ```
 To do this we create two variables, one contains the first two columns that will be our label and features.
 
@@ -738,7 +740,7 @@ Se toma la variable assembler para crear un objeto en el cual se aplica que al A
 ```Scala
 val output= assembler.transform(df).select($"label", $"features")
 ```
-
+Se crea una variable para en esta cargar el resultado de la transformacion de el dataframe con assembler unicamente tomando las columnas de label y features
 14.  Crear un objeto para modelo de regresion linea.
 ```Scala
 val lr = new LinearRegression()
@@ -753,25 +755,25 @@ Se crea una variable la cual ajustara el modelo de lr ajustara los datos tomados
 ```Scala
   println(s"Coefficients: ${lrModel.coefficients} Intercept: ${lrModel.intercept}")
 ```
-
+Imprimimos el valor de el coeficiente extrayendolo de el modelo lrmodel y el intercept igual
 17. Resuma el modelo sobre el conjunto de entrenamiento imprima la salida de algunas metricas
 ```Scala
 println(lrModel)
 ```
-
+Se imprime el modelo para ver el entrenamiento que se obtuvo de los datos
 18. Utilize metodo .summary de nuestro  modelo para crear un objeto llamado trainingSummary
 ```Scala
 val trainingSummary = lrModel.summary
 ```
-
+Creamos una variable en la cual se almacenara el resultado del summary de el modelo de regresion lineal
 19. Muestre los valores de residuals, el RMSE, el MSE, y tambien el R^2.
 ```Scala
-trainingSummary.resuduals.show()
+trainingSummary.residuals.show()
 trainingSummary.predictions.show()
 trainingSummary.r2 
 trainingSummary.rootMeanSquaredError
 ```
-
+Al tener una variable la cual tiene el summary de nuestro modelo podemos obtener diferentes tipos de visualizacion y calculos con ello como en este caso imprimir el residuals, predictions, el r^2 y rootMeanSquaredError
 ## Practice 2
 
 La práctica 2 fue un análisis del código de los archivos lr.scala (Regresión lineal) y PracticaLogisticRegression (Regresión logística), explicamos el código usado con nuestras propias palabras
@@ -823,11 +825,29 @@ val df = data.select(data("Price").as("label"), $"Avg Area Income", $"Avg Area H
 ```
 
 Imprime las columnas para ver cuales son los que admiten numéricos, df es un nuevo data frame que contiene la información de data, de este se seleccionó Price como label, "Avg Area Income", "Avg Area House Age", "Avg Area Number of Rooms", "Avg Area Number of Bedrooms", y "Area Population".
+```Scala
+//Transform to vector to the ml algorith can read the input
+val assembler = new VectorAssembler().setInputCols(Array("Avg Area Income", "Avg Area House Age", "Avg Area Number of Rooms", "Avg Area Number of Bedrooms", "Area Population")).setOutputCol("features")
+val output = assembler.transform(df).select($"label", $"features")
+output.show()
+```
+Se realiza la conversion de datos de  las columnas de entrada a datos excluyendo label y estas se hacen una sola columna la cual seran datos de salida, al realizar esta combinacion se le da el nomre de  features con esto se tienen agrupados los datos unicamente en dos columnas para poder aplicar el modelo, se crea una variable en la cual nuestro agrupamiento anterios en la variable assembler se transformara y se le asiganara los datos extraidos de el df de las columnas creadas en la instruccion anterior.
+```Scala
+//Linear regression model
+val lr = new LinearRegression()
+val lrModel = lr.fit(output)
+val trainingSummary = lrModel.summary
+```
+Se crea el objeto para utilizar el modelo de regresion lineal, al tener el objeto se crea el modelo utilizando el objeto anterior y haciento un fit con los datos de ouput los cuales se tomaron de el df y por ultimo asignamos el summary de nuestro modelo a una variable la cual sera nuestra variable de entrenamiento de los datos de summary.
 
-Aquí sigue la otra mitad
-
+```Scala
+trainingSummary.resuduals.show()
+trainingSummary.predictions.show()
+trainingSummary.r2 //variaza que hay 
+trainingSummary.rootMeanSquaredError
+```
+Hacemos la impresion de los datos en los cuales podremos visualizar el residuo de nuestro modelo con nuestros datos de entrenamiento, la prediccion, el r^2 y el rootMeanSquaredError para su analis con el modelo de regresion lineal.
 ### 2-2 
-
 > Regresion Logistica
 
 ```Scala
@@ -869,9 +889,101 @@ import org.apache.spark.ml.linalg.Vectors
 ```
 Se importan nuevas librerías de vectores que se van a necesitar para realizar la regresión logistica.
 
-Y aquí va la explicación de la otra mitad
+```Scala
+val assembler = (new VectorAssembler()
+                  .setInputCols(Array("Daily Time Spent on Site", "Age","Area Income","Daily Internet Usage","Hour","Male"))
+                  .setOutputCol("features"))
+// Utilice randomSplit para crear datos de train y test divididos en 70/30
+val Array(training, test) = logregdata.randomSplit(Array(0.7, 0.3), seed = 12345)
+```
 
+```Scala
+import org.apache.spark.ml.Pipeline
+val lr = new LogisticRegression()
+val pipeline = new Pipeline().setStages(Array(assembler, lr))
+val model = pipeline.fit(training)
+val results = model.transform(test)
+```
+
+```Scala
+import org.apache.spark.mllib.evaluation.MulticlassMetrics
+val predictionAndLabels = results.select($"prediction",$"label").as[(Double, Double)].rdd
+val metrics = new MulticlassMetrics(predictionAndLabels)
+println("Confusion matrix:")
+println(metrics.confusionMatrix)
+
+metrics.accuracy
+```
 ## Practice 3
+> Basic Statistics
+La estadistica basica es importante para big data debido a que estas son necesrias para los diferentes tipos de analisis que se realizan en analisis de datos con los diferentes tipos de analisis que vemos en practicas posteriores.
+### Correlation
+El coeficiente de correlación de Pearson es una prueba que mide la relación estadística entre dos variables continuas. Si la asociación entre los elementos no es lineal, entonces el coeficiente no se encuentra representado adecuadamente. El coeficiente de correlación puede tomar un rango de valores de +1 a -1. Un valor de 0 indica que no hay asociación entre las dos variables.
+```Scala
+import org.apache.spark.ml.linalg.{Vector, Vectors}
+import org.apache.spark.ml.stat.ChiSquareTest
+
+val data = Seq(
+  (0.0, Vectors.dense(0.5, 10.0)),
+  (0.0, Vectors.dense(1.5, 20.0)),
+  (1.0, Vectors.dense(1.5, 30.0)),
+  (0.0, Vectors.dense(3.5, 30.0)),
+  (0.0, Vectors.dense(3.5, 40.0)),
+  (1.0, Vectors.dense(3.5, 40.0))
+)
+
+val df = data.toDF("label", "features")
+val chi = ChiSquareTest.test(df, "features", "label").head
+println(s"pValues = ${chi.getAs[Vector](0)}")
+println(s"degreesOfFreedom ${chi.getSeq[Int](1).mkString("[", ",", "]")}")
+println(s"statistics ${chi.getAs[Vector](2)}")
+```
+
+### Hypothesis testing
+La prueba de hipótesis es un acto en estadística mediante el cual un analista prueba una suposición con respecto a un parámetro de población. La metodología empleada por el analista depende de la naturaleza de los datos utilizados y el motivo del análisis.
+```Scala
+// $example on$
+import org.apache.spark.ml.linalg.{Vector, Vectors}
+import org.apache.spark.ml.stat.Summarizer
+// $example off$
+import org.apache.spark.sql.SparkSession
+    val spark = SparkSession.builder.appName("SummarizerExample").getOrCreate()
+
+    import spark.implicits._
+    import Summarizer._
+
+    // $example on$
+    val data = Seq(
+      (Vectors.dense(2.0, 3.0, 5.0), 1.0),
+      (Vectors.dense(4.0, 6.0, 7.0), 2.0)
+    )
+
+    val df = data.toDF("features", "weight")
+
+    val (meanVal, varianceVal) = df.select(metrics("mean", "variance").summary($"features", $"weight").as("summary")).select("summary.mean", "summary.variance").as[(Vector, Vector)].first()
+
+    println(s"with weight: mean = ${meanVal}, variance = ${varianceVal}")
+
+    val (meanVal2, varianceVal2) = df.select(mean($"features"), variance($"features")).as[(Vector, Vector)].first() 
+
+    println(s"without weight: mean = ${meanVal2}, sum = ${varianceVal2}")
+    // $example off$
+```
+
+### Summarizer
+Estadística de resumen de columnas vectoriales
+SUM: Agrega el valor total para el campo especificado.
+MEAN: Calcula el promedio para el campo especificado.
+MIN: Busca el valor más pequeño para todos los registros del campo especificado.
+MAX: Busca el valor más grande para todos los registros del campo especificado.
+STD: Busca la desviación estándar de los valores en el campo especificado.
+Varianza: Busca la varianza entre ambos valores Metricas Extras
+COUNT: Busca la cantidad de valores incluidos en los cálculos estadísticos. Esto cuenta todos los valores excepto los valores nulos.
+FIRST: Busca el primer registro de la entrada y utiliza el valor de campo especificado.
+LAST: Busca el último registro de la entrada y utiliza el valor de campo especificado.
+```Scala
+
+```
 
 ## Practice 4
 > Decision tree classifier
@@ -971,11 +1083,9 @@ Se crea una variable evaluadora, este contendrá las predicciones, esto es para 
 La exactitud fue de 0.9310 y el test error fue de 0.0689 que da a entender que los errores son muy bajos lo cual fue correcto porque en las primeras 20 líneas solo apareció un error.
 
 Ahora este fue el resultado final. Si feature 406 era menor o igual a 9.5, asume que el valor a predecir es 1.0, en caso contrario es 0.0
-
 ## Practice 5
 
 ## Practice 6
-
 > Gradient-boosted tree classifier
 
 El aumento de gradiente es una técnica de aprendizaje automático para problemas de regresión y clasificación que produce un modelo de predicción en forma de un conjunto de modelos de predicción débiles.
