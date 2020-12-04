@@ -920,9 +920,54 @@ La estadistica basica es importante para big data debido a que estas son necesri
 ### Correlation
 El coeficiente de correlación de Pearson es una prueba que mide la relación estadística entre dos variables continuas. Si la asociación entre los elementos no es lineal, entonces el coeficiente no se encuentra representado adecuadamente. El coeficiente de correlación puede tomar un rango de valores de +1 a -1. Un valor de 0 indica que no hay asociación entre las dos variables.
 ```Scala
+import org.apache.spark.ml.linalg.{Matrix, Vectors}
+import org.apache.spark.ml.stat.Correlation
+import org.apache.spark.sql.Row
+```
+Se importan las librerias que se necesitaran para realizar la correlation, la matriz de correlacion, la libreria de vectores y la de row para salida relacional.
+```Scala
+val data = Seq(
+  Vectors.sparse(4, Seq((0, 1.0), (3, -2.0))),
+  Vectors.dense(4.0, 5.0, 0.0, 3.0),
+  Vectors.dense(6.0, 7.0, 0.0, 8.0),
+  Vectors.sparse(4, Seq((0, 9.0), (3, 1.0)))
+)
+```
+Asignamos a nuestra variable data secuencia de datos en forma de vectores, `Vectors.sparse` en cual contendra otra secuencia, dos vectores `Vectors.dense` y por ultimo otro vector `Vectors.sparse`. Los vectores sparse estan respaldados por por una matriz doble esto da como resultado en el vector sparse 1 el siguiente tamaño de vector `4,[0,3],[1.0,-2.0]`
+```Scala
+val df = data.map(Tuple1.apply).toDF("features")
+val Row(coeff1: Matrix) = Correlation.corr(df, "features").head
+println(s"Pearson correlation matrix:\n $coeff1")
+```
+Se crea una variable df en la cual asignamos el contenido optenido del data y le damos el nombre a este vector de features, despues con una variable tipo Row con nombre coeffi1 con datos en forma de matriz le asignamos el el valor de la correlacion con los datos de la variable df y el nombre del vector features y se imprime la matriz de correlacion 
+```Scala
+val Row(coeff2: Matrix) = Correlation.corr(df, "features", "spearman").head
+println(s"Spearman correlation matrix:\n $coeff2")
+```
+En este coeff2 se vuelve a realizar el calculo de la matriz de correlacion pero ahora con la variable de spearmen el cual realiza un calculo matematico, este resultado en la matriz es el que nos indica si las variables son relacionales.
+```Scala
+//----------------------------------------coeff1
+// Pearson correlation matrix:
+//  1.0                   0.055641488407465814  NaN  0.4004714203168137
+// 0.055641488407465814  1.0                   NaN  0.9135958615342522
+// NaN                   NaN                   1.0  NaN
+// 0.4004714203168137    0.9135958615342522    NaN  1.0
+//-----------------------------------------coeff2
+// Spearman correlation matrix:
+//  1.0                  0.10540925533894532  NaN  0.40000000000000174
+// 0.10540925533894532  1.0                  NaN  0.9486832980505141
+// NaN                  NaN                  1.0  NaN
+// 0.40000000000000174  0.9486832980505141   NaN  1.0
+```
+Al ver las matrices de correlacion de lado a lado vemos como poco a poco los valores van quedando en un numero aproximado a 0 o 1, si el valor esta mas serca de 1 significa que hay relacion entre las dos varibles.
+### Hypothesis testing
+La prueba de hipótesis es un acto en estadística mediante el cual un analista prueba una suposición con respecto a un parámetro de población. La metodología empleada por el analista depende de la naturaleza de los datos utilizados y el motivo del anál isis.
+```Scala
 import org.apache.spark.ml.linalg.{Vector, Vectors}
 import org.apache.spark.ml.stat.ChiSquareTest
-
+```
+Se importan las clases que se necesitaran para crear el ChiSquareTest pruba utilizando una distribucion de vectores.
+```Scala
 val data = Seq(
   (0.0, Vectors.dense(0.5, 10.0)),
   (0.0, Vectors.dense(1.5, 20.0)),
@@ -931,16 +976,29 @@ val data = Seq(
   (0.0, Vectors.dense(3.5, 40.0)),
   (1.0, Vectors.dense(3.5, 40.0))
 )
-
+```
+Se  cargan los vectores a la variable data.
+```Scala
 val df = data.toDF("label", "features")
 val chi = ChiSquareTest.test(df, "features", "label").head
-println(s"pValues = ${chi.getAs[Vector](0)}")
-println(s"degreesOfFreedom ${chi.getSeq[Int](1).mkString("[", ",", "]")}")
-println(s"statistics ${chi.getAs[Vector](2)}")
+println(s"pValues = ${chi.getAs[Vector](0)}")// output -> [0.6872892787909721,0.6822703303362126]
+println(s"degreesOfFreedom ${chi.getSeq[Int](1).mkString("[", ",", "]")}") //output -> degreesOfFreedom [2,3]
+println(s"statistics ${chi.getAs[Vector](2)}")///output -> statistics [0.75,1.5]
 ```
-
-### Hypothesis testing
-La prueba de hipótesis es un acto en estadística mediante el cual un analista prueba una suposición con respecto a un parámetro de población. La metodología empleada por el analista depende de la naturaleza de los datos utilizados y el motivo del análisis.
+Se crea una nueva variable df en la cual se asigna la variable data de datos seq en forma de DataFrame  tomando la clasificacion y las caracteristicas, despues se crea una variable en la cual se asignara el resutlado de la prueba de datos con el df, label y features de head.
+Se imprime el valor de pValues tomando el valor de la variable chi tomando el valor del vector con el indice 0, despues se imprime el degreesOfFreedom tomando el valor numerico con el indice 1 tomando la separacion descrita en mkString, por ultimo impimir la estadistica de la variable ubicada en el vector indice 2
+Con el valor de pValues nos damos cuenta que tiene un .68 osea un 68% de nivel de aceptacion
+### Summarizer
+Estadística de resumen de columnas vectoriales
+SUM: Agrega el valor total para el campo especificado.
+MEAN: Calcula el promedio para el campo especificado.
+MIN: Busca el valor más pequeño para todos los registros del campo especificado.
+MAX: Busca el valor más grande para todos los registros del campo especificado.
+STD: Busca la desviación estándar de los valores en el campo especificado.
+Varianza: Busca la varianza entre ambos valores Metricas Extras
+COUNT: Busca la cantidad de valores incluidos en los cálculos estadísticos. Esto cuenta todos los valores excepto los valores nulos.
+FIRST: Busca el primer registro de la entrada y utiliza el valor de campo especificado.
+LAST: Busca el último registro de la entrada y utiliza el valor de campo especificado.
 ```Scala
 // $example on$
 import org.apache.spark.ml.linalg.{Vector, Vectors}
@@ -968,21 +1026,6 @@ import org.apache.spark.sql.SparkSession
 
     println(s"without weight: mean = ${meanVal2}, sum = ${varianceVal2}")
     // $example off$
-```
-
-### Summarizer
-Estadística de resumen de columnas vectoriales
-SUM: Agrega el valor total para el campo especificado.
-MEAN: Calcula el promedio para el campo especificado.
-MIN: Busca el valor más pequeño para todos los registros del campo especificado.
-MAX: Busca el valor más grande para todos los registros del campo especificado.
-STD: Busca la desviación estándar de los valores en el campo especificado.
-Varianza: Busca la varianza entre ambos valores Metricas Extras
-COUNT: Busca la cantidad de valores incluidos en los cálculos estadísticos. Esto cuenta todos los valores excepto los valores nulos.
-FIRST: Busca el primer registro de la entrada y utiliza el valor de campo especificado.
-LAST: Busca el último registro de la entrada y utiliza el valor de campo especificado.
-```Scala
-
 ```
 
 ## Practice 4
