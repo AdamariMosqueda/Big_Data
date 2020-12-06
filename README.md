@@ -1418,6 +1418,31 @@ Se tranforma el modelo con test y creamos las predicciones que son las columnas 
 Al final nos arroja una simple respuesta que es la exactitud de predicción la cual fue de 0.942, con eso nos da a entender que aunque no tenga una exactitud de 100%, se acerca demasiado a los resultados reales.
 ## Practice 8
 > Linear Support Vector
+
+```Scala
+import org.apache.spark.ml.classification.LinearSVC
+import org.apache.spark.sql.SparkSession
+```
+Se importan las librerias que vamos a utilizar en esta practica, normalmente usamos SparkSession y agregamos la de el modelo que utilizaremos
+```Scala
+val spark = SparkSession.builder.appName("LinearSVCExample").getOrCreate()
+// Load training data
+val training = spark.read.format("libsvm").option("numFeatures", "780").load("C:/Users/yurid/Documents/RepABigData/Big_Data/U2/Practices/Practice 8_Exp6/sample_libsvm_data.txt")
+```
+Se crea una sesion de spark para utilizarse despues se crea una varianble en la cual vamos a cargar los datos de nuestro archivo de texto
+```Scala
+val lsvc = new LinearSVC().setMaxIter(10).setRegParam(0.1)
+// Fit the model
+val lsvcModel = lsvc.fit(training)
+// Print the coefficients and intercept for linear svc
+println(s"Coefficients: ${lsvcModel.coefficients} Intercept: ${lsvcModel.intercept}")
+```
+Se crea un objeto el cual tendra un maximo de 10 iteraciones
+Cremos la varible del modelo 
+Imprimir los coeficientes 
+Los coeficietes son el peso de los soportes de los vectores hasta que encuentra el optimo es que se detiene
+Cuando llega a ese punto tiene los dos soportes de vectores y realiza la separación entre la linea y los grupos se separacion
+Los coeficientes son los calculos matematicos con los cuales el modelo realiza la busqueda y realiza la clasificación
 ## Practice 9
 > One vs Rest
 
