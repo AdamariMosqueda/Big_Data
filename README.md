@@ -1007,25 +1007,27 @@ import org.apache.spark.ml.linalg.{Vector, Vectors}
 import org.apache.spark.ml.stat.Summarizer
 import org.apache.spark.sql.SparkSession
 ```
-
+Se realiza la importacion de las libreria que se necesitaran para esta practica.
 ```Scala
   val spark = SparkSession.builder.appName("SummarizerExample").getOrCreate()
     import spark.implicits._
     import Summarizer._
 ```
-
+Se crear objeto para una sesion normal de spak y se importan los atributos de las librerias de spark y de Summarizer
 ```Scala
     val data = Seq(
       (Vectors.dense(2.0, 3.0, 5.0), 1.0),
       (Vectors.dense(4.0, 6.0, 7.0), 2.0)
     )
 ```
-
+Se crea una variable en la cual vamos a cargar nuestro vectores en forma de matriz
 ```Scala
     val df = data.toDF("features", "weight")
 
     val (meanVal, varianceVal) = df.select(metrics("mean", "variance").summary($"features", $"weight").as("summary")).select("summary.mean", "summary.variance").as[(Vector, Vector)].first()
 ```
+Declaramos una variable df en donde se cargan los datos de la variable "data" con el nombre de cabecera para cada valor dentro de los vectores.
+Creamos una variable en donde almacenaremos el valor de la media y la variaza del dataframe, tomando los datos de features y weight a estos les datos un alias seleccionamos de nuestro alias y sacamos la media y la variaza de cada datos de la separacion de el vector del primer valor.
 ```Scala
     println(s"with weight: mean = ${meanVal}, variance = ${varianceVal}")
 
@@ -1033,9 +1035,9 @@ import org.apache.spark.sql.SparkSession
 
     println(s"without weight: mean = ${meanVal2}, sum = ${varianceVal2}")
 ```
-
-
-
+Impimimos las variable que declaramos en la instruccion anterior para viauslizarlos en colola
+Creamos dos nuevas variables en donde almacenaremos  pero ahora unicamente de la columna de features de los vectores en el orden primero 
+Imprimimos las variables que declaramos.
 ## Practice 4
 > Decision tree classifier
 
@@ -1135,7 +1137,55 @@ La exactitud fue de 0.9310 y el test error fue de 0.0689 que da a entender que l
 
 Ahora este fue el resultado final. Si feature 406 era menor o igual a 9.5, asume que el valor a predecir es 1.0, en caso contrario es 0.0
 ## Practice 5
+> Ramdom Forests Classifier
 
+```Scala
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.classification.{RandomForestClassificationModel, RandomForestClassifier}
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+import org.apache.spark.ml.feature.{IndexToString, StringIndexer, VectorIndexer}
+import org.apache.spark.sql.SparkSession
+```
+Se realiza la importacion de las librerias necesarios que utilizaremos para esta practica
+```Scala
+val spark = SparkSession.builder.appName("RandomForestClassifierExample").getOrCreate()
+val data = spark.read.format("libsvm").option("numFeatures", "780").load("C:/Users/yurid/Documents/RepABigData/Big_Data/U2/Practices/Practice 5__Exp3/sample_libsvm_data.txt")
+```
+Creamos la variable spark para una sesion
+Creamos la variable data  en donde cargamos los datos de el archivo de texto.
+```Scala
+val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexedLabel").fit(data)
+val featureIndexer = new VectorIndexer().setInputCol("features").setOutputCol("indexedFeatures").setMaxCategories(4).fit(data)
+```
+Creamos dos objetos en las cuales ingresamos el nombre de los valores de entrada y el nombre que tendran de salida
+```Scala
+val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3))
+val rf = new RandomForestClassifier().setLabelCol("indexedLabel").setFeaturesCol("indexedFeatures").setNumTrees(10)
+```
+ Creamos un arreglo en donde cargaremos los datos de entrenamiento y los de test con un valor de 70% de entrenamiento y 30 de test
+ Creamos el objeto rf cargamos los datos y colocamos los valores de las columnas que tendran y el numero de arboles que generara
+```Scala
+val labelConverter = new IndexToString().setInputCol("prediction").setOutputCol("predictedLabel").setLabels(labelIndexer.labels)
+val pipeline = new Pipeline().setStages(Array(labelIndexer, featureIndexer, rf, labelConverter))
+```
+Se crean dos objetos en los cuales en uno se cargaran los datos de prediccion y en el otro objeto se cargaran las variables de objetos de los index que se habian hecho anteriormente
+```Scala
+val model = pipeline.fit(trainingData)
+val predictions = model.transform(testData)
+predictions.select("predictedLabel", "label", "features").show(5)
+```
+Creamos la variable en donde cargaremos los datos de entrenamiento le asignamos estos y creamos la varible de predicion donde cargaremos los datos de prueba
+```Scala
+val evaluator = new MulticlassClassificationEvaluator().setLabelCol("indexedLabel").setPredictionCol("prediction").setMetricName("accuracy")
+val accuracy = evaluator.evaluate(predictions)
+println(s"Test Error = ${(1.0 - accuracy)}")
+```
+Creamos un objeto en donde se realizara la evaluacion se cargan los datos de indexdLabel y los de prediccion junto con el accuracy, creamos la variable accuracy en donde se realizara la evaluacion y la prediccion y finalmente imprimimos el valor de los datos pureba error
+```Scala
+val rfModel = model.stages(2).asInstanceOf[RandomForestClassificationModel]
+println(s"Learned classification forest model:\n ${rfModel.toDebugString}")
+```
+Creamos una variable en donde se cargara de nuevo el modelo e imprimimos los datos erroneos de los datos de prueba
 ## Practice 6
 > Gradient-boosted tree classifier
 
@@ -1366,7 +1416,6 @@ Creamos la variable trainer que contiene la función MultilayerPerceptron, en se
 ```
 Se tranforma el modelo con test y creamos las predicciones que son las columnas prediction y label de result, se crea la variable evaluator que va a tener el MulticlassClassificationEvaluator y le ponemos nombre a la métrica que será "accuracy", ya con eso imprimimos la exactitud donde evaluator va a evaluar "predictionAndLabels".
 Al final nos arroja una simple respuesta que es la exactitud de predicción la cual fue de 0.942, con eso nos da a entender que aunque no tenga una exactitud de 100%, se acerca demasiado a los resultados reales.
-
 ## Practice 8
 > Linear Support Vector
 ## Practice 9

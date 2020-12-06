@@ -2,10 +2,12 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.classification.{RandomForestClassificationModel, RandomForestClassifier}
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.spark.ml.feature.{IndexToString, StringIndexer, VectorIndexer}
+import org.apache.spark.sql.SparkSession
 
+//We create a variable to start a spark session
+val spark = SparkSession.builder.appName("RandomForestClassifierExample").getOrCreate()
 // Load and parse the data file, converting it to a DataFrame.
-val data = spark.read.format("libsvm").load("data/mllib/sample_libsvm_data.txt")
-
+val data = spark.read.format("libsvm").option("numFeatures", "780").load("C:/Users/yurid/Documents/RepABigData/Big_Data/U2/Practices/Practice 5__Exp3/sample_libsvm_data.txt")
 // Index labels, adding metadata to the label column.
 // Fit on whole dataset to include all labels in index.
 val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexedLabel").fit(data)
