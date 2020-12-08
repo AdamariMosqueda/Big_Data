@@ -725,75 +725,73 @@ To work with this information, a new data frame must be created with this same s
 val df = data.select (data ("Yearly Amount Spent"). as ("label"), $ "Avg Session Length", $ "Time on App", $ "Time on Website", $ "Length of Membership" )
 df.show
 ```
-*spanish*
-11. Que el objeto assembler convierta los valores de entrada a un vector
+11.  Let the assembler object convert the input values to a vector
 ```Scala
 val assembler = (Vector("label","Avg Session Length","Time on App","Time on Website","Length of Membership"))
 ```
-A la variable assembler se le asigna los valores de entrada para que se carguen en el vector por medio de los nombre de las columnas
-
-12. Utilice el objeto VectorAssembler para convertir las columnas de entradas del df a una sola columna de salida de un arreglo llamado  "features".
-Configure las columnas de entrada de donde se supone que leemos los valores.
-Llamar a esto nuevo assambler.
+The assembler variable is assigned the input values so that they are loaded into the vector by means of the column names
+12. Use the VectorAssembler object to convert the input columns of the df to a single output column of an array named "features".
+Set the input columns where we are supposed to read the values from.
+Call this new assambler.
 ```Scala
 val assembler = new VectorAssembler().setInputCols(Array("Avg Session Length","Time on App","Time on Website","Length of Membership")).setOutputCol("features")
 ```
-Se toma la variable assembler para crear un objeto en el cual se aplica que al Array de las columnas de entrada para convertirse en una sola columna de salida con nombre features
-13. Utilice el assembler para transform nuestro DataFrame a dos columnas: label and features
+The assembler variable is taken to create an object in which that is applied to the Array of the input columns to become a single output column named features
+13. Use the assembler to transform our DataFrame to two columns: label and features
 ```Scala
 val output= assembler.transform(df).select($"label", $"features")
 ```
-Se crea una variable para en esta cargar el resultado de la transformacion de el dataframe con assembler unicamente tomando las columnas de label y features
-14.  Crear un objeto para modelo de regresion linea.
+A variable is created to load the result of the transformation of the dataframe with assembler only by taking the label and features columns
+14.  Create an object for a linear regression model.
 ```Scala
 val lr = new LinearRegression()
 ```
-Se crea un objeto con el nombre lr el cual sera el modelo para el modelo de regresion linea
-15. Ajuste el modelo para los datos y llame a este modelo lrModelo
+An object with the name lr is created which will be the model for the linear regression model
+15. Fit the model for the data and call this model lrModel
 ```Scala
 val lrModel = lr.fit(output)
 ```
-Se crea una variable la cual ajustara el modelo de lr ajustara los datos tomados de output nuestro 
-16. Imprima the  coefficients e intercept para la regresion lineal
+A variable is created which will fit the lr model and fit the data taken from our output
+16. Print the coefficients and intercept for linear regression
 ```Scala
   println(s"Coefficients: ${lrModel.coefficients} Intercept: ${lrModel.intercept}")
 ```
-Imprimimos el valor de el coeficiente extrayendolo de el modelo lrmodel y el intercept igual
-17. Resuma el modelo sobre el conjunto de entrenamiento imprima la salida de algunas metricas
+We print the value of the coefficient extracting it from the lrmodel model and the intercept equal
+17. Summarize the model on the training set print the output of some metrics
 ```Scala
 println(lrModel)
 ```
-Se imprime el modelo para ver el entrenamiento que se obtuvo de los datos
-18. Utilize metodo .summary de nuestro  modelo para crear un objeto llamado trainingSummary
+The model is printed to see the training that was obtained from the data
+18. Use our model's .summary method to create an object called trainingSummary
 ```Scala
 val trainingSummary = lrModel.summary
 ```
-Creamos una variable en la cual se almacenara el resultado del summary de el modelo de regresion lineal
-19. Muestre los valores de residuals, el RMSE, el MSE, y tambien el R^2.
+We create a variable in which the result of the summary of the linear regression model will be stored
+19. Show the values of residuals, the RMSE, the MSE, and also the R ^ 2.
 ```Scala
 trainingSummary.residuals.show()
 trainingSummary.predictions.show()
 trainingSummary.r2 
 trainingSummary.rootMeanSquaredError
 ```
-Al tener una variable la cual tiene el summary de nuestro modelo podemos obtener diferentes tipos de visualizacion y calculos con ello como en este caso imprimir el residuals, predictions, el r^2 y rootMeanSquaredError
+By having a variable which has the summary of our model we can obtain different types of visualization and calculations with it, as in this case printing the residuals, predictions, the r ^ 2 and rootMeanSquaredError
 ## Practice 2
 
-La práctica 2 fue un análisis del código de los archivos lr.scala (Regresión lineal) y PracticaLogisticRegression (Regresión logística), explicamos el código usado con nuestras propias palabras
+Practice 2 was an analysis of the code of the files lr.scala (Linear Regression) and PracticaLogisticRegression (Logistic Regression), we explained the code used in our own words
 
 ### 2-1
-> Regresion Lineal
+> Linear Regression
 
 ```Scala
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.ml.regression.LinearRegression
 ```
-Antes se deben importar dos librerías, la primera SparkSession que es la que lee los archivos csv y con ella podemos trabajar con dataframes, la segunda LinearRegression que como su nombre lo dice, con ella podemos realizar las regresiones lineales.
+Before, two libraries must be imported, the first SparkSession which is the one that reads the csv files and with it we can work with dataframes, the second LinearRegression which, as its name says, with it we can perform linear regressions.
 ```Scala
 import org.apache.log4j._
 Logger.getLogger("org").setLevel(Level.ERROR)
 ```
-Lo que hacen estas líneas de código es quitar muchos errores y siguen apareciendo mensajes, pero se reducen, si no desea que aparezca tan siquiera un mensaje de error se puede configurar a Level.OFF.
+What these lines of code do is remove many errors and messages continue to appear, but they are reduced, if you do not want even an error message to appear, you can set it to Level.OFF.
 
 ```Scala
 val spark = SparkSession.builder().getOrCreate()
@@ -801,7 +799,7 @@ val data  = spark.read.option("header","true").option("inferSchema", "true").for
 data.printSchema
 data.head(1)
 ```
-Se creó una variable spark, que es la que va a leer el el archivo CSV, al data frame se le dio el nombre de data, con spark.read es posible pasar la información a este nuevo data frame, le indicamos que el formato es csv y en el load va el nombre del archivo, debe estar en la misma carpeta donde está nuestro archivo (Tambien se puede colocar el enlace exacto de donde se encuentra el archivo csv), imprime el data frame y la primera fila para ver la información.
+A spark variable was created, which is the one that will read the CSV file, the data frame was given the name of data, with spark.read it is possible to pass the information to this new data frame, we indicate that the format is csv and in the load goes the name of the file, it must be in the same folder where our file is (You can also place the exact link where the csv file is), print the data frame and the first row to see the information .
 
 ```Scala
 val colnames = data.columns
@@ -814,44 +812,41 @@ for(ind <- Range(1, colnames.length)){
     println("\n")
 }
 ```
-La variable colnames tiene las columnas de data, firstrow contiene el primer row del dataframe, al imprimir “\n” se imprime un espacio en blanco, es para hacer una separación al imprimir los resultados, después hay un for donde ind tiene un rango de 1 a la cantidad de columnas, imprime la primera columna, la primera fila, un espacio, entra de nuevo al for y vuelve a imprimir hasta que llegue a la cantidad de columnas.
-
+The variable colnames has the data columns, firstrow contains the first row of the dataframe, when printing "\ n" a blank space is printed, it is to make a separation when printing the results, then there is a for where ind has a range of 1 to the number of columns, print the first column, the first row, a space, enter the for again and print again until it reaches the number of columns.
 ```Scala
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.linalg.Vectors
 ```
-Se importan nuevas librerías de vectores que se van a necesitar para realizar la regresión lineal.
-
+New vector libraries are imported that will be needed to perform the linear regression.
 ```Scala
 data.columns
 val df = data.select(data("Price").as("label"), $"Avg Area Income", $"Avg Area House Age", $"Avg Area Number of Rooms", $"Avg Area Number of Bedrooms", $"Area Population")
 ```
 
-Imprime las columnas para ver cuales son los que admiten numéricos, df es un nuevo data frame que contiene la información de data, de este se seleccionó Price como label, "Avg Area Income", "Avg Area House Age", "Avg Area Number of Rooms", "Avg Area Number of Bedrooms", y "Area Population".
+Print the columns to see which ones are numerical, df is a new data frame that contains the data information, Price was selected as label, "Avg Area Income", "Avg Area House Age", "Avg Area Number of Rooms "," Avg Area Number of Bedrooms ", and" Area Population ".
 ```Scala
 //Transform to vector to the ml algorith can read the input
 val assembler = new VectorAssembler().setInputCols(Array("Avg Area Income", "Avg Area House Age", "Avg Area Number of Rooms", "Avg Area Number of Bedrooms", "Area Population")).setOutputCol("features")
 val output = assembler.transform(df).select($"label", $"features")
 output.show()
 ```
-Se realiza la conversion de datos de  las columnas de entrada a datos excluyendo label y estas se hacen una sola columna la cual seran datos de salida, al realizar esta combinacion se le da el nomre de  features con esto se tienen agrupados los datos unicamente en dos columnas para poder aplicar el modelo, se crea una variable en la cual nuestro agrupamiento anterios en la variable assembler se transformara y se le asiganara los datos extraidos de el df de las columnas creadas en la instruccion anterior.
+The data conversion of the input columns to data is carried out excluding label and these are made a single column which will be output data, when performing this combination the name of features is given with this the data is grouped only in two columns to apply the model, a variable is created in which our previous grouping in the assembler variable will be transformed and the data extracted from the df of the columns created in the previous instruction will be assigned.
 ```Scala
 //Linear regression model
 val lr = new LinearRegression()
 val lrModel = lr.fit(output)
 val trainingSummary = lrModel.summary
 ```
-Se crea el objeto para utilizar el modelo de regresion lineal, al tener el objeto se crea el modelo utilizando el objeto anterior y haciento un fit con los datos de ouput los cuales se tomaron de el df y por ultimo asignamos el summary de nuestro modelo a una variable la cual sera nuestra variable de entrenamiento de los datos de summary.
-
+The object is created to use the linear regression model, when having the object the model is created using the previous object and making a fit with the ouput data which was taken from the df and finally we assign the summary of our model to a variable which will be our training variable for the summary data.
 ```Scala
 trainingSummary.resuduals.show()
 trainingSummary.predictions.show()
 trainingSummary.r2 //variaza que hay 
 trainingSummary.rootMeanSquaredError
 ```
-Hacemos la impresion de los datos en los cuales podremos visualizar el residuo de nuestro modelo con nuestros datos de entrenamiento, la prediccion, el r^2 y el rootMeanSquaredError para su analis con el modelo de regresion lineal.
+We print the data in which we can visualize the residual of our model with our training data, the prediction, the r ^ 2 and the rootMeanSquaredError for analysis with the linear regression model.
 ### 2-2 
-> Regresion Logistica
+> Logistic Regression
 
 ```Scala
 import org.apache.spark.ml.classification.LogisticRegression
@@ -861,7 +856,7 @@ Logger.getLogger("org").setLevel(Level.ERROR)
 val spark = SparkSession.builder().getOCreate()
 val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("advertising.csv")
 ```
-Inicia muy parecido al ejemplo de regresión lineal, solo que en lugar de importar la librería LinearRegression estamos importando LogisticRegression, agregamos un Logger con Level.Error para de disminuyan los mensajes de advertencia y creamos nuestra variable spark, con esa le damos los valores del archivo advertising.csv a nuestro nuevo dataframe data.
+It starts very similar to the example of linear regression, only instead of importing the LinearRegression library we are importing LogisticRegression, we add a Logger with Level.Error to decrease the warning messages and create our spark variable, with that we give the values of the file advertising.csv to our new data frame.
 
 ```Scala
 val colnames = data.columns
@@ -874,24 +869,20 @@ for(ind <- Range(1, colnames.length)){
     println("\n")
 }
 ```
-La variable colnames tiene las columnas de data, firstrow contiene el primer row del dataframe, al imprimir “\n” se imprime un espacio en blanco, es para hacer una separación al imprimir los resultados, después hay un for donde ind tiene un rango de 1 a la cantidad de columnas, imprime la primera columna, la primera fila, un espacio, entra de nuevo al for y vuelve a imprimir hasta que llegue a la cantidad de columnas.
-
+The variable colnames has the data columns, firstrow contains the first row of the dataframe, when printing "\ n" a blank space is printed, it is to make a separation when printing the results, then there is a for where ind has a range of 1 to the number of columns, print the first column, the first row, a space, enter the for again and print again until it reaches the number of columns.
 ```Scala
 val timedata = data.withColumn("Hour",hour(data("Timestamp")))
 ```
-Se creó un nuevo dataframe llamado timedata al cual se le va a dar los mismos valores de Data, con la diferencia de que se le va a agregar una nueva columna llamada Hour, después de la coma se declara hour que es el tipo de datos de tipo time que va a mostrar y esto los tomará de Timestamp.
-
+A new dataframe called timedata was created to which the same Data values will be given, with the difference that a new column called Hour will be added, after the comma hour is declared, which is the data type of time type to show and this will take them from Timestamp.
 ```Scala
 val logregdata = timedata.select(data("Clicked on Ad").as("label"), $"Daily Time Spent on Site", $"Age", $"Area Income", $"Daily Internet Usage", $"Hour", $"Male")
 ```
-Se crea otro Data frame ahora llamado logredata, este va a seleccionar de timedata la columna "Clicked on Ad" la cual tendrá el nombre de "label", y también selecciona otras columnas, pero solamente las que tienen datos numéricos ("Daily Time Spent on Site", "Age", "Area Income", "Daily Internet Usage", "Hour" y "Male")
-
+Another Data frame is created now called logredata, this will select from timedata the column "Clicked on Ad" which will have the name of "label", and also select other columns, but only those that have numerical data ("Daily Time Spent on Site "," Age "," Area Income "," Daily Internet Usage "," Hour "and" Male ")
 ```Scala
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.linalg.Vectors
 ```
-Se importan nuevas librerías de vectores que se van a necesitar para realizar la regresión logistica.
-
+New vector libraries that will be needed to perform the logistic regression are imported.
 ```Scala
 val assembler = (new VectorAssembler()
                   .setInputCols(Array("Daily Time Spent on Site", "Age","Area Income","Daily Internet Usage","Hour","Male"))
@@ -899,8 +890,8 @@ val assembler = (new VectorAssembler()
 // Utilice randomSplit para crear datos de train y test divididos en 70/30
 val Array(training, test) = logregdata.randomSplit(Array(0.7, 0.3), seed = 12345)
 ```
-Se crea un objeto llamado assembles donde cargaremos las columnas de entrada y le daremos el nomber de features para la salida
-Creamos una varible la cual sera un arreglo este contendra los valores de entrenamiento y los de prueba, se carga 70 para entrenamiento y 30 para prueba
+An object called assembles is created where we will load the input columns and give it the name of features for the output
+We create a variable which will be an array that will contain the training and test values, it is loaded 70 for training and 30 for testing
 ```Scala
 import org.apache.spark.ml.Pipeline
 val lr = new LogisticRegression()
@@ -908,7 +899,7 @@ val pipeline = new Pipeline().setStages(Array(assembler, lr))
 val model = pipeline.fit(training)
 val results = model.transform(test)
 ```
-Se carga la libreria de pipeline, creamos nuestro objeto de regresion logistica el objeto de pipeline en donde incrustaremos los valores de assembler y el del objeto de LR, creamos el modelo para los datos de entrenamiento, despues cargamos en una variable el modelo con los datos de prueba.
+The pipeline library is loaded, we create our logistic regression object the pipeline object where we will embed the assembler values and that of the LR object, we create the model for the training data, then we load the model with the data in a variable test.
 ```Scala
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
 val predictionAndLabels = results.select($"prediction",$"label").as[(Double, Double)].rdd
@@ -918,18 +909,18 @@ println(metrics.confusionMatrix)
 
 metrics.accuracy
 ```
-Importamos la libreria de para predecir, creamos nuestra variable en donde cargaremos el resultado de nuestro modelo y los datos de prueba, se crea un objeto en donde cargaremos nuestra variable de prediccion y por ultimo imprimirmos nuestra matriz de confusion 
+We import the library of to predict, we create our variable where we will load the result of our model and the test data, an object is created where we will load our prediction variable and finally we print our confusion matrix
 ## Practice 3
 > Basic Statistics
-La estadistica basica es importante para big data debido a que estas son necesrias para los diferentes tipos de analisis que se realizan en analisis de datos con los diferentes tipos de analisis que vemos en practicas posteriores.
+Basic statistics are important for big data because they are necessary for the different types of analysis that are performed in data analysis with the different types of analysis that we see in later practices.
 ### Correlation
-El coeficiente de correlación de Pearson es una prueba que mide la relación estadística entre dos variables continuas. Si la asociación entre los elementos no es lineal, entonces el coeficiente no se encuentra representado adecuadamente. El coeficiente de correlación puede tomar un rango de valores de +1 a -1. Un valor de 0 indica que no hay asociación entre las dos variables.
+Pearson's correlation coefficient is a test that measures the statistical relationship between two continuous variables. If the association between the elements is not linear, then the coefficient is not adequately represented. The correlation coefficient can take a range of values from +1 to -1. A value of 0 indicates that there is no association between the two variables.
 ```Scala
 import org.apache.spark.ml.linalg.{Matrix, Vectors}
 import org.apache.spark.ml.stat.Correlation
 import org.apache.spark.sql.Row
 ```
-Se importan las librerias que se necesitaran para realizar la correlation, la matriz de correlacion, la libreria de vectores y la de row para salida relacional.
+The libraries that will be needed to perform the correlation, the correlation matrix, the vector library and the row library for relational output are imported.
 ```Scala
 val data = Seq(
   Vectors.sparse(4, Seq((0, 1.0), (3, -2.0))),
@@ -938,18 +929,18 @@ val data = Seq(
   Vectors.sparse(4, Seq((0, 9.0), (3, 1.0)))
 )
 ```
-Asignamos a nuestra variable data secuencia de datos en forma de vectores, `Vectors.sparse` en cual contendra otra secuencia, dos vectores `Vectors.dense` y por ultimo otro vector `Vectors.sparse`. Los vectores sparse estan respaldados por por una matriz doble esto da como resultado en el vector sparse 1 el siguiente tamaño de vector `4,[0,3],[1.0,-2.0]`
+We assign to our data variable data sequence in the form of vectors, `Vectors.sparse` in which it will contain another sequence, two vectors` Vectors.dense` and finally another vector `Vectors.sparse`. The sparse vectors are supported by a double matrix, this results in the sparse vector 1 the following vector size `4, [0,3], [1.0, -2.0]`
 ```Scala
 val df = data.map(Tuple1.apply).toDF("features")
 val Row(coeff1: Matrix) = Correlation.corr(df, "features").head
 println(s"Pearson correlation matrix:\n $coeff1")
 ```
-Se crea una variable df en la cual asignamos el contenido optenido del data y le damos el nombre a este vector de features, despues con una variable tipo Row con nombre coeffi1 con datos en forma de matriz le asignamos el el valor de la correlacion con los datos de la variable df y el nombre del vector features y se imprime la matriz de correlacion 
+A variable df is created in which we assign the opted content of the data and we give the name to this vector of features, then with a variable type Row named coeffi1 with data in the form of a matrix we assign the value of the correlation with the data of the variable df and the name of the vector features and the correlation matrix is printed
 ```Scala
 val Row(coeff2: Matrix) = Correlation.corr(df, "features", "spearman").head
 println(s"Spearman correlation matrix:\n $coeff2")
 ```
-En este coeff2 se vuelve a realizar el calculo de la matriz de correlacion pero ahora con la variable de spearmen el cual realiza un calculo matematico, este resultado en la matriz es el que nos indica si las variables son relacionales.
+In this coeff2 the calculation of the correlation matrix is performed again, but now with the spearmen variable which performs a mathematical calculation, this result in the matrix is what tells us if the variables are relational.
 ```Scala
 //----------------------------------------coeff1
 // Pearson correlation matrix:
@@ -964,14 +955,14 @@ En este coeff2 se vuelve a realizar el calculo de la matriz de correlacion pero 
 // NaN                  NaN                  1.0  NaN
 // 0.40000000000000174  0.9486832980505141   NaN  1.0
 ```
-Al ver las matrices de correlacion de lado a lado vemos como poco a poco los valores van quedando en un numero aproximado a 0 o 1, si el valor esta mas serca de 1 significa que hay relacion entre las dos varibles.
+When looking at the correlation matrices from side to side we see how little by little the values are remaining in a number close to 0 or 1, if the value is closer to 1 it means that there is a relationship between the two variables.
 ### Hypothesis testing
-La prueba de hipótesis es un acto en estadística mediante el cual un analista prueba una suposición con respecto a un parámetro de población. La metodología empleada por el analista depende de la naturaleza de los datos utilizados y el motivo del anál isis.
+Hypothesis testing is an act in statistics by which an analyst tests an assumption regarding a population parameter. The methodology used by the analyst depends on the nature of the data used and the reason for the analysis.
 ```Scala
 import org.apache.spark.ml.linalg.{Vector, Vectors}
 import org.apache.spark.ml.stat.ChiSquareTest
 ```
-Se importan las clases que se necesitaran para crear el ChiSquareTest pruba utilizando una distribucion de vectores.
+The classes that will be needed to create the ChiSquareTest test using a vector distribution are imported.
 ```Scala
 val data = Seq(
   (0.0, Vectors.dense(0.5, 10.0)),
@@ -982,7 +973,7 @@ val data = Seq(
   (1.0, Vectors.dense(3.5, 40.0))
 )
 ```
-Se  cargan los vectores a la variable data.
+The vectors are loaded into the data variable.
 ```Scala
 val df = data.toDF("label", "features")
 val chi = ChiSquareTest.test(df, "features", "label").head
@@ -990,46 +981,46 @@ println(s"pValues = ${chi.getAs[Vector](0)}")// output -> [0.6872892787909721,0.
 println(s"degreesOfFreedom ${chi.getSeq[Int](1).mkString("[", ",", "]")}") //output -> degreesOfFreedom [2,3]
 println(s"statistics ${chi.getAs[Vector](2)}")///output -> statistics [0.75,1.5]
 ```
-Se crea una nueva variable df en la cual se asigna la variable data de datos seq en forma de DataFrame  tomando la clasificacion y las caracteristicas, despues se crea una variable en la cual se asignara el resutlado de la prueba de datos con el df, label y features de head.
-Se imprime el valor de pValues tomando el valor de la variable chi tomando el valor del vector con el indice 0, despues se imprime el degreesOfFreedom tomando el valor numerico con el indice 1 tomando la separacion descrita en mkString, por ultimo impimir la estadistica de la variable ubicada en el vector indice 2
-Con el valor de pValues nos damos cuenta que tiene un .68 osea un 68% de nivel de aceptacion
+A new variable df is created in which the data variable of seq data is assigned in the form of DataFrame, taking the classification and characteristics, then a variable is created in which the result of the data test will be assigned with the df, label and head features.
+The value of pValues is printed taking the value of the variable chi taking the value of the vector with the index 0, then the degreesOfFreedom is printed taking the numerical value with the index 1 taking the separation described in mkString, finally printing the statistics of the variable located in vector index 2
+With the value of pValues we realize that it has a .68 that is, a 68% acceptance level
 ### Summarizer
-Estadística de resumen de columnas vectoriales
-SUM: Agrega el valor total para el campo especificado.
-MEAN: Calcula el promedio para el campo especificado.
-MIN: Busca el valor más pequeño para todos los registros del campo especificado.
-MAX: Busca el valor más grande para todos los registros del campo especificado.
-STD: Busca la desviación estándar de los valores en el campo especificado.
-Varianza: Busca la varianza entre ambos valores Metricas Extras
-COUNT: Busca la cantidad de valores incluidos en los cálculos estadísticos. Esto cuenta todos los valores excepto los valores nulos.
-FIRST: Busca el primer registro de la entrada y utiliza el valor de campo especificado.
-LAST: Busca el último registro de la entrada y utiliza el valor de campo especificado.
+Vector column summary statistic
+SUM: Add the total value for the specified field.
+MEAN: Calculates the average for the specified field.
+MIN: Finds the smallest value for all records in the specified field.
+MAX: Finds the largest value for all records in the specified field.
+STD: Finds the standard deviation of the values in the specified field.
+Variance: Finds the variance between both values Metrics Extras
+COUNT: Finds the number of values included in statistical calculations. This counts all values except null values.
+FIRST: Finds the first record in the entry and uses the specified field value.
+LAST: Finds the last record in the entry and uses the specified field value.
 ```Scala
 import org.apache.spark.ml.linalg.{Vector, Vectors}
 import org.apache.spark.ml.stat.Summarizer
 import org.apache.spark.sql.SparkSession
 ```
-Se realiza la importacion de las libreria que se necesitaran para esta practica.
+The import of the libraries that will be needed for this practice is carried out.
 ```Scala
   val spark = SparkSession.builder.appName("SummarizerExample").getOrCreate()
     import spark.implicits._
     import Summarizer._
 ```
-Se crear objeto para una sesion normal de spak y se importan los atributos de las librerias de spark y de Summarizer
+An object is created for a normal spark session and the attributes of the spark and Summarizer libraries are imported
 ```Scala
     val data = Seq(
       (Vectors.dense(2.0, 3.0, 5.0), 1.0),
       (Vectors.dense(4.0, 6.0, 7.0), 2.0)
     )
 ```
-Se crea una variable en la cual vamos a cargar nuestro vectores en forma de matriz
+A variable is created in which we are going to load our vectors in matrix form
 ```Scala
     val df = data.toDF("features", "weight")
 
     val (meanVal, varianceVal) = df.select(metrics("mean", "variance").summary($"features", $"weight").as("summary")).select("summary.mean", "summary.variance").as[(Vector, Vector)].first()
 ```
-Declaramos una variable df en donde se cargan los datos de la variable "data" con el nombre de cabecera para cada valor dentro de los vectores.
-Creamos una variable en donde almacenaremos el valor de la media y la variaza del dataframe, tomando los datos de features y weight a estos les datos un alias seleccionamos de nuestro alias y sacamos la media y la variaza de cada datos de la separacion de el vector del primer valor.
+We declare a variable df where the data of the variable "data" is loaded with the header name for each value within the vectors.
+We create a variable where we will store the value of the mean and the variance of the dataframe, taking the data of features and weight to these data an alias, we select from our alias and we extract the mean and variance of each data from the separation of the vector of the first value.
 ```Scala
     println(s"with weight: mean = ${meanVal}, variance = ${varianceVal}")
 
@@ -1037,13 +1028,13 @@ Creamos una variable en donde almacenaremos el valor de la media y la variaza de
 
     println(s"without weight: mean = ${meanVal2}, sum = ${varianceVal2}")
 ```
-Impimimos las variable que declaramos en la instruccion anterior para viauslizarlos en colola
-Creamos dos nuevas variables en donde almacenaremos  pero ahora unicamente de la columna de features de los vectores en el orden primero 
-Imprimimos las variables que declaramos.
+We print the variables that we declared in the previous instruction to use them in colola
+We create two new variables where we will store but now only from the features column of the vectors in the first order
+We print the variables we declare.
 ## Practice 4
 > Decision tree classifier
 
-Un árbol de decisión es una forma gráfica y analítica de representar todos los eventos (sucesos) que pueden surgir a partir de una decisión asumida en cierto momento.
+A decision tree is a graphical and analytical way of representing all the events (events) that can arise from a decision made at a certain time.
 
 ```Scala
 import org.apache.spark.ml.Pipeline
@@ -1053,30 +1044,26 @@ import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.spark.ml.feature.{IndexToString, StringIndexer, VectorIndexer}
 import org.apache.spark.sql.SparkSession
 ```
-Antes se importan las librerías pipeline (es una técnica para implementar simultaneidad a nivel de instrucciones dentro de un solo procesador.), de clasificación donde indicamos que es  DecisionTreeClassificationModel, DecisionTreeClassifier, una de evaluación que es MulticlassClassificationEvaluation y los feature donde incluye los index.
-
+Before the pipeline libraries are imported (it is a technique to implement simultaneity at the instruction level within a single processor.), Of classification where we indicate that it is DecisionTreeClassificationModel, DecisionTreeClassifier, one of evaluation that is MulticlassClassificationEvaluation and the features where it includes the indexes.
 ```Scala
 object DecisionTree {
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder.appName("dtree").getOrCreate()
 ```
-Se crea un objeto llamado Decision Tree, este va a tener todo el código que necesitamos, se crea la variable spark que contiene el sparksession del achivo dtree.
+An object called Decision Tree is created, this will have all the code we need, the spark variable is created that contains the sparksession of the dtree file.
 ```Scala
 val data = spark.read.format("libsvm").load("C:/sample_libsvm_data.txt")
 ```
-Creamos la variable data que será el dataframe, este va a leer con spark el archivo sample_libsvm_data.
-
+We create the data variable that will be the dataframe, it will read the sample_libsvm_data file with spark.
 ```Scala
 val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexedLabel").fit(data)
 val featureIndexer = new VectorIndexer().setInputCol("features").setOutputCol("indexedFeatures").setMaxCategories(4).fit(data)
 ```
-Creamos las variables labelIndexer y featureIndexer, el primero será nuestra columna “label” con la información de data, el segundo será nuestra columna features donde. 
-
+We create the variables labelIndexer and featureIndexer, the first will be our column "label" with the data information, the second will be our column features where.
 ```Scala
 val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3))
 ```
-Creamos la variable Array que contiene lo de trainingData y testData, este será igual a una división aleatoria entre 70 a 30%.
-
+We create the Array variable that contains the trainingData and testData, this will be equal to a random division between 70 to 30%.
 ```Scala
 val dt = new DecisionTreeClassifier().setLabelCol("indexedLabel").setFeaturesCol("indexedFeatures")
 val labelConverter = new IndexToString().setInputCol("prediction").setOutputCol("predictedLabel").setLabels(labelIndexer.labels)
@@ -1084,7 +1071,7 @@ val pipeline = new Pipeline().setStages(Array(labelIndexer, featureIndexer, dt, 
 val model = pipeline.fit(trainingData)
 val predictions = model.transform(testData)
 ```
-Ahora creamos dt que contiene las columnas creadas anteriormente, todo en la función DecisionTreeClassifier, luego hacemos una conversión para hacer la predicción de label, ahora pipeline tendrá toda esta información.
+Now we create dt that contains the previously created columns, all in the DecisionTreeClassifier function, then we do a conversion to make the label prediction, now pipeline will have all this information.
 
 ```Scala
 predictions.select("predictedLabel", "label", "features").show()
@@ -1115,7 +1102,7 @@ predictions.select("predictedLabel", "label", "features").show()
 +--------------+-----+--------------------+
 */
 ```
-Como se  puede observar en las respuestas, tiene PredictedLabel y label, para que sea 100% correcta deben coincidir los valores, se puede observar que solo se equivocó en una predicción.
+As can be seen in the answers, it has PredictedLabel and label, for it to be 100% correct the values must match, it can be seen that it only made a mistake in one prediction.
 
 ```Scala
 val evaluator = new MulticlassClassificationEvaluator().setLabelCol("indexedLabel").setPredictionCol("prediction").setMetricName("accuracy")
@@ -1134,10 +1121,10 @@ println(s"Learned classification tree model:\n ${treeModel.toDebugString}")
    Predict: 0.0
 */
 ```
-Se crea una variable evaluadora, este contendrá las predicciones, esto es para ver la exactitud de los resultados, también se crea la variable accuracy que va a tomar el “porcentaje de error” y treemodel que va imprimir el modelo.
-La exactitud fue de 0.9310 y el test error fue de 0.0689 que da a entender que los errores son muy bajos lo cual fue correcto porque en las primeras 20 líneas solo apareció un error.
+An evaluating variable is created, this will contain the predictions, this is to see the accuracy of the results, the accuracy variable is also created that will take the "error percentage" and the treemodel that will print the model.
+The accuracy was 0.9310 and the test error was 0.0689 which suggests that the errors are very low, which was correct because only one error appeared in the first 20 lines.
 
-Ahora este fue el resultado final. Si feature 406 era menor o igual a 9.5, asume que el valor a predecir es 1.0, en caso contrario es 0.0
+Now this was the end result. If feature 406 was less than or equal to 9.5, assume that the value to predict is 1.0, otherwise it is 0.0
 ## Practice 5
 > Ramdom Forests Classifier
 
@@ -1148,50 +1135,50 @@ import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.spark.ml.feature.{IndexToString, StringIndexer, VectorIndexer}
 import org.apache.spark.sql.SparkSession
 ```
-Se realiza la importacion de las librerias necesarios que utilizaremos para esta practica
+The necessary libraries that we will use for this practice are imported
 ```Scala
 val spark = SparkSession.builder.appName("RandomForestClassifierExample").getOrCreate()
 val data = spark.read.format("libsvm").option("numFeatures", "780").load("C:/Users/yurid/Documents/RepABigData/Big_Data/U2/Practices/Practice 5__Exp3/sample_libsvm_data.txt")
 ```
-Creamos la variable spark para una sesion
-Creamos la variable data  en donde cargamos los datos de el archivo de texto.
+We create the spark variable for a session
+We create the data variable where we load the data from the text file.
 ```Scala
 val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexedLabel").fit(data)
 val featureIndexer = new VectorIndexer().setInputCol("features").setOutputCol("indexedFeatures").setMaxCategories(4).fit(data)
 ```
-Creamos dos objetos en las cuales ingresamos el nombre de los valores de entrada y el nombre que tendran de salida
+We create two objects in which we enter the name of the input values and the name of the output.
 ```Scala
 val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3))
 val rf = new RandomForestClassifier().setLabelCol("indexedLabel").setFeaturesCol("indexedFeatures").setNumTrees(10)
 ```
- Creamos un arreglo en donde cargaremos los datos de entrenamiento y los de test con un valor de 70% de entrenamiento y 30 de test
- Creamos el objeto rf cargamos los datos y colocamos los valores de las columnas que tendran y el numero de arboles que generara
+We create an arrangement where we will load the training data and the test data with a value of 70% training and 30% testing
+We create the rf object, load the data and place the values of the columns that they will have and the number of trees that it will generate
 ```Scala
 val labelConverter = new IndexToString().setInputCol("prediction").setOutputCol("predictedLabel").setLabels(labelIndexer.labels)
 val pipeline = new Pipeline().setStages(Array(labelIndexer, featureIndexer, rf, labelConverter))
 ```
-Se crean dos objetos en los cuales en uno se cargaran los datos de prediccion y en el otro objeto se cargaran las variables de objetos de los index que se habian hecho anteriormente
+Two objects are created in which in one the prediction data will be loaded and in the other object the object variables of the indexes that had been made previously will be loaded
 ```Scala
 val model = pipeline.fit(trainingData)
 val predictions = model.transform(testData)
 predictions.select("predictedLabel", "label", "features").show(5)
 ```
-Creamos la variable en donde cargaremos los datos de entrenamiento le asignamos estos y creamos la varible de predicion donde cargaremos los datos de prueba
+We create the variable where we will load the training data, assign these and create the prediction variable where we will load the test data
 ```Scala
 val evaluator = new MulticlassClassificationEvaluator().setLabelCol("indexedLabel").setPredictionCol("prediction").setMetricName("accuracy")
 val accuracy = evaluator.evaluate(predictions)
 println(s"Test Error = ${(1.0 - accuracy)}")
 ```
-Creamos un objeto en donde se realizara la evaluacion se cargan los datos de indexdLabel y los de prediccion junto con el accuracy, creamos la variable accuracy en donde se realizara la evaluacion y la prediccion y finalmente imprimimos el valor de los datos pureba error
+We create an object where the evaluation will be carried out, the indexdLabel data and the prediction data are loaded together with the accuracy, we create the accuracy variable where the evaluation and the prediction will be carried out and finally we print the value of the pureba error data
 ```Scala
 val rfModel = model.stages(2).asInstanceOf[RandomForestClassificationModel]
 println(s"Learned classification forest model:\n ${rfModel.toDebugString}")
 ```
-Creamos una variable en donde se cargara de nuevo el modelo e imprimimos los datos erroneos de los datos de prueba
+We create a variable where the model will be loaded again and print the wrong data from the test data
 ## Practice 6
 > Gradient-boosted tree classifier
 
-El aumento de gradiente es una técnica de aprendizaje automático para problemas de regresión y clasificación que produce un modelo de predicción en forma de un conjunto de modelos de predicción débiles.
+Gradient augmentation is a machine learning technique for classification and regression problems that produces a prediction model in the form of a set of weak prediction models.
 
 ```Scala
 import org.apache.spark.ml.Pipeline
@@ -1199,36 +1186,30 @@ import org.apache.spark.ml.classification.{GBTClassificationModel, GBTClassifier
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.spark.ml.feature.{IndexToString, StringIndexer, VectorIndexer}
 ```
-Lo primero que se hace es importar las librerías pipeline, GBTClassificationModel (Gradient-Boosted-tree), MulticlassClassificationEvaluator y los index.
-
+The first thing to do is import the pipeline, GBTClassificationModel (Gradient-Boosted-tree), MulticlassClassificationEvaluator and index libraries.
 ```Scala
 val data = spark.read.format("libsvm").load("C:/sample_libsvm_data.txt")
 ```
-Creamos la variable data que será el dataframe, este va a leer con spark el archivo sample_libsvm_data.
-
+We create the data variable that will be the dataframe, it will read the sample_libsvm_data file with spark.
 ```Scala
 val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexedLabel").fit(data)
 val featureIndexer = new VectorIndexer().setInputCol("features").setOutputCol("indexedFeatures").setMaxCategories(4).fit(data)
 ```
-Creamos las variables labelIndexer y featureIndexer, el primero será nuestra columna “label” con la información de data, el segundo será nuestra columna features donde. 
-
+We create the variables labelIndexer and featureIndexer, the first will be our column "label" with the data information, the second will be our column features where.
 ```Scala
 val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3))
 ```
-Creamos la variable Array que contiene lo de trainingData y testData, este será igual a una división aleatoria entre 70 a 30%.
-
+We create the Array variable that contains the trainingData and testData, this will be equal to a random division between 70 to 30%.
 ```Scala
 val gbt = new GBTClassifier().setLabelCol("indexedLabel").setFeaturesCol("indexedFeatures").setMaxIter(10).setFeatureSubsetStrategy("auto")
 ```
-Se crea nuestra variable gbt que va a ser nuestro clasificador Gradient boosted tree, se pone MaxIter a 10 y que la Estrategia de subconjunto de funciones sea automática.
-
+Our gbt variable is created, which will be our Gradient boosted tree classifier, MaxIter is set to 10 and the Strategy of subset of functions is automatic.
 ```Scala
 val labelConverter = new IndexToString().setInputCol("prediction").setOutputCol("predictedLabel").setLabels(labelIndexer.labels)
 val pipeline = new Pipeline().setStages(Array(labelIndexer, featureIndexer, gbt, labelConverter))
 val model = pipeline.fit(trainingData)
 ```
-Hacemos una conversión para hacer la predicción de label, ahora pipeline tendrá toda esta información en un modelo.
-
+We do a conversion to make the label prediction, now the pipeline will have all this information in a model.
 ```Scala
 val predictions = model.transform(testData)
 predictions.select("predictedLabel", "label", "features").show(20)
@@ -1261,8 +1242,7 @@ predictions.select("predictedLabel", "label", "features").show(20)
 */
 ```
 
-Declaramos nuestra variable predicciones que contiene la transformación del modelo y mostramos las primeras 20 líneas de PredictLabel, label y features. Como se puede observar en los resultados, la predicción con las primeras 20 no hubo errores, coinciden los valores de la predicción con label
-
+We declare our predictions variable that contains the model transformation and display the first 20 lines of PredictLabel, label and features. As can be seen in the results, the prediction with the first 20 there were no errors, the values of the prediction with label coincide
 ```Scala
 val evaluator = new MulticlassClassificationEvaluator().setLabelCol("indexedLabel").setPredictionCol("prediction").setMetricName("accuracy")
 val accuracy = evaluator.evaluate(predictions)
@@ -1355,21 +1335,18 @@ Tree 0 (weight 1.0):
      Predict: -0.2775066643835825
 */
 ```
-Ahora se crea una variable evaluadora, esta contendrá las predicciones, esto es para ver la exactitud de los resultados, también se crea la variable accuracy que va a tomar el “porcentaje de error” y gbtModel  que va imprimir el modelo. Test Error fue 0 porque no hubo error con las primeras 20 filas.
-
-Gadient Boosted realiza las decisiones con varios árboles, en este ejemplo nos imprimió hasta 10 árboles que le ayudaron a realizar una predicción más precisa.
+Now an evaluating variable is created, it will contain the predictions, this is to see the accuracy of the results, the accuracy variable that will take the "error percentage" and gbtModel that will print the model is also created. Test Error was 0 because there was no error with the first 20 rows.
+Gadient Boosted makes the decisions with multiple trees, in this example we printed up to 10 trees which helped it make a more accurate prediction.
 ## Practice 7
 > Multilayer Perceptron Classifier
 
-El clasificador de perceptrones multicapa (MLPC) es un clasificador basado en la red neuronal artificial feedforward . MLPC consta de múltiples capas de nodos. Cada capa está completamente conectada a la siguiente capa de la red. Los nodos de la capa de entrada representan los datos de entrada. Todos los demás nodos mapean entradas a las salidas realizando una combinación lineal de las entradas con los pesos y el sesgo del nodo y aplicando una función de activación.
-
+The multilayer perceptron classifier (MLPC) is a classifier based on the feedforward artificial neural network. MLPC consists of multiple layers of nodes. Each layer is completely connected to the next layer in the network. The nodes in the input layer represent the input data. All other nodes map inputs to outputs by performing a linear combination of the inputs with the node weights and bias and applying a trigger function.
 ```Scala
 import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.spark.sql.SparkSession
 ```
-Lo primero que se hace es importar las librerías MultilayerPerceptronClassifier, MulticlassCLassificationEvaluator y SparkSession.
-
+The first thing to do is import the MultilayerPerceptronClassifier, MulticlassCLassificationEvaluator and SparkSession libraries.
 ```Scala
 object MultilayerPerceptronClassifierExample {
 
@@ -1379,31 +1356,29 @@ object MultilayerPerceptronClassifierExample {
       .appName("MultilayerPerceptronClassifierExample")
       .getOrCreate()
 ```
-Se crea un objeto que va a contener todo el código para la predicción, donde se crea nuestra variable spark, esta contiene el SparkSession donde el appName es "MultilayerPerceptronClassifierExample"
+An object is created that will contain all the code for the prediction, where our spark variable is created, it contains the SparkSession where the appName is "MultilayerPerceptronClassifierExample"
 
 ```Scala    
     val data = spark.read.format("libsvm").load("C:/sample_multiclass_classification_data.txt")
 ```
-La  variable data va a ser el dataframe que contendrá todos los datos a predecir, esta va a cargar los dato de "sample_multiclass_classification_data.txt"
-
+The data variable will be the dataframe that will contain all the data to predict, this will load the data from "sample_multiclass_classification_data.txt"
 ```Scala
     val splits = data.randomSplit(Array(0.6, 0.4), seed = 1234L)
     val train = splits(0)
     val test = splits(1)
 ```
-Dividimos la información en train y test, el split va a ser con valores random entre 0.6 y 0.4 con la semilla 1234L, creamos train donde le damos el valor 0 de splits y también creamos a test donde le damos el valor de 1 de splits.
+We divide the information into train and test, the split will be with random values between 0.6 and 0.4 with the 1234L seed, we create train where we give it the value of 0 for splits and we also create a test where we give it the value of 1 for splits.
 
 ```Scala
     val layers = Array[Int](4, 5, 4, 3)
 ```
-Se definen las capas con un arreglo en la variable layers, el primer valor es el tamaño de la entrada el cual es de 4, con dos intermediarios de tamaño 5 y 4, el último valor es el tamaño de la salida que será de 3, estos valores no pueden cambiar y siempre debe ser entrada 4, salida 3.
+The layers are defined with an arrangement in the layers variable, the first value is the size of the input which is 4, with two intermediaries of size 5 and 4, the last value is the size of the output which will be 3, these values cannot change and must always be input 4, output 3.
 
 ``` Scala
     val trainer = new MultilayerPerceptronClassifier().setLayers(layers).setBlockSize(128).setSeed(1234L).setMaxIter(100)
     val model = trainer.fit(train)
 ```
-Creamos la variable trainer que contiene la función MultilayerPerceptron, en setLayer van las capas a definir que ya se hizo en la variable layers, el tamaño de bloque es de 128 y la semilla 1234L, donde MaxIter será de 100. Esta variable trainer se la pasamos a la nueva variable model que emite un transformador.
-
+We create the trainer variable that contains the MultilayerPerceptron function, in setLayer the layers are going to be defined, which was already done in the layers variable, the block size is 128 and the seed 1234L, where MaxIter will be 100. We pass this trainer variable to it to the new model variable that a transformer emits.
 ```Scala
     val result = model.transform(test)
     val predictionAndLabels = result.select("prediction", "label")
@@ -1416,8 +1391,8 @@ Creamos la variable trainer que contiene la función MultilayerPerceptron, en se
   }
 }
 ```
-Se tranforma el modelo con test y creamos las predicciones que son las columnas prediction y label de result, se crea la variable evaluator que va a tener el MulticlassClassificationEvaluator y le ponemos nombre a la métrica que será "accuracy", ya con eso imprimimos la exactitud donde evaluator va a evaluar "predictionAndLabels".
-Al final nos arroja una simple respuesta que es la exactitud de predicción la cual fue de 0.942, con eso nos da a entender que aunque no tenga una exactitud de 100%, se acerca demasiado a los resultados reales.
+The model is transformed with test and we create the predictions that are the prediction and label columns of the result, the evaluator variable that will have the MulticlassClassificationEvaluator is created and we name the metric that will be "accuracy", and with that we print the accuracy where evaluator is going to evaluate "predictionAndLabels".
+In the end, it gives us a simple answer that is the prediction accuracy which was 0.942, with that it gives us to understand that although it does not have an accuracy of 100%, it is too close to the real results.
 ## Practice 8
 > Linear Support Vector
 
@@ -1425,13 +1400,14 @@ Al final nos arroja una simple respuesta que es la exactitud de predicción la c
 import org.apache.spark.ml.classification.LinearSVC
 import org.apache.spark.sql.SparkSession
 ```
-Se importan las librerias que vamos a utilizar en esta practica, normalmente usamos SparkSession y agregamos la de el modelo que utilizaremos
+The libraries that we are going to use in this practice are imported, normally we use SparkSession and add the one of the model that we will use
 ```Scala
 val spark = SparkSession.builder.appName("LinearSVCExample").getOrCreate()
 // Load training data
 val training = spark.read.format("libsvm").option("numFeatures", "780").load("C:/Users/yurid/Documents/RepABigData/Big_Data/U2/Practices/Practice 8_Exp6/sample_libsvm_data.txt")
 ```
-Se crea una sesion de spark para utilizarse despues se crea una varianble en la cual vamos a cargar los datos de nuestro archivo de texto
+A spark session is created to be used then a variable is created in which we are going to load the data from our text file
+
 ```Scala
 val lsvc = new LinearSVC().setMaxIter(10).setRegParam(0.1)
 // Fit the model
@@ -1439,12 +1415,12 @@ val lsvcModel = lsvc.fit(training)
 // Print the coefficients and intercept for linear svc
 println(s"Coefficients: ${lsvcModel.coefficients} Intercept: ${lsvcModel.intercept}")
 ```
-Se crea un objeto el cual tendra un maximo de 10 iteraciones
-Cremos la varible del modelo 
-Imprimir los coeficientes 
-Los coeficietes son el peso de los soportes de los vectores hasta que encuentra el optimo es que se detiene
-Cuando llega a ese punto tiene los dos soportes de vectores y realiza la separación entre la linea y los grupos se separacion
-Los coeficientes son los calculos matematicos con los cuales el modelo realiza la busqueda y realiza la clasificación
+An object is created which will have a maximum of 10 iterations
+We create the variable of the model
+Print the coefficients
+The coefficients are the weight of the supports of the vectors until it finds the optimum is that it stops
+When it reaches that point it has the two vector supports and makes the separation between the line and the separation groups
+The coefficients are the mathematical calculations with which the model performs the search and performs the classification
 ## Practice 9
 > One vs Rest
 
