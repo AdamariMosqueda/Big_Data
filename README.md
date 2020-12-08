@@ -899,7 +899,8 @@ val assembler = (new VectorAssembler()
 // Utilice randomSplit para crear datos de train y test divididos en 70/30
 val Array(training, test) = logregdata.randomSplit(Array(0.7, 0.3), seed = 12345)
 ```
-
+Se crea un objeto llamado assembles donde cargaremos las columnas de entrada y le daremos el nomber de features para la salida
+Creamos una varible la cual sera un arreglo este contendra los valores de entrenamiento y los de prueba, se carga 70 para entrenamiento y 30 para prueba
 ```Scala
 import org.apache.spark.ml.Pipeline
 val lr = new LogisticRegression()
@@ -907,7 +908,7 @@ val pipeline = new Pipeline().setStages(Array(assembler, lr))
 val model = pipeline.fit(training)
 val results = model.transform(test)
 ```
-
+Se carga la libreria de pipeline, creamos nuestro objeto de regresion logistica el objeto de pipeline en donde incrustaremos los valores de assembler y el del objeto de LR, creamos el modelo para los datos de entrenamiento, despues cargamos en una variable el modelo con los datos de prueba.
 ```Scala
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
 val predictionAndLabels = results.select($"prediction",$"label").as[(Double, Double)].rdd
@@ -917,6 +918,7 @@ println(metrics.confusionMatrix)
 
 metrics.accuracy
 ```
+Importamos la libreria de para predecir, creamos nuestra variable en donde cargaremos el resultado de nuestro modelo y los datos de prueba, se crea un objeto en donde cargaremos nuestra variable de prediccion y por ultimo imprimirmos nuestra matriz de confusion 
 ## Practice 3
 > Basic Statistics
 La estadistica basica es importante para big data debido a que estas son necesrias para los diferentes tipos de analisis que se realizan en analisis de datos con los diferentes tipos de analisis que vemos en practicas posteriores.
