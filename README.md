@@ -1424,7 +1424,51 @@ The coefficients are the mathematical calculations with which the model performs
 ## Practice 9
 > One vs Rest
 
-Realiza para cada clase una clasificacion binaria 
-Se toma la clase que quieres comparar con el resto 
-Se puede aplicar con metodos de machin learnig
-Se debe elegir con que modelo sse va a hacer
+Esta estrategia consiste en ajustar un clasificador por clase. Para cada clasificador, la clase se ajusta a todas las demás clases. Además de su eficiencia computacional (solo se necesitan clasificadores n_classes), una ventaja de este enfoque es su interpretabilidad. Dado que cada clase está representada por uno y solo un clasificador, es posible obtener conocimiento sobre la clase inspeccionando su clasificador correspondiente. Ésta es la estrategia más utilizada para la clasificación multiclase y es una opción justa por defecto.
+
+```Scala
+import org.apache.spark.ml.classification.{LogisticRegression, OneVsRest}
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+```
+Primero importamos nuestras librerías de clasificación, vamos a ajustarlo con Logistic Regression, y también se importa nuestro Evaluador de clasificación, también se debe importar nuestra librería SparkSession.
+
+```Scala
+var inputData = spark.read.format("libsvm").load("C:/sample_multiclass_classification_data.txt")
+```
+Creamos nuestra variable inputData que va a contener todos los datos de nuestro archivo sample_multiclass_classification_data, que es con el que se ha trabajado en otra practica, esto se hace con una lectura usando spark read.
+
+```Scala
+val Array(train, test) = inputData.randomSplit(Array(0.8, 0.2))
+```
+Generamos la división de train y test, donde en nuestro split random indicamos el arreglo con los porcentajes, son 80 % datos a entregar y 20% de predicción.
+
+```Scala
+val classifier = new LogisticRegression().setMaxIter(10).setTol(1E-6).setFitIntercept(true)
+```
+Creamos nuestra variable clasificador que es para instanciarlo, donde MaxIter es de 10, setTol es 1E-6 e indicamos que FitIntercept es true.
+
+```Scala
+val ovr = new OneVsRest().setClassifier(classifier)
+```
+Se crea la variable ovr que contiene nuestro clasificador One VS Rest.
+
+```Scala
+val ovrModel = ovr.fit(train)
+```
+A nuestro modelo multiclase le damos el fit de ovr donde el parámetro que se le da es train
+
+```Scala
+val predictions = ovrModel.transform(test)
+```
+Se crea la variable que va a contener las predicciones, se transforma ovrModel para darle el parámetro de test.
+
+```Scala
+val evaluator = new MulticlassClassificationEvaluator().setMetricName("accuracy")
+```
+Al crear la variable evaluador le ponemos que su MetricName sea “accuracy” para verla exactitud que tiene al momento de realizar las predicciones.
+
+```Scala
+val accuracy = evaluator.evaluate(predictions) //Output -> accuracy: Double = 1.0
+println(s"Test Error = ${1 - accuracy}") // Output -> Test Error = 0.0
+```
+A Accuracy se le da el evaluador que contiene las predicciones y se imprime Test Error, los resultados arrojados dicen que Accuracy es 1 y Test Error es 0, eso quiere decir que en sus predicciones tuvo un acierto del 100% por lo que el error es de 0%.
