@@ -25,6 +25,8 @@
   - [Practice 7](#practice-7)
   - [Practice 8](#practice-8)
   - [Practice 9](#practice-9)
+  - [Practice 10](#practice-10)
+  - [Homework 1](#homework-1)
   
   <div id='pr1' />
 # UNIT 1
@@ -1472,3 +1474,153 @@ val accuracy = evaluator.evaluate(predictions) //Output -> accuracy: Double = 1.
 println(s"Test Error = ${1 - accuracy}") // Output -> Test Error = 0.0
 ```
 A Accuracy se le da el evaluador que contiene las predicciones y se imprime Test Error, los resultados arrojados dicen que Accuracy es 1 y Test Error es 0, eso quiere decir que en sus predicciones tuvo un acierto del 100% por lo que el error es de 0%.
+
+
+## Practice 10
+```scala
+import org.apache.spark.ml.classification.NaiveBayes
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+val data = spark.read.format("libsvm").load("C:/sample_libsvm_data.txt")
+data.show(2)
+/*
++-----+--------------------+
+|label|            features|
++-----+--------------------+
+|  0.0|(692,[127,128,129...|
+|  1.0|(692,[158,159,160...|
++-----+--------------------+
+*/
+```
+
+```scala
+val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3), seed = 1234L)
+val model = new NaiveBayes().fit(trainingData)
+val predictions = model.transform(testData)
+predictions.show()
+/*
++-----+--------------------+--------------------+-----------+----------+
+|label|            features|       rawPrediction|probability|prediction|
++-----+--------------------+--------------------+-----------+----------+
+|  0.0|(692,[95,96,97,12...|[-173266.38465085...|  [1.0,0.0]|       0.0|
+|  0.0|(692,[98,99,100,1...|[-176798.24796349...|  [1.0,0.0]|       0.0|
+|  0.0|(692,[122,123,124...|[-189371.23080028...|  [1.0,0.0]|       0.0|
+|  0.0|(692,[126,127,128...|[-210969.37526481...|  [1.0,0.0]|       0.0|
+|  0.0|(692,[127,128,129...|[-170881.90406252...|  [1.0,0.0]|       0.0|
+|  0.0|(692,[127,128,129...|[-213398.60801697...|  [1.0,0.0]|       0.0|
+|  0.0|(692,[127,128,129...|[-183284.52661405...|  [1.0,0.0]|       0.0|
+|  0.0|(692,[128,129,130...|[-246027.39704974...|  [1.0,0.0]|       0.0|
+|  0.0|(692,[150,151,152...|[-157898.87276406...|  [1.0,0.0]|       0.0|
+|  0.0|(692,[152,153,154...|[-208299.36235153...|  [1.0,0.0]|       0.0|
+|  0.0|(692,[152,153,154...|[-243127.71890150...|  [1.0,0.0]|       0.0|
+|  0.0|(692,[153,154,155...|[-144207.79475583...|  [1.0,0.0]|       0.0|
+|  1.0|(692,[100,101,102...|[-144208.40561310...|  [0.0,1.0]|       1.0|
+|  1.0|(692,[123,124,125...|[-138363.44872824...|  [0.0,1.0]|       1.0|
+|  1.0|(692,[124,125,126...|[-127978.05376288...|  [0.0,1.0]|       1.0|
+|  1.0|(692,[124,125,126...|[-79957.487724508...|  [0.0,1.0]|       1.0|
+|  1.0|(692,[125,126,127...|[-102430.14231250...|  [0.0,1.0]|       1.0|
+|  1.0|(692,[125,126,127...|[-81588.939249410...|  [0.0,1.0]|       1.0|
+|  1.0|(692,[126,127,128...|[-118122.23190317...|  [0.0,1.0]|       1.0|
+|  1.0|(692,[126,127,128...|[-80661.473798128...|  [0.0,1.0]|       1.0|
++-----+--------------------+--------------------+-----------+----------+
+
+*/
+```
+
+```scala
+val evaluator = new MulticlassClassificationEvaluator().setLabelCol("label").setPredictionCol("prediction").setMetricName("accuracy")
+val accuracy = evaluator.evaluate(predictions)
+println(s"Test set accuracy = $accuracy") // Output -> Test set accuracy = 1.0
+```
+
+
+Iris
+```scala
+package spark.ml.cookbook.chapter6
+import org.apache.spark.mllib.linalg.{Vector, Vectors} 
+import org.apache.spark.mllib.regression.LabeledPoint 
+import org.apache.spark.mllib.classification.{NaiveBayes, NaiveBayesModel}
+import org.apache.spark.mllib.evaluation.{BinaryClassificationMetrics, MulticlassMetrics, MultilabelMetrics, binary}
+import org.apache.spark.sql.{SQLContext, SparkSession}
+import org.apache.log4j.Logger
+import org.apache.log4j.Level
+val data = sc.textFile("C:/iris-data-prepared.txt")
+```
+
+```scala
+val NaiveBayesDataSet = data.map { line => val 
+columns = line.split(',')
+LabeledPoint(columns(4).toDouble,
+Vectors.dense(
+columns(0).toDouble,
+columns(1).toDouble,
+columns(2).toDouble,
+columns(3).toDouble))
+}
+```
+
+```scala
+println(" Total number of data vectors =", NaiveBayesDataSet.count())
+// Output -> ( Total number of data vectors =,150)
+val distinctNaiveBayesData = NaiveBayesDataSet.distinct() 
+println("Distinct number of data vectors = ", 
+distinctNaiveBayesData.count())
+// Output -> (Distinct number of data vectors = ,147)
+```
+
+```scala
+distinctNaiveBayesData.collect().take(10).foreach(println(_))
+/*
+(2.0,[6.3,2.9,5.6,1.8])
+(2.0,[7.6,3.0,6.6,2.1])
+(1.0,[4.9,2.4,3.3,1.0])
+(0.0,[5.1,3.7,1.5,0.4])
+(0.0,[5.5,3.5,1.3,0.2])
+(0.0,[4.8,3.1,1.6,0.2])
+(0.0,[5.0,3.6,1.4,0.2])
+(2.0,[7.2,3.6,6.1,2.5])
+(1.0,[5.0,2.3,3.3,1.0])
+(0.0,[4.6,3.6,1.0,0.2])
+*/
+```
+
+
+```scala
+val allDistinctData =
+distinctNaiveBayesData.randomSplit(Array(.80,.20),10L)
+val trainingDataSet = allDistinctData(0)
+val testingDataSet = allDistinctData(1)
+```
+
+```scala
+println("number of training data =",trainingDataSet.count())
+//(number of training data =,111)
+println("number of test data =",testingDataSet.count())
+//(number of test data =,36)
+```
+
+```scala
+val myNaiveBayesModel = NaiveBayes.train(trainingDataSet)
+val predictedClassification = testingDataSet.map( x => 
+ (myNaiveBayesModel.predict(x.features), x.label))
+```
+
+```scala
+val metrics = new MulticlassMetrics(predictedClassification)
+ val confusionMatrix = metrics.confusionMatrix 
+ println("Confusion Matrix= n",confusionMatrix)
+/*
+16.0  0.0  0.0
+0.0   7.0  5.0
+0.0   0.0  8.0
+*/
+```
+
+```scala
+ val myModelStat=Seq(metrics.precision)
+ myModelStat.foreach(println(_))
+```
+
+## Homework 1
+In cluster analysis, the elbow method is a heuristic used in determining the number of clusters in a data set. The method consists of plotting the explained variation as a function of the number of clusters, and picking the elbow of the curve as the number of clusters to use.
+
+[Full Version](https://github.com/AdamariMosqueda/Big_Data/blob/Unit_2/U2/Homeworks/Elbow_Mosqueda.md)
