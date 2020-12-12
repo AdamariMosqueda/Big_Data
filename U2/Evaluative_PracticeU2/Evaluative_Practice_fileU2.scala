@@ -17,23 +17,24 @@ val data  = spark.read.option("header","true").option("inferSchema", "true").for
 val indexer = new StringIndexer().setInputCol("species").setOutputCol("speciesIndex")
 val indexed = indexer.fit(data).transform(data)
 indexed.show()
+
 val data2 = indexed.select("sepal_length", "sepal_width", "petal_length", "petal_width", "speciesIndex")
 data2.show(200)
 
-
 //a. Utilice la librería Mllib de Spark el algoritmo de Machine Learning correspondiente a multilayer perceptron
+import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 
-2. ¿Cuáles son los nombres de las columnas?
+//2. ¿Cuáles son los nombres de las columnas?
 
-3. ¿Cómo es el esquema?
+//3. ¿Cómo es el esquema?
 
-4. Imprime las primeras 5 columnas.
+//4. Imprime las primeras 5 columnas.
 
-5. Usa el metodo describe () para aprender mas sobre los datos del DataFrame.
+//5. Usa el metodo describe () para aprender mas sobre los datos del DataFrame.
 
-6. Haga la transformación pertinente para los datos categoricos los cuales seran
-nuestras etiquetas a clasificar.
+//6. Haga la transformación pertinente para los datos categoricos los cuales seran nuestras etiquetas a clasificar.
 
-7. Construya el modelos de clasificación y explique su arquitectura.
+//7. Construya el modelos de clasificación y explique su arquitectura.
 
-8. Imprima los resultados del modelo
+//8. Imprima los resultados del modelo  
