@@ -12,7 +12,7 @@
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.ml.feature.StringIndexer
 
-val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("")
+val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("C:/Users/yurid/Documents/RepABigData/Big_Data/U2/Evaluative_PracticeU2/iris.csv")
 
 val indexer = new StringIndexer().setInputCol("species").setOutputCol("speciesIndex")
 val indexed = indexer.fit(data).transform(data)
@@ -30,6 +30,10 @@ data2.columns
    // Output -> Array[String] = Array(sepal_length, sepal_width, petal_length, petal_width, speciesIndex)
    
 //3. ¿Cómo es el esquema?
+data2.schema
+// Output res3: org.apache.spark.sql.types.StructType = StructType(StructField(sepal_length,DoubleType,true), 
+//StructField(sepal_width,DoubleType,true), StructField(petal_length,DoubleType,true), StructField(petal_width,DoubleType,true),
+// StructField(speciesIndex,DoubleType,false))
 
 //4. Imprime las primeras 5 columnas.
 
