@@ -28,6 +28,7 @@
   - [Practice 10](#practice-10)
   - [Homework 1](#homework-1)
   - [Evaluation Unit 2](#evaluation-unit-2)
+  - [Introduction](#introduction)
   
   <div id='pr1' />
 # UNIT 1
@@ -1427,114 +1428,61 @@ The coefficients are the mathematical calculations with which the model performs
 ## Practice 9
 > One vs Rest
 
-Esta estrategia consiste en ajustar un clasificador por clase. Para cada clasificador, la clase se ajusta a todas las demás clases. Además de su eficiencia computacional (solo se necesitan clasificadores n_classes), una ventaja de este enfoque es su interpretabilidad. Dado que cada clase está representada por uno y solo un clasificador, es posible obtener conocimiento sobre la clase inspeccionando su clasificador correspondiente. Ésta es la estrategia más utilizada para la clasificación multiclase y es una opción justa por defecto.
+This strategy consists of fitting one classifier per class. For each classifier, the class conforms to all other classes. In addition to its computational efficiency (only n_classes classifiers are needed), an advantage of this approach is its interpretability. Since each class is represented by one and only one classifier, it is possible to gain knowledge about the class by inspecting its corresponding classifier. This is the most widely used strategy for multiclass classification and is a fair option by default.
 
 ```Scala
 import org.apache.spark.ml.classification.{LogisticRegression, OneVsRest}
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 ```
-Primero importamos nuestras librerías de clasificación, vamos a ajustarlo con Logistic Regression, y también se importa nuestro Evaluador de clasificación, también se debe importar nuestra librería SparkSession.
+First we import our classification libraries, we are going to adjust it with Logistic Regression, and our Classification Evaluator is also imported, our SparkSession library must also be imported.
 
 ```Scala
 var inputData = spark.read.format("libsvm").load("C:/sample_multiclass_classification_data.txt")
 ```
-Creamos nuestra variable inputData que va a contener todos los datos de nuestro archivo sample_multiclass_classification_data, que es con el que se ha trabajado en otra practica, esto se hace con una lectura usando spark read.
+We create our inputData variable that will contain all the data from our sample_multiclass_classification_data file, which is the one we have worked with in another practice, this is done with a reading using spark read.
 
 ```Scala
 val Array(train, test) = inputData.randomSplit(Array(0.8, 0.2))
 ```
-Generamos la división de train y test, donde en nuestro split random indicamos el arreglo con los porcentajes, son 80 % datos a entregar y 20% de predicción.
+We generate the train and test division, where in our random split we indicate the arrangement with the percentages, they are 80% data to deliver and 20% prediction.
 
 ```Scala
 val classifier = new LogisticRegression().setMaxIter(10).setTol(1E-6).setFitIntercept(true)
 ```
-Creamos nuestra variable clasificador que es para instanciarlo, donde MaxIter es de 10, setTol es 1E-6 e indicamos que FitIntercept es true.
+We create our classifier variable that is to instantiate it, where MaxIter is 10, setTol is 1E-6 and we indicate that FitIntercept is true.
 
 ```Scala
 val ovr = new OneVsRest().setClassifier(classifier)
 ```
-Se crea la variable ovr que contiene nuestro clasificador One VS Rest.
+The ovr variable is created that contains our One VS Rest classifier.
 
 ```Scala
 val ovrModel = ovr.fit(train)
 ```
-A nuestro modelo multiclase le damos el fit de ovr donde el parámetro que se le da es train
+We give our multiclass model the fit of ovr where the parameter given is train
 
 ```Scala
 val predictions = ovrModel.transform(test)
 ```
-Se crea la variable que va a contener las predicciones, se transforma ovrModel para darle el parámetro de test.
+The variable that will contain the predictions is created, ovrModel is transformed to give it the test parameter.
 
 ```Scala
 val evaluator = new MulticlassClassificationEvaluator().setMetricName("accuracy")
 ```
-Al crear la variable evaluador le ponemos que su MetricName sea “accuracy” para verla exactitud que tiene al momento de realizar las predicciones.
+When creating the evaluator variable, we set its MetricName to be “accuracy” to see how accurate it is at the time of making the predictions.
 
 ```Scala
 val accuracy = evaluator.evaluate(predictions) //Output -> accuracy: Double = 1.0
 println(s"Test Error = ${1 - accuracy}") // Output -> Test Error = 0.0
 ```
-A Accuracy se le da el evaluador que contiene las predicciones y se imprime Test Error, los resultados arrojados dicen que Accuracy es 1 y Test Error es 0, eso quiere decir que en sus predicciones tuvo un acierto del 100% por lo que el error es de 0%.
+Accuracy is given the evaluator that contains the predictions and Test Error is printed, the results returned say that Accuracy is 1 and Test Error is 0, that means that in its predictions it had a 100% correctness so the error is of 0%.
 
 
 ## Practice 10
-```scala
-import org.apache.spark.ml.classification.NaiveBayes
-import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
-val data = spark.read.format("libsvm").load("C:/sample_libsvm_data.txt")
-data.show(2)
-/*
-+-----+--------------------+
-|label|            features|
-+-----+--------------------+
-|  0.0|(692,[127,128,129...|
-|  1.0|(692,[158,159,160...|
-+-----+--------------------+
-*/
-```
 
-```scala
-val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3), seed = 1234L)
-val model = new NaiveBayes().fit(trainingData)
-val predictions = model.transform(testData)
-predictions.show()
-/*
-+-----+--------------------+--------------------+-----------+----------+
-|label|            features|       rawPrediction|probability|prediction|
-+-----+--------------------+--------------------+-----------+----------+
-|  0.0|(692,[95,96,97,12...|[-173266.38465085...|  [1.0,0.0]|       0.0|
-|  0.0|(692,[98,99,100,1...|[-176798.24796349...|  [1.0,0.0]|       0.0|
-|  0.0|(692,[122,123,124...|[-189371.23080028...|  [1.0,0.0]|       0.0|
-|  0.0|(692,[126,127,128...|[-210969.37526481...|  [1.0,0.0]|       0.0|
-|  0.0|(692,[127,128,129...|[-170881.90406252...|  [1.0,0.0]|       0.0|
-|  0.0|(692,[127,128,129...|[-213398.60801697...|  [1.0,0.0]|       0.0|
-|  0.0|(692,[127,128,129...|[-183284.52661405...|  [1.0,0.0]|       0.0|
-|  0.0|(692,[128,129,130...|[-246027.39704974...|  [1.0,0.0]|       0.0|
-|  0.0|(692,[150,151,152...|[-157898.87276406...|  [1.0,0.0]|       0.0|
-|  0.0|(692,[152,153,154...|[-208299.36235153...|  [1.0,0.0]|       0.0|
-|  0.0|(692,[152,153,154...|[-243127.71890150...|  [1.0,0.0]|       0.0|
-|  0.0|(692,[153,154,155...|[-144207.79475583...|  [1.0,0.0]|       0.0|
-|  1.0|(692,[100,101,102...|[-144208.40561310...|  [0.0,1.0]|       1.0|
-|  1.0|(692,[123,124,125...|[-138363.44872824...|  [0.0,1.0]|       1.0|
-|  1.0|(692,[124,125,126...|[-127978.05376288...|  [0.0,1.0]|       1.0|
-|  1.0|(692,[124,125,126...|[-79957.487724508...|  [0.0,1.0]|       1.0|
-|  1.0|(692,[125,126,127...|[-102430.14231250...|  [0.0,1.0]|       1.0|
-|  1.0|(692,[125,126,127...|[-81588.939249410...|  [0.0,1.0]|       1.0|
-|  1.0|(692,[126,127,128...|[-118122.23190317...|  [0.0,1.0]|       1.0|
-|  1.0|(692,[126,127,128...|[-80661.473798128...|  [0.0,1.0]|       1.0|
-+-----+--------------------+--------------------+-----------+----------+
+> Naive Bayes
 
-*/
-```
-
-```scala
-val evaluator = new MulticlassClassificationEvaluator().setLabelCol("label").setPredictionCol("prediction").setMetricName("accuracy")
-val accuracy = evaluator.evaluate(predictions)
-println(s"Test set accuracy = $accuracy") // Output -> Test set accuracy = 1.0
-```
-
-
-Iris
+Example Iris
 ```scala
 package spark.ml.cookbook.chapter6
 import org.apache.spark.mllib.linalg.{Vector, Vectors} 
@@ -1546,7 +1494,7 @@ import org.apache.log4j.Logger
 import org.apache.log4j.Level
 val data = sc.textFile("C:/iris-data-prepared.txt")
 ```
-
+We import the libraries that are going to be needed for this example of naive bayes and import the data that was previously transformed for treatment
 ```scala
 val NaiveBayesDataSet = data.map { line => val 
 columns = line.split(',')
@@ -1558,7 +1506,7 @@ columns(2).toDouble,
 columns(3).toDouble))
 }
 ```
-
+A new variable is created where a data set of the mapping of columns from 0 to 3 will be loaded, which would be the dense vector
 ```scala
 println(" Total number of data vectors =", NaiveBayesDataSet.count())
 // Output -> ( Total number of data vectors =,150)
@@ -1567,6 +1515,7 @@ println("Distinct number of data vectors = ",
 distinctNaiveBayesData.count())
 // Output -> (Distinct number of data vectors = ,147)
 ```
+The total number of vectors is printed and the number of the different vector data is printed.
 
 ```scala
 distinctNaiveBayesData.collect().take(10).foreach(println(_))
@@ -1583,7 +1532,7 @@ distinctNaiveBayesData.collect().take(10).foreach(println(_))
 (0.0,[4.6,3.6,1.0,0.2])
 */
 ```
-
+From the data frame that was created with the dense vectors, 10 vectors are taken and printed to see their coefficients
 
 ```scala
 val allDistinctData =
@@ -1591,6 +1540,7 @@ distinctNaiveBayesData.randomSplit(Array(.80,.20),10L)
 val trainingDataSet = allDistinctData(0)
 val testingDataSet = allDistinctData(1)
 ```
+A new variable is assigned the percentage of 80 to training data and 20 to test data with a seed of 10
 
 ```scala
 println("number of training data =",trainingDataSet.count())
@@ -1598,12 +1548,14 @@ println("number of training data =",trainingDataSet.count())
 println("number of test data =",testingDataSet.count())
 //(number of test data =,36)
 ```
+The data count that was assigned for training and testing is printed
 
 ```scala
 val myNaiveBayesModel = NaiveBayes.train(trainingDataSet)
 val predictedClassification = testingDataSet.map( x => 
  (myNaiveBayesModel.predict(x.features), x.label))
 ```
+The model is created in which the training is done with the training dataset and then the prediction is made with the test data by mapping the features and label.
 
 ```scala
 val metrics = new MulticlassMetrics(predictedClassification)
@@ -1615,15 +1567,27 @@ val metrics = new MulticlassMetrics(predictedClassification)
 0.0   0.0  8.0
 */
 ```
+With metrics we take the metrics from the prediction we make, we see the confusion matrix to see the effectiveness in which the iris grouping was performed
 
 ```scala
  val myModelStat=Seq(metrics.precision)
  myModelStat.foreach(println(_))
 ```
+We create a variable to see the precision of our model and later we print it
 
 ## Homework 1
 In cluster analysis, the elbow method is a heuristic used in determining the number of clusters in a data set. The method consists of plotting the explained variation as a function of the number of clusters, and picking the elbow of the curve as the number of clusters to use.
+<div align="right">
+- Mosqueda Adamari 
+</div>
 
 [Full Version](https://github.com/AdamariMosqueda/Big_Data/blob/Unit_2/U2/Homeworks/Elbow_Mosqueda.md)
 
 ## Evaluation Unit 2
+## Introduction
+In this research he describes what the elbow is and in what situations it is needed, as an advance it is a method that supports us in the model of k means to group. 
+<div align="right">
+- Gutierrez Luna Yuridia Nayeli
+</div>
+
+[Full Version]()
