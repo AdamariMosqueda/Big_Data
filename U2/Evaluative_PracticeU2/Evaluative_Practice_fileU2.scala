@@ -55,6 +55,11 @@ data2.describe()
 // Output -> res6: org.apache.spark.sql.DataFrame = [summary: string, sepal_length: string ... 4 more fields]
 //6. Haga la transformación pertinente para los datos categoricos los cuales seran nuestras etiquetas a clasificar.
 
+//La transformacion fue hecha en el punto 1
+val splits = data2.randomSplit(Array(0.7, 0.3), seed = 1234L)
+val train = splits(0)
+val test = splits(1)
+
 //7. Construya el modelos de clasificación y explique su arquitectura.
 
 //8. Imprima los resultados del modelo  
