@@ -51,7 +51,8 @@ data2.show(5)
 
 
 //5. Usa el metodo describe () para aprender mas sobre los datos del DataFrame.
-
+data2.describe()
+// Output -> res6: org.apache.spark.sql.DataFrame = [summary: string, sepal_length: string ... 4 more fields]
 //6. Haga la transformación pertinente para los datos categoricos los cuales seran nuestras etiquetas a clasificar.
 
 //7. Construya el modelos de clasificación y explique su arquitectura.
