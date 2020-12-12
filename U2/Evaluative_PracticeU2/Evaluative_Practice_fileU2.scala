@@ -26,7 +26,9 @@ import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 
 //2. ¿Cuáles son los nombres de las columnas?
-
+data2.columns
+   // Output -> Array[String] = Array(sepal_length, sepal_width, petal_length, petal_width, speciesIndex)
+   
 //3. ¿Cómo es el esquema?
 
 //4. Imprime las primeras 5 columnas.
