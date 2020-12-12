@@ -27,8 +27,8 @@
   - [Practice 9](#practice-9)
   - [Practice 10](#practice-10)
   - [Homework 1](#homework-1)
+  - [Homework 2](#homework-2)
   - [Evaluation Unit 2](#evaluation-unit-2)
-  - [Introduction](#introduction)
   
   <div id='pr1' />
 # UNIT 1
@@ -1583,11 +1583,13 @@ In cluster analysis, the elbow method is a heuristic used in determining the num
 
 [Full Version](https://github.com/AdamariMosqueda/Big_Data/blob/Unit_2/U2/Homeworks/Elbow_Mosqueda.md)
 
-## Evaluation Unit 2
-## Introduction
+## Homework 2
+**Introduction**
 In this research he describes what the elbow is and in what situations it is needed, as an advance it is a method that supports us in the model of k means to group. 
 <div align="right">
 - Gutierrez Luna Yuridia Nayeli
 </div>
 
-[Full Version]()
+[Full Version](https://github.com/AdamariMosqueda/Big_Data/blob/Unit_2/U2/Homeworks/Elbow_Gutierrez.md)
+
+## Evaluation Unit 2
