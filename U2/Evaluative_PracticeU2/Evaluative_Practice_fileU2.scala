@@ -79,3 +79,6 @@ val modelML = trainer.fit(train)
     val evaluator = new MulticlassClassificationEvaluator()
       .setMetricName("accuracy")
 //8. Imprima los resultados del modelo  
+
+println(s"Test set accuracy = ${evaluator.evaluate(predictionAndLabels)}")
+// Output -> Test set accuracy = 0.9803921568627451
