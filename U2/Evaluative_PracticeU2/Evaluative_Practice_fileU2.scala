@@ -68,10 +68,7 @@ println("test set =",test.count())
 
 val layers = Array[Int](4, 5, 4, 3)
 
-val trainer = new MultilayerPerceptronClassifier()
-   .setLayers(layers)
-   .setBlockSize(128)
-   .setSeed(1234L)
-   .setMaxIter(100)
+val trainer = new MultilayerPerceptronClassifier().setLayers(layers).setBlockSize(128).setSeed(1234L).setMaxIter(100)
 
+val modelML = trainer.fit(train)
 //8. Imprima los resultados del modelo  
