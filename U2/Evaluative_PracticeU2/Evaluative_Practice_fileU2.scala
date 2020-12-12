@@ -64,7 +64,7 @@ println("training set =",train.count())
 //Output-> (training set =,110)
 println("test set =",test.count())
 //Output-> (number of test data =,40)
-
+val layers = Array[Int](4, 5, 4, 3)
 //7. Construya el modelos de clasificación y explique su arquitectura.
 
 //8. Imprima los resultados del modelo  
