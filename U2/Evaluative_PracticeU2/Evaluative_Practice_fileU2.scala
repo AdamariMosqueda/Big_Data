@@ -1,5 +1,5 @@
 //Evaluative Practice Unit 2
-// Naive Bayes
+// Multilayer Perceptron Classifier
 
 // Hints
 //- Hay que buscar la manera con scala de tranformar datos categoricosa a numericos, una vez que cargen dataframe tendran que 
