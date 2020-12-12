@@ -17,7 +17,6 @@ import org.apache.spark.ml.linalg.Vectors
 val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("C:/Users/yurid/Documents/RepABigData/Big_Data/U2/Evaluative_PracticeU2/iris.csv")
 
 val label = new StringIndexer().setInputCol("species").setOutputCol("label")
-val indexer = new StringIndexer().setInputCol("species").setOutputCol("speciesIndex")
 val labeltransform = label.fit(data).transform(data)
 labeltransform.show()
 
@@ -76,4 +75,7 @@ val layers = Array[Int](4, 5, 4, 3)
 val trainer = new MultilayerPerceptronClassifier().setLayers(layers).setBlockSize(128).setSeed(1234L).setMaxIter(100)
 
 val modelML = trainer.fit(train)
+    val predictionAndLabels = result.select("prediction", "label")
+    val evaluator = new MulticlassClassificationEvaluator()
+      .setMetricName("accuracy")
 //8. Imprima los resultados del modelo  
