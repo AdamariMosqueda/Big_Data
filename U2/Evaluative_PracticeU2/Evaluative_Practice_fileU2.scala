@@ -12,7 +12,7 @@
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.ml.feature.StringIndexer
 
-val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("C:/iris.csv")
+val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("")
 
 val indexer = new StringIndexer().setInputCol("species").setOutputCol("speciesIndex")
 val indexed = indexer.fit(data).transform(data)
