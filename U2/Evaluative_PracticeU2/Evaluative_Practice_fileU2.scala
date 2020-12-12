@@ -60,6 +60,11 @@ val splits = data2.randomSplit(Array(0.7, 0.3), seed = 1234L)
 val train = splits(0)
 val test = splits(1)
 
+println("training set =",train.count())
+//Output-> (training set =,110)
+println("test set =",test.count())
+//Output-> (number of test data =,40)
+
 //7. Construya el modelos de clasificación y explique su arquitectura.
 
 //8. Imprima los resultados del modelo  
