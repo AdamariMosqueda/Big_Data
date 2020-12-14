@@ -75,6 +75,7 @@ val layers = Array[Int](4, 5, 4, 3)
 val trainer = new MultilayerPerceptronClassifier().setLayers(layers).setBlockSize(128).setSeed(1234L).setMaxIter(100)
 
 val modelML = trainer.fit(train)
+val result = modelML.transform(test)
     val predictionAndLabels = result.select("prediction", "label")
     val evaluator = new MulticlassClassificationEvaluator()
       .setMetricName("accuracy")
