@@ -21,7 +21,7 @@ val labeltransform = label.fit(data).transform(data)
 labeltransform.show()
 
 val Features = (new VectorAssembler (). setInputCols (Array ("sepal_length", "sepal_width", "petal_length", "petal_width")). setOutputCol ("features"))
-val data2 = vectorFeatures.transform (labeltransform)
+val data2 = Features.transform (labeltransform)
 data2.show()
 
 //a. Utilice la librería Mllib de Spark el algoritmo de Machine Learning correspondiente a multilayer perceptron
