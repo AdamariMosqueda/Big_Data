@@ -1594,9 +1594,9 @@ In this research he describes what the elbow is and in what situations it is nee
 
 ## Evaluation Unit 2
 
-Para el examen usamos el archivo Iris.csv que se encuenta en este [repositorio](https://github.com/jcromerohdz/iris) para crear el modelo de clasificación de multilayer perceptron.
+For the exam we used the Iris.csv file found in this [repository] (https://github.com/jcromerohdz/iris) to create the perceptron multilayer classification model.
 
->  Carga de los datos de Iris.csv en un dataframe y transformación. 
+>  Loading the data from Iris.csv into a dataframe and transformation.
 ```Scala
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.ml.feature.StringIndexer
@@ -1605,34 +1605,34 @@ import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 ```
-Hay varias librerias que se necesitan importar para este examen, SparkSession nunca debe faltar, con ese creamos los dataframes a partir de archivos csv o txt, stringIndexer sirve para transformar datos categoricos a numericos, VectorAssembler y Vectors se necesitan para crear un vector que sera nuestro features, y por ultimo las librerias de clasificacion y evaluacion de MultilayerPerceptronClassifier, que seran las que nos van a ayudar para construir nuestro modelo.
+There are several libraries that need to be imported for this exam, SparkSession should never be absent, with that we create the dataframes from csv or txt files, stringIndexer is used to transform categorical data to numerical, VectorAssembler and Vectors are needed to create a vector that will be ours features, and finally the MultilayerPerceptronClassifier classification and evaluation libraries, which will be the ones that will help us to build our model.
 
 
 ```scala
 val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("C:/Users/yurid/Documents/RepABigData/Big_Data/U2/Evaluative_PracticeU2/iris.csv")
 ```
-Creamos la variable data que con un spark.read va a obtener todos los datos de un archivo csv llamado iris, a este dataframe le falta estar transformado en la forma "label" y "features", ademas de que contiene una columna con valores string
+We create the data variable that with a spark.read will obtain all the data from a csv file called iris, this dataframe needs to be transformed into the form "label" and "features", in addition to containing a column with string values
 
 ```scala
 val label = new StringIndexer().setInputCol("species").setOutputCol("label")
 val labeltransform = label.fit(data).transform(data)
 ```
-La variable label sera un StringIndexer, este metodo lo que hace es tomar los valores string de una columna para despues transformarlos en valores numericos, pero antes de la transformacion simplemente indicamos el nombre de la columna a tomar los datos y el nombre que queremos que tenga, en este caso species sera nuestro label por lo que le ponemos el nombre de "label".
+The label variable will be a StringIndexer, what this method does is take the string values of a column and then transform them into numerical values, but before the transformation we simply indicate the name of the column to take the data and the name that we want it to have In this case, species will be our label, so we name it "label".
 
-Se crea la variable labeltransform la cual toma label, hace un fit y lo transforma, indicando de donde tomamos los datos, que es de data.
+The labeltransform variable is created which takes label, makes a fit and transforms it, indicating where we take the data from, which is data.
 
 ```Scala
 val Features = (new VectorAssembler().setInputCols(Array ("sepal_length", "sepal_width", "petal_length", "petal_width")).setOutputCol("features"))
 val data2 = vectorFeatures.transform (labeltransform)
 ```
-Ya que se tiene la columna label, ahora sigue la transformacion para tener features, pero son 4 columnas, para ello la columna Features sera un nuevo vectorAssembler, este metodo se encarga de transformar varias columnas para convertirlas en un vector. En setInputCols creamos un arreglo con todas las columnas y en setOutputcol va el nombre de la columna que va a contener los vectores, que sera features. Se crea Data2 que va a hacer la transformacion con labeltransform porque este es el que tiene nuestra columna label
+Since we have the label column, now the transformation continues to have features, but there are 4 columns, for this the Features column will be a newAssembler vector, this method is in charge of transforming several columns to convert them into a vector. In setInputCols we create an array with all the columns and in setOutputcol is the name of the column that will contain the vectors, which will be features. Data2 is created that will do the transformation with labeltransform because this is the one with our label column
 
-> Conociendo el dataframe
+> Knowing the dataframe
 ```scala
 data2.columns
    // Output -> Array[String] = Array(sepal_length, sepal_width, petal_length, petal_width, species, label, features)
 ```
-Imprimimos las columnas de data 2, la respuesta es un arreglo que contiene sepal_lenght, sepal_width, petal_lenght, petal width, especies, label y features, entonces nuestras transformaciones no eliminaron las columnas que usamos para las transformaciones, solo agrego nuevas columnas.
+We print the columns of data 2, the response is an array containing sepal_lenght, sepal_width, petal_lenght, petal width, species, label and features, so our transformations did not remove the columns we use for transformations, I just add new columns.
 
 ```scala   
 data2.schema
@@ -1640,7 +1640,7 @@ data2.schema
 //StructField(petal_width,DoubleType,true), StructField(species,StringType,true), StructField(label,DoubleType,false), 
 //StructField(features,org.apache.spark.ml.linalg.VectorUDT@3bfc3ba7,true))
 ```
-Al imprimir el schema conocemos el tipo de datos que tiene nuestro dataframe, las primeras 4 columnas son de tipo Double y true, en species marca que es string, mientras que label es Double (Recordando que transformo los valores de species a numericos) y features es un vector.
+When printing the schema we know the type of data that our dataframe has, the first 4 columns are of type Double and true, in species it marks that it is string, while label is Double (Remembering that I transform the values of species to numeric) and features is a vector.
 
 ```scala
 data2.show(5)
@@ -1656,21 +1656,22 @@ data2.show(5)
 +------------+-----------+------------+-----------+-------+-----+-----------------+
 */
 ```
-Imprimimos las primeras 5 filas de Data2, en el resultado arrojado vemos que sepal_length tiene valores muy centrados en el rango de 5, sepal_width estan dentro del rango de 3, petal_lenght no tiene mucha diferencia y petal width tienen el mismo tamaño (Todo esto es solamente con lo que observamos de las primeras 5 filas), en species los primeros valores corresponden a setosa y estos transformados en label equivalen a 0, hay otros dos valores donde versicolor equivale a 1 y virginica equivale a 2.
+We print the first 5 rows of Data2, in the output we see that sepal_length has values very centered in the range of 5, sepal_width are within the range of 3, petal_lenght does not have much difference and petal width have the same size (All this is only with what we observe from the first 5 rows), in species the first values correspond to setosa and these transformed into label are equal to 0, there are two other values where versicolor equals 1 and virginica equals 2.
 
 ```scala
 data2.describe()
 // Output -> res6: org.apache.spark.sql.DataFrame = [summary: string, sepal_length: string ... 5 more fields]
 ```
-Describe hace algo parecido a Schema, mostrando cómo se conforman las columnas pero cuando son varias no las muestra por completo, así que no se puede obtener mucha inforación de este.
+Describe does something similar to Schema, showing how the columns are formed but when there are several it does not show them completely, so you cannot get much information from it.
 
-> Nuevo dataframe
+> New dataframe
 ```scala
 val data3 = data2.select("features", "label")
 data3.show()
 ```
-
-> Construccion del modelo de clasificacion
+A new variable is created which is assigned the features and label columns of the data -> data2
+we print the new data
+> Construction of the classification model
 ```scala
 val splits = data3.randomSplit(Array(0.7, 0.3), seed = 1234L)
 val train = splits(0)
@@ -1680,19 +1681,26 @@ println("training set =",train.count())
 println("test set =",test.count())
 //Output-> (number of test data =,40)
 ```
-
+We split the new data3 in to make the division of 70% and 30% with a 1234L seed
+We make the separation in the variables of train and test, according to the value 0 and 1 respectively and we print the values that were assigned to each of the variables
 ```scala
 val layers = Array[Int](4, 5, 4, 3)
 val trainer = new MultilayerPerceptronClassifier().setLayers(layers).setBlockSize(128).setSeed(1234L).setMaxIter(100)
 ```
+In the layers variable the data is taken from within the array
+In the trainer object the model is made, the layer size is taken into account, the block sizes, the seed and the maximum of iter
 ```Scala
 val modelML = trainer.fit(train)
     val predictionAndLabels = result.select("prediction", "label")
     val evaluator = new MulticlassClassificationEvaluator()
       .setMetricName("accuracy")
 ```
-> Resultados 
+A variable is created to do the training of the variable with the model.
+In a new variable we make the prediction.
+In the evaluator variable we make the precision of our model
+> Results
 ```scala
 println(s"Test set accuracy = ${evaluator.evaluate(predictionAndLabels)}")
 // Output -> Test set accuracy = 0.9803921568627451
 ```
+We print the effectiveness of our model
