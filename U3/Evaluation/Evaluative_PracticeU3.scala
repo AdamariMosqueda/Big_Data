@@ -1,8 +1,7 @@
 //Evaluative Practice Unit 3
 // K means
 //1. Importar una simple sesión Spark.
-
-
+import org.apache.spark.sql.SparkSession
 //2. Utilice las lineas de código para minimizar errores
 
 //3. Cree una instancia de la sesión Spark
