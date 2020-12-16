@@ -23,7 +23,7 @@ import org.apache.spark.ml.linalg.Vectors
 val VectorA = new VectorAssembler().setInputCols (Array ("Fresh", "Milk", "Grocery", "Frozen", "Detergents_Paper", "Delicassen")). setOutputCol ("features")
 
 //9. Utilice el objeto assembler para transformar feature_data
-
+val output= VectorA.transform(dataset).select($"features")
 //10. Crear un modelo Kmeans con K=3
 
 //11. Evalúe  los grupos utilizando Within Set Sum of Squared Errors WSSSE e imprima los centroides.
