@@ -1715,56 +1715,64 @@ We print the effectiveness of our model
 import org.apache.spark.sql.SparkSession
 ```
 Import of SparkSession library is performed
+
 2. Use lines of code to minimize errors
 ```Scala
 import org.apache.log4j._
 Logger.getLogger("org").setLevel(Level.ERROR)
 ```
-The libraries are imported to minimize errors in the code run
-The set is made for the levels of errors
+The libraries are imported to minimize errors in the code run. The set is made for the levels of errors
+
 3. Create an instance of the Spark session
 ```Scala
 val spark = SparkSession.builder().getOrCreate()
 ```
 In the variable spark we load a simple session of spark
+
 4. Import the Kmeans library for the clustering algorithm.
 ```Scala
 import org.apache.spark.ml.clustering.KMeans
 ```
 The libraries for the Kmeans algorithm are imported
+
 5. Loads the Wholesale Customers Data dataset
 ```Scala
 val dataset = spark.read.option("header","true").option("inferSchema","true").csv("Wholesale customers data.csv")
 ```
-The data is loaded from the csv file to a new dataset
+The data is loaded from the csv file "Wholesale customers data" to a new dataset
+
 6. Select the following columns: Fresh, Milk, Grocery, Frozen, Detergents_Paper, Delicassen and call this set feature_data
 ```Scala
 val feature_data = dataset.select("Fresh", "Milk", "Grocery", "Frozen", "Detergents_Paper", "Delicassen")
 ```
 A new dataset is made where the columns mentioned in the instruction are loaded
+
 7. Import Vector Assembler and Vector
 ```Scala
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.linalg.Vectors
 ```
 The libraries for vector groupings, VectorAssembler and Vector are imported
+
 8. Create a new Vector Assembler object for the feature columns as an input set, remembering that there are no labels
 ```Scala
 val VectorA = new VectorAssembler().setInputCols (Array ("Fresh", "Milk", "Grocery", "Frozen", "Detergents_Paper", "Delicassen")). setOutputCol ("features")
 ```
 An object is created in which the columns of the feature_data dataset are grouped in an array and named Features
+
 9. Use the assembler object to transform feature_data
 ```Scala
 val output= VectorA.transform(feature_data)
 ```
 A variable is created where the transformation of the VectorAssembler is performed to see it in a readable way
+
 10.  Create a Kmeans model with K = 3
 ```Scala
 val kmeans = new KMeans().setK(3).setSeed(1L)
 val model = kmeans.fit(output)
 ```
-The kmeans object is created to place the cluster number k = 3 and the seed 1L
-The model for the kmeans object is created with the data from the output dataset which is our already normalized vector
+The kmeans object is created to place the cluster number k = 3 and the seed 1L. The model for the kmeans object is created with the data from the output dataset which is our already normalized vector
+
 11.  Evaluate groups using Within Set Sum of Squared Errors WSSSE and print centroids.
 ```Scala
 val WSSE = model.computeCost(output)
@@ -1773,5 +1781,4 @@ println(s"Within set sum of Squared Errors = $WSSE")
 println("Cluster Centers: ")
 model.clusterCenters.foreach(println)
 ```
-The WSSE variable is created where we show the sum of the squared distances of the points to their closest center for the data output model and we print this value
-The centroids of the clusters are printed taking into account the model and the centroids that were generated with a foreach
+The WSSE variable is created where we show the sum of the squared distances of the points to their closest center for the data output model and we print this value. The centroids of the clusters are printed taking into account the model and the centroids that were generated with a foreach
