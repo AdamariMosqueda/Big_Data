@@ -20,6 +20,7 @@ val feature_data = dataset.select("Fresh", "Milk", "Grocery", "Frozen", "Deterge
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.linalg.Vectors
 //8. Crea un nuevo objeto Vector Assembler para las columnas de caracteristicas como un conjunto de entrada, recordando que no hay etiquetas
+val VectorA = new VectorAssembler().setInputCols (Array ("Fresh", "Milk", "Grocery", "Frozen", "Detergents_Paper", "Delicassen")). setOutputCol ("features")
 
 //9. Utilice el objeto assembler para transformar feature_data
 
