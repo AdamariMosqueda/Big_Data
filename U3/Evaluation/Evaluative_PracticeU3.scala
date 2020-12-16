@@ -3,6 +3,8 @@
 //1. Importar una simple sesión Spark.
 import org.apache.spark.sql.SparkSession
 //2. Utilice las lineas de código para minimizar errores
+import org.apache.log4j._
+Logger.getLogger("org").setLevel(Level.ERROR)
 
 //3. Cree una instancia de la sesión Spark
 
