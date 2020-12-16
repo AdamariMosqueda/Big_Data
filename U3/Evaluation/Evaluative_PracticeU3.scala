@@ -9,6 +9,7 @@ Logger.getLogger("org").setLevel(Level.ERROR)
 //3. Cree una instancia de la sesión Spark
 val spark = SparkSession.builder().getOrCreate()
 //4. Importar la librería de Kmeans para el algoritmo de agrupamiento.
+import org.apache.spark.ml.clustering.KMeans
 
 //5. Carga el dataset de Wholesale Customers Data
 
