@@ -12,8 +12,9 @@ val spark = SparkSession.builder().getOrCreate()
 import org.apache.spark.ml.clustering.KMeans
 
 //5. Carga el dataset de Wholesale Customers Data
-val dataset = spark.read.format("libsvm").option("numFeatures", "780").load("Wholesale customers data.csv")
+val dataset = spark.read.option("header","true").option("inferSchema","true").csv("C:/Wholesale customers data.csv")
 //6. Seleccione las siguientes columnas: Fresh, Milk, Grocery, Frozen, Detergents_Paper, Delicassen y llamar a este conjunto feature_data
+val feature_data = dataset.select("Fresh", "Milk", "Grocery", "Frozen", "Detergents_Paper", "Delicassen")
 
 //7. Importar Vector Assembler y Vector
 
