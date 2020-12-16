@@ -28,3 +28,9 @@ val output= VectorA.transform(feature_data)
 val kmeans = new KMeans().setK(3).setSeed(1L)
 val model = kmeans.fit(output)
 //11. Evalúe  los grupos utilizando Within Set Sum of Squared Errors WSSSE e imprima los centroides.
+val WSSE = model.computeCost(output)
+println(s"Within set sum of Squared Errors = $WSSE")
+
+//centroides
+println("Cluster Centers: ")
+model.clusterCenters.foreach(println)
