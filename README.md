@@ -31,6 +31,7 @@
   - [Evaluation Unit 2](#evaluation-unit-2)
 - [Unit 3](#unit-3)
   - [Evaluative PracticeU3](#evaluative-practiceu3)
+- [Final Project](#final-project)
   
   <div id='pr1' />
 # UNIT 1
@@ -1782,3 +1783,7 @@ println("Cluster Centers: ")
 model.clusterCenters.foreach(println)
 ```
 The WSSE variable is created where we show the sum of the squared distances of the points to their closest center for the data output model and we print this value. The centroids of the clusters are printed taking into account the model and the centroids that were generated with a foreach
+
+# Final Project
+
+[Link to final project](https://github.com/AdamariMosqueda/Big_Data/blob/Final_Project/Project/Final_Project.md)
