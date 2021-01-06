@@ -39,11 +39,14 @@ MOSQUEDA ESPINOZA ADAMARI ANTONIA 16212363
 - [INTRODUCTION](#introduction)
 - [THEORETICAL FRAMEWORK](#theoretical-framework)
   - [Support Vector Machine](#support-vector-machine)
-  - [Decision Three](#decision-three)
+  - [Decision Tree](#decision-tree)
   - [Logistic Regression](#logistic-regression)
   - [Multilayer Perceptron](#multilayer-perceptron)
 - [IMPLEMENTATION](#implementation)
   - [SVM](#svm)
+  - [Decision Tree](#decision-tree-1)
+  - [Logistic Regression](#logistic-regression-1)
+  - [Multilayer Perceptron](#multilayer-perceptron-1)
 - [RESULTS](#results)
 - [CONCLUSIONS](#conclusions)
 - [REFERENCES](#references)
@@ -68,7 +71,7 @@ El entrenamiento de una máquina de vectores de soporte consta de dos fases:
 2. Resolver un problema de optimización cuadrática que se ajuste a un hiperplano óptimo para clasificar las características transformadas en dos clases. El número de características transformadas está determinado por el número de vectores de soporte.
 
 
-## Decision Three
+## Decision Tree
 
 ## Logistic Regression
 
@@ -96,7 +99,7 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.linalg.Vectors
 ```
-Hicimos la importación de varias librerias, solo una se necesita para SVM pero los datos ofrecidos incluyen valores string, por lo que se uriliza StringIndexer para transformar, pero hay muchas columnas por lo que se usa pipeline y con VectorAssembler se juntan los features.
+Hicimos la importación de varias librerias, solo una se necesita para SVM pero los datos ofrecidos incluyen valores string, por lo que se uriliza StringIndexer para transformar y con VectorAssembler se juntan los features.
 ```Scala
 val data  = spark.read.option("header","true").option("inferSchema","true").option("delimiter", ";").format("csv").load("C:/bank-full.csv")
 data.show()
@@ -123,6 +126,124 @@ println(s"Coefficients: ${lsvcModel.coefficients} Intercept: ${lsvcModel.interce
 ```
 Para SVM usamos training e imprimimos los Coefficients con Intercept
 
+## Decision Tree
+```Scala
+import org.apache.spark.ml.classification.DecisionTreeClassificationModel
+import org.apache.spark.ml.classification.DecisionTreeClassifier
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+import org.apache.spark.ml.feature.StringIndexer
+import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.ml.feature.VectorAssembler
+import org.apache.spark.ml.feature.IndexToString
+import org.apache.spark.ml.feature.VectorIndexer
+
+val data  = spark.read.option("header","true").option("inferSchema","true").option("delimiter", ";").format("csv").load("C:/bank-full.csv")
+val label = new StringIndexer().setInputCol("y").setOutputCol("label")
+val labeltransform = label.fit(data).transform(data)
+val assembler = new VectorAssembler().setInputCols (Array ("balance", "day", "duration", "pdays", "previous")).setOutputCol("features")
+val data2 = assembler.transform(labeltransform)
+val training = data2.select("features", "label")
+```
+Importamos las librerías necesarios y hacemos todo para tener el dataframe con el formato de features y label
+
+```Scala
+val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexedLabel").fit(training)
+val featureIndexer = new VectorIndexer().setInputCol("features").setOutputCol("indexedFeatures").setMaxCategories(4).fit(training)
+```
+Usamos StringIndexer para que label se convierte en indexedLabel y lo mismo hacemos con features, usando VectorIndexer y dándole un máximo de categoría de 4
+
+```Scala
+val Array(trainingData, testData) = training.randomSplit(Array(0.7, 0.3))
+```
+Creamos trainingData y testData, donde el primero va a contener el 70% de datos mientras el otro se queda con el 30, con randomsplit los datos de aplican a cada uno de forma aleatoria.
+
+```Scala
+val dt = new DecisionTreeClassifier().setLabelCol("indexedLabel").setFeaturesCol("indexedFeatures")
+val labelConverter = new IndexToString().setInputCol("prediction").setOutputCol("predictedLabel").setLabels(labelIndexer.labels)
+val pipeline = new Pipeline().setStages(Array(labelIndexer, featureIndexer, dt, labelConverter))
+val model = pipeline.fit(trainingData)
+val predictions = model.transform(testData)
+```
+Creamos nuestro Decision Tree Classifier donde declaramos la columna label y la columna features, con labelConverter creamos la predicción en base a labelIndexer, con pipeline (que nos permite hacer varios procesos a la vez) juntamos los indexers, dt y labelConverter, creamos el modelo con el pipeline y finalmente creamos la variable predicciones con la transformación del modelo.
+
+```Scala
+predictions.select("predictedLabel", "label", "features").show(20)
+|predictedLabel|label|            features|
++--------------+-----+--------------------+
+|           0.0|  0.0|[-8019.0,7.0,299....|
+|           0.0|  0.0|[-6847.0,21.0,206...|
+|           0.0|  0.0|[-3313.0,9.0,153....|
+|           0.0|  0.0|[-2712.0,2.0,253....|
+|           0.0|  0.0|[-1965.0,10.0,317...|
+|           0.0|  0.0|[-1884.0,6.0,82.0...|
+|           0.0|  0.0|[-1884.0,21.0,193...|
+|           0.0|  0.0|[-1854.0,12.0,388...|
+|           0.0|  0.0|[-1737.0,31.0,249...|
+|           0.0|  0.0|[-1730.0,18.0,178...|
+|           0.0|  0.0|[-1725.0,27.0,452...|
+|           0.0|  0.0|[-1701.0,26.0,285...|
+|           0.0|  0.0|[-1664.0,13.0,169...|
+|           0.0|  0.0|[-1655.0,28.0,333...|
+|           0.0|  0.0|[-1629.0,28.0,337...|
+|           0.0|  0.0|[-1621.0,3.0,171....|
+|           0.0|  0.0|[-1621.0,15.0,8.0...|
+|           0.0|  0.0|[-1613.0,20.0,9.0...|
+|           0.0|  0.0|[-1586.0,16.0,89....|
+|           0.0|  0.0|[-1547.0,27.0,492...|
++--------------+-----+--------------------+
+```
+Mostramos solo 20 líneas para comparar la predicción de label, en la primera prueba que se hizo se pudo observar que hubo un 100% de exactitud con las primeras 20 líneas, pero en realidad hay muchos datos en el dataframe.
+
+```Scala
+val evaluator = new MulticlassClassificationEvaluator().setLabelCol("indexedLabel").setPredictionCol("prediction").setMetricName("accuracy")
+val accuracy = evaluator.evaluate(predictions)
+println(s"Test Error = ${(1.0 - accuracy)}")
+val treeModel = model.stages(2).asInstanceOf[DecisionTreeClassificationModel]
+println(s"Learned classification tree model:\n ${treeModel.toDebugString}")
+```
+Creamos el evaluador con MulticlassClassificationEvaluator, donde damos label, la predicción y la exactitud, con eso imprimimos la exactitud, el error y los árboles.
+
+## Logistic Regression
+
+## Multilayer Perceptron
+```Scala
+import org.apache.spark.ml.feature.StringIndexer
+import org.apache.spark.ml.feature.VectorAssembler
+import org.apache.spark.ml.linalg.Vectors
+import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+import org.apache.spark.ml.{Pipeline, PipelineModel}
+val data  = spark.read.option("header","true").option("inferSchema","true").option("delimiter", ";").format("csv").load("C:/bank-full.csv")
+val label = new StringIndexer().setInputCol("y").setOutputCol("label")
+val labeltransform = label.fit(data).transform(data)
+val assembler = new VectorAssembler().setInputCols (Array ("balance", "day", "duration", "pdays", "previous")).setOutputCol("features")
+val data2 = assembler.transform(labeltransform)
+val training = data2.select("features", "label")
+```
+
+```Scala
+val splits = training.randomSplit(Array(0.7, 0.3), seed = 1234L)
+val train = splits(0)
+val test = splits(1)
+```
+Creamos un split para dividir el 70% de los datos en train y el 30% en test
+
+```Scala
+val layers = Array [Int] (5, 3, 3, 2)
+val trainer = new MultilayerPerceptronClassifier().setLayers(layers).setBlockSize(128).setSeed(1234L).setMaxIter(100)
+```
+Para definir las capas se debe tener en cuenta que el primer número es la cantidad de features, durante todos los ejemplos se usaron 5 columnas, los dos valores siguientes son las capas ocultas y el último se define el número de clases, que en este caso es de 2, si no se sabe cuantas clases son, al momento de correr la línea de código te aparece un mensaje de error diciendo cuantas clases tiene en realidad.
+
+```Scala
+val modelML = trainer.fit(train)
+val result = modelML.transform (test)
+val predictionAndLabels = result.select("prediction", "label")
+val evaluator = new MulticlassClassificationEvaluator().setMetricName("accuracy")
+
+println(s"Test set accuracy = ${evaluator.evaluate(predictionAndLabels)}")
+```
+Creamos el modelo con el fit de train, el resultado con la transformación de test y creamos la predicción donde al resultado se le selecciona prediction y label, evaluator tendrá la exactiud y por último se imprime la exactitud de la predicción
+
 # RESULTS
 Para obtener los resultados fue necesario hacer 10 pruebas para cada algoritmo de Machine Learning para ver si los resultados cambiaban o eran los mismos.
 
@@ -134,6 +255,65 @@ Coefficients: [-2.125897501491213E-6,-0.013517727458849872,7.514021888017163E-4,
 Intercept: -1.084924165339881
 ```
 Las otras 5 pruebas se hicieron en una computadora distinta 
+
+**Resultados Nayeli
+
+2. Decision Tree
+
+Lo mismo ocurrió que en SVM, en una computadora se tienen 5 resultados iguales y en la otra salieron otros resultados, pero esos 5 resultados son iguales.
+
+En la primeras 5 pruebas la probabilidad de exactitud fue de 0.8907834778774071 (89.1%) mientras el error fue de 0.06896551724137934 (6.89%), y estos fueron los resultados de los árboles 
+```Scala
+If (feature 2 <= 567.5)
+   If (feature 2 <= 204.5)
+    Predict: 0.0
+   Else (feature 2 > 204.5)
+    If (feature 3 <= 8.5)
+     Predict: 0.0
+    Else (feature 3 > 8.5)
+     If (feature 3 <= 193.5)
+      If (feature 3 <= 96.5)
+       Predict: 1.0
+      Else (feature 3 > 96.5)
+       Predict: 0.0
+     Else (feature 3 > 193.5)
+      Predict: 0.0
+  Else (feature 2 > 567.5)
+   If (feature 2 <= 692.5)
+    If (feature 3 <= 41.0)
+     Predict: 0.0
+    Else (feature 3 > 41.0)
+     If (feature 3 <= 96.5)
+      Predict: 1.0
+     Else (feature 3 > 96.5)
+      If (feature 1 <= 7.5)
+       Predict: 0.0
+      Else (feature 1 > 7.5)
+       Predict: 1.0
+   Else (feature 2 > 692.5)
+    If (feature 2 <= 905.0)
+     If (feature 3 <= 28.5)
+      Predict: 0.0
+     Else (feature 3 > 28.5)
+      Predict: 1.0
+    Else (feature 2 > 905.0)
+     If (feature 1 <= 29.5)
+      Predict: 1.0
+     Else (feature 1 > 29.5)
+      If (feature 2 <= 2553.0)
+       Predict: 1.0
+      Else (feature 2 > 2553.0)
+       Predict: 0.0
+```
+En las otras 5 pruebas la probabilidad de exactitud fue de **Resultados Nayeli
+
+
+3. Logistic Regression
+
+4. Multilayer Perceptron
+
+Este solo nos arrojó el porcentaje de la exactitud, durante las 5 primeras pruebas la respuesta fue de 0.8835474819081377 (88.35%) mientras que en las otras pruebas fue de **Resultados Nayeli
+
 
 # CONCLUSIONS
 # REFERENCES
