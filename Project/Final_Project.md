@@ -98,39 +98,30 @@ import org.apache.spark.ml.linalg.Vectors
 ```
 Hicimos la importación de varias librerias, solo una se necesita para SVM pero los datos ofrecidos incluyen valores string, por lo que se uriliza StringIndexer para transformar, pero hay muchas columnas por lo que se usa pipeline y con VectorAssembler se juntan los features.
 ```Scala
-val data  = spark.read.option("header","true").option("delimiter", ";").format("csv").load("C:/bank-full.csv")
-val data2 = data.select("age", "job", "marital", "education", "balance", "housing", "loan","campaign", "previous", "poutcome", "y")
-data2.show()
+val data  = spark.read.option("header","true").option("inferSchema","true").option("delimiter", ";").format("csv").load("C:/bank-full.csv")
+data.show()
 ```
-No toda la información que viene en el CSV se necesita, por lo que seleccionamos las columnas con las que realmente trabajamos.
+Leemos el archivo csv, el delimitador será ; porque así se encuentran separados los datos en el archivo.
+```Scala
+val label = new StringIndexer().setInputCol("y").setOutputCol("label")
+val labeltransform = label.fit(data).transform(data)
+```
+La columna y será nuestro label, pero esta tiene valores string por lo que usamos StringIndexer para tranformar estos datos a numéricos. Con Labeltransform hacemos un fit y transformamos data
 
 ```Scala
-val featureCol = data2.columns
-val indexers = featureCol.map { colName =>
-  new StringIndexer().setInputCol(colName).setOutputCol(colName + "Index")
-}
-```
-Creamos la variable featureCol que contiene los nombres de las variables y creamos un mapeo con este para la variable indexer, usamos colName que hace referencia a cada valor de featureCol y creamos un nuevo StringIndexer, donde le damos colName y el nuevo nombres es una concatenación del nombre original e Index.
+val assembler = new VectorAssembler().setInputCols (Array ("balance", "day", "duration", "pdays", "previous")).setOutputCol("features")
+val data2 = assembler.transform(labeltransform)
 
-```Scala
-val pipeline = new Pipeline().setStages(indexers)      
-val newDF = pipeline.fit(data2).transform(data2)
+val training = data2.select("features", "label")
 ```
-Ahora para la transformación usamos Pipeline, como son muchos valores no se puede crear la transformación de forma directa, para ellos pipeline nos ayuda con la cadena de procesos, donde le damos todo lo de indexers, y creamos el dataframe que transforma data2
-
-```Scala
-val Features = (new VectorAssembler().setInputCols(Array ("ageIndex", "jobIndex", "maritalIndex", "educationIndex", "housingIndex","balanceIndex", "campaignIndex", "previousIndex", "loanIndex", "poutcomeIndex")).setOutputCol("features"))
-val data3 = Features.transform (newDF)
-val training = data3.select("features", "yIndex").withColumnRenamed("yIndex", "label")
-```
-Features va crear un VectorAssembler, donde se hace un arreglo con todas las columnas que necesitamos, hacemos la transformación y creamos training, donde va a seleccionar solo "features" y "yIndex" del dataframe transformado anteriormente, porque este contenía todas las columnas string y todas las columnas transformadas, usamos withColumnRenamed para cambiarle en nombre a "yIndex" que ahora será "label"
+El vector Assembler se utiliza para juntas varias columnas en un arreglo, este se usó para poder tener features, para ello agarramos las columnas con valores numéricos, transformamos labeltransform porque este ya tiene label y por último cramos training que solo contiene features y label.
 
 ```Scala
 val lsvc = new LinearSVC().setMaxIter(10).setRegParam(0.1)
 val lsvcModel = lsvc.fit(training)
 println(s"Coefficients: ${lsvcModel.coefficients} Intercept: ${lsvcModel.intercept}")
 ```
-Ahora para SVM usamos training e imprimimos los Coefficients con Intercept
+Para SVM usamos training e imprimimos los Coefficients con Intercept
 
 # RESULTS
 Para obtener los resultados fue necesario hacer 10 pruebas para cada algoritmo de Machine Learning para ver si los resultados cambiaban o eran los mismos.
@@ -139,8 +130,8 @@ Para obtener los resultados fue necesario hacer 10 pruebas para cada algoritmo d
 
 Las primeras 5 pruebas arrojaron los mismos resultados, se hicieron en diferentes días en la misma computadora, los resultados de ello fueron:
 ```Scala
-Coefficients: [0.0012197828733809303,-0.003862246435555152,0.0,-0.023550433135035947,0.09743237045210347,-3.2106453441304507E-6,-0.04775942670569715,-0.010785376643656298,0.0026778775088146627,0.10328964513039898] 
-Intercept: -1.0861190188568848
+Coefficients: [-2.125897501491213E-6,-0.013517727458849872,7.514021888017163E-4,2.7022337506408964E-4,0.011177544540215354] 
+Intercept: -1.084924165339881
 ```
 Las otras 5 pruebas se hicieron en una computadora distinta 
 

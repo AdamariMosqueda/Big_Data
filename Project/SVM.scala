@@ -5,23 +5,15 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.linalg.Vectors
 
-val data  = spark.read.option("header","true").option("delimiter", ";").format("csv").load("bank-full.csv")
-//"duration", "contact", "month", "day", "default", "pdays" no nos sirven y hacemos un select de las que vamos a usar
-val data2 = data.select("age", "job", "marital", "education", "balance", "housing", "loan","campaign", "previous", "poutcome", "y")
-data2.show()
+val data  = spark.read.option("header","true").option("inferSchema","true").option("delimiter", ";").format("csv").load("C:/bank-full.csv")
 
-//Son varias columnas con valores string por lo que hacemos un mapeo 
-val featureCol = data2.columns
-val indexers = featureCol.map { colName =>new StringIndexer().setInputCol(colName).setOutputCol(colName + "Index")}
-//Usamos pipelane para hacer la transformación
-val pipeline = new Pipeline().setStages(indexers)      
-val newDF = pipeline.fit(data2).transform(data2)
-newDF.show()
+val label = new StringIndexer().setInputCol("y").setOutputCol("label")
+val labeltransform = label.fit(data).transform(data)
 
-val Features = (new VectorAssembler().setInputCols(Array ("ageIndex", "jobIndex", "maritalIndex", "educationIndex", "housingIndex","balanceIndex", "campaignIndex", "previousIndex", "loanIndex", "poutcomeIndex")).setOutputCol("features"))
-val data3 = Features.transform (newDF)
+val assembler = new VectorAssembler().setInputCols (Array ("balance", "day", "duration", "pdays", "previous")).setOutputCol("features")
+val data2 = assembler.transform(labeltransform)
 
-val training = data3.select("features", "yIndex").withColumnRenamed("yIndex", "label")
+val training = data2.select("features", "label")
 
 //SVM
 
