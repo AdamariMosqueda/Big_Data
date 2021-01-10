@@ -396,7 +396,15 @@ Estos fueron los resultados de los árboles
 
 4. Multilayer Perceptron
 
-Este solo nos arrojó el porcentaje de la exactitud, durante las 5 primeras pruebas la respuesta fue de 0.8835474819081377 (88.35%) mientras que en las otras pruebas fue de **Resultados Nayeli
+Este solo nos arrojó el porcentaje de la exactitud, durante las 5 primeras pruebas la respuesta fue de 
+```Scala
+0.8835474819081377 `(88.35%)` 
+```
+
+mientras que en las otras pruebas fue de 
+```Scala
+0.8829225352112676 `(88.29%)`
+```
 
 
 # CONCLUSIONS
