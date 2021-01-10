@@ -54,6 +54,8 @@ MOSQUEDA ESPINOZA ADAMARI ANTONIA 16212363
 <div align="justify"> 
 
 # INTRODUCTION
+A lo largo del semestre hemos visto muchos temas interesantes claro que cada uno separado y con datos diferentes pero ahora es tiempo de poner a pruba alguno de los modelos que vimos.
+Utilizando una misma BD vamos a utilizar los modelos de SVM, Logistic Regression, Decision Treey y Multilayer Perceptron para ver la diferencia entre estos y dar una conclusion de cual e estos modelos es el mejor (para nosotro) segun el rendimiento, el porcentaje de efectividad asi como el tiempo de respuesta de cada uno de esto.
 
 # THEORETICAL FRAMEWORK
 Machine learning (ML) is a subset of artificial intelligence, which build a mathematical model based on sample data, known as “training data,” in order to make predictions or decisions without being explicitly programmed to perform the task.
@@ -394,7 +396,20 @@ Estos fueron los resultados de los árboles
 
 3. Logistic Regression
 
-4. Multilayer Perceptron
+Al realizar las 5 interaciones de este modelo nos arrojo los mismos resultados, lo unico en lo que cambia es dependiendo de el equipo que se utiliza para correr el modelo como podemos observar en una computadora da diferentes resultados a la otra
+3.1
+
+3.2
+```Scala
+Coeficientes: [2.1295060967543102E-5,-0.0032248638711286446,0.002004245563577638,0.0014137466827612378,0.0371939132948556]
+Intercepciones: -2.695580402935833
+```
+Con una efectividad de :
+```Scala
+Grado de exactitud = 0.8886545454545455 `88.87 %`
+```
+
+1. Multilayer Perceptron
 
 Este solo nos arrojó el porcentaje de la exactitud, durante las 5 primeras pruebas la respuesta fue de 
 ```Scala
@@ -408,9 +423,15 @@ mientras que en las otras pruebas fue de
 
 
 # CONCLUSIONS
+Como hemos visto a lo largo del curso hay diferentes modelos para la prediccion de datos, claro que cada uno tiene sus ventajas y desventajas, todo depende de los datos, lo que se requiera y el grado de exactitud que desees en las predicciones, asi como podemos ver que tambien depende del equipo en el cuar realices el montado del modelo por que entre PC puede cambiar el porcentaje de efectividad. 
+En el caso de nuestro team el modelo con mayor efetividad es el "Decision Tree" con un porcentaje por muy poco mayor a los demas modelos por lo que este seria el adecuado a utilizar por nuestro team en cualquier implmentacion con nuestros PC.
 # REFERENCES
 [1] Zhang, X. D. (2020). Machine learning. In A Matrix Algebra Approach to Artificial Intelligence (pp. 223-440). Springer, Singapore.
 
 [2] MathWorks (----) Máquina de vectores de soporte (SVM). From: https://la.mathworks.com/discovery/support-vector-machine.html
 
 [3] Ilabaca, S. (----). Apache Spark. January, 2021, from Analytics Web Site: https://www.analytics10.com/que-es-apache-spark/
+
+[4] GEO Tutoriales. (2016). Árbol de Decisión (Qué es y para qué sirve). 2020, de Gestión de Operaciones Sitio web: https://www.gestiondeoperaciones.net/procesos/arbol-de-decision/
+
+[5] Spark. (----). Logistic regression. 2020, de Spark Sitio web: https://spark.apache.org/docs/2.4.7/ml-classification-regression.html#logistic-regression
