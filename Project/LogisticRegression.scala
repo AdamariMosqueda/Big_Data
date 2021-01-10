@@ -7,7 +7,6 @@ import org.apache.spark.ml.evaluation.{BinaryClassificationEvaluator,MulticlassC
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.log4j._
 
-val spark = SparkSession.builder().getOrCreate()
 Logger.getLogger("org").setLevel(Level.ERROR)
 
 val spark = SparkSession.builder().getOrCreate()

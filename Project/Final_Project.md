@@ -236,6 +236,86 @@ Creamos el evaluador con MulticlassClassificationEvaluator, donde damos label, l
 
 ## Logistic Regression
 
+Descripcion de codigo para nuestro modelo de Logistic Regression
+
+```Scala
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.ml.feature.StringIndexer
+import org.apache.spark.ml.feature.VectorAssembler
+import org.apache.spark.ml.linalg.Vectors
+import org.apache.spark.ml.classification.LogisticRegression
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+import org.apache.log4j._
+```
+
+Importamos las librerias necesarias para realizar nuestro modelo de Logistic Regression las librerias para evaluar y transformar los datos, estos incluyen valores string, por lo que se uriliza StringIndexer para transformar y con VectorAssembler se juntan los features.
+
+```Scala
+Logger.getLogger("org").setLevel(Level.ERROR)
+
+val spark = SparkSession.builder().getOrCreate()
+val data  = spark.read.option("header","true").option("inferSchema","true").option("delimiter", ";").format("csv").load("bank-full.csv")
+```
+
+Se carga la libreria para minimizar errores dentro de la corrida del codigo
+Creamos nuestra variable spark para inicar una session normal
+Leemos el archivo csv, el delimitador será `;` ya que este es el que divide los datos.
+
+```Scala
+
+val label = new StringIndexer().setInputCol("y").setOutputCol("label")
+val labeltransform = label.fit(data).transform(data)
+```
+
+La columna `y` será nuestro `label`, pero esta tiene valores string por lo que usamos StringIndexer para tranformar estos datos a numéricos. Con Labeltransform hacemos un fit y transformamos data
+
+```Scala
+val assembler = new VectorAssembler().setInputCols (Array ("balance", "day", "duration", "pdays", "previous")).setOutputCol("features")
+val data2 = assembler.transform(labeltransform)
+data2.show(1)
+```
+
+El vector Assembler se utiliza para juntas varias columnas en un arreglo, este se usó para poder tener features, para ello agarramos las columnas con valores numéricos, transformamos labeltransform porque este ya tiene label.
+Mostramos como queda nuestro nuevo dataset
+
+```Scala
+val training = data2.select("features", "label")
+training.show(1)
+```
+
+Creamos una variable training que solo contiene features y label.
+Mostramos el nuevo data set ya limpio. 
+
+```Scala
+val splits = training.randomSplit(Array(0.7, 0.3), seed = 12345)
+val train = splits(0)
+val test = splits(1)
+println("training set = ", train.count())
+println("test set = ", test.count())
+```
+
+Creamos un split para dividir el 70% de los datos en train y el 30% en test
+Imprimimos la cuenta de nuestros valores para training y test 
+
+```Scala
+val lr = new  LogisticRegression().setMaxIter(10).setRegParam(0.1)
+val model = lr.fit(train)
+val resultados = model.transform(test)
+val evaluador = new MulticlassClassificationEvaluator().setMetricName("accuracy")
+```
+
+Creamo un objeto `lr`  el cual el argumento de LogisticRegression para nuestro modelo
+Creamos una variable la cual utiliza el modelo realiza el fit con el dataset de train despues de realizar la carga con el train se utiliza el modelo ahora transformando los datos del data test.
+Para evaluar la efectividad de nuestro modelo creamos un objeto el cual nos dara este valor 
+
+```Scala
+println(s"Coeficientes: ${model.coefficients}")
+println(s"Intercepciones: ${model.intercept}")
+println(s"Grado de exactitud = ${evaluador.evaluate(resultados)}")
+```
+
+Imprimimos nuestros coeficientes e intercepiciones aundao a esto el grado de exactitud que tiene nuestro modelo que realizamos
+
 ## Multilayer Perceptron
 ```Scala
 import org.apache.spark.ml.feature.StringIndexer
