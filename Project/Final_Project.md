@@ -478,7 +478,14 @@ Estos fueron los resultados de los árboles
 
 Al realizar las 5 interaciones de este modelo nos arrojo los mismos resultados, lo unico en lo que cambia es dependiendo de el equipo que se utiliza para correr el modelo como podemos observar en una computadora da diferentes resultados a la otra
 3.1
-
+```Scala
+Coeficientes: [2.1953717210865443E-5,-0.0039087241148942735,0.0020207318126466336,0.0013950274211932889,0.04274086623441127]
+Intercepciones: -2.706584067945768
+```
+Con una efectividad de :
+```Scala
+Grado de exactitud = 0.8849252856724289 `88.49 %`
+```
 3.2
 ```Scala
 Coeficientes: [2.1295060967543102E-5,-0.0032248638711286446,0.002004245563577638,0.0014137466827612378,0.0371939132948556]
