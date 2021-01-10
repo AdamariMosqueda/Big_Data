@@ -54,9 +54,8 @@ MOSQUEDA ESPINOZA ADAMARI ANTONIA 16212363
 <div align="justify"> 
 
 # INTRODUCTION
-A lo largo del semestre hemos visto muchos temas interesantes claro que cada uno separado y con datos diferentes pero ahora es tiempo de poner a pruba alguno de los modelos que vimos.
-Utilizando una misma BD vamos a utilizar los modelos de SVM, Logistic Regression, Decision Treey y Multilayer Perceptron para ver la diferencia entre estos y dar una conclusion de cual e estos modelos es el mejor (para nosotro) segun el rendimiento, el porcentaje de efectividad asi como el tiempo de respuesta de cada uno de esto.
-
+Throughout the semester we have seen many interesting topics, of course, each one separated and with different data, but now it is time to put some of the models we saw to the test.
+Using the same DB we are going to use the SVM, Logistic Regression, Decision Treey and Multilayer Perceptron models to see the difference between them and give a conclusion about which of these models is the best (for us) according to the performance, the percentage of effectiveness as well as the response time of each of this.
 # THEORETICAL FRAMEWORK
 Machine learning (ML) is a subset of artificial intelligence, which build a mathematical model based on sample data, known as “training data,” in order to make predictions or decisions without being explicitly programmed to perform the task.
 
@@ -65,24 +64,23 @@ Machine learning (ML) is a subset of artificial intelligence, which build a math
 In machine learning, neural networks, support vector machines, and evolutionary computation, we are usually given a training set and a test set. By the training set, it will mean the union of the labeled set and the unlabeled set of examples available to machine learners. In comparison, test set consists of examples never seen before.
 
 ## Support Vector Machine
-Una máquina de vectores de soporte (SVM) es un algoritmo de aprendizaje supervisado que se puede emplear para clasificación binaria o regresión. Las máquinas de vectores de soporte son muy populares en aplicaciones como el procesamiento del lenguaje natural, el habla, el reconocimiento de imágenes y la visión artificial.
+A support vector machine (SVM) is a supervised learning algorithm that can be used for binary classification or regression. Support vector machines are very popular in applications such as natural language processing, speech, image recognition, and computer vision.
 
-Una máquina de vectores de soporte construye un hiperplano óptimo en forma de superficie de decisión, de modo que el margen de separación entre las dos clases en los datos se amplía al máximo. Los vectores de soporte hacen referencia a un pequeño subconjunto de las observaciones de entrenamiento que se utilizan como soporte para la ubicación óptima de la superficie de decisión.
+A support vector machine constructs an optimal hyperplane in the form of a decision surface, so that the margin of separation between the two classes in the data is maximally widened. Support vectors refer to a small subset of the training observations that are used as support for the optimal location of the decision surface.
 
-Las máquinas de vectores de soporte pertenecen a una clase de algoritmos de Machine Learning denominados métodos kernel y también se conocen como máquinas kernel.
+Support vector machines belong to a class of Machine Learning algorithms called kernel methods and are also known as kernel machines.
 
-El entrenamiento de una máquina de vectores de soporte consta de dos fases:
-1. Transformar los predictores (datos de entrada) en un espacio de características altamente dimensional. En esta fase es suficiente con especificar el kernel; los datos nunca se transforman explícitamente al espacio de características. Este proceso se conoce comúnmente como el truco kernel.
-2. Resolver un problema de optimización cuadrática que se ajuste a un hiperplano óptimo para clasificar las características transformadas en dos clases. El número de características transformadas está determinado por el número de vectores de soporte.
-
+The training of a support vector machine consists of two phases:
+1. Transform the predictors (input data) into a highly dimensional feature space. In this phase it is enough to specify the kernel; data is never explicitly transformed into feature space. This process is commonly known as the kernel hack.
+2. Solve a quadratic optimization problem that fits an optimal hyperplane to classify the transformed features into two classes. The number of transformed features is determined by the number of support vectors.
 
 ## Decision Tree
-Un Árbol de Decisión (o Árboles de Decisiones) es un método analítico que a través de una representación esquemática de las alternativas disponible facilita la toma de mejores decisiones, especialmente cuando existen riesgos, costos, beneficios y múltiples opciones. El nombre se deriva de la apariencia del modelo parecido a un árbol y su uso es amplio en el ámbito de la toma de decisiones bajo incertidumbre (Teoría de Decisiones) junto a otras herramientas como el Análisis del Punto de Equilibrio.
-Los árboles de decisión son especialmente útiles cuando:
-1.	Las alternativas o cursos de acción están bien definidas (por ejemplo: aceptar o rechazar una propuesta, aumentar o no la capacidad de producción, construir o no una nueva bodega, etc.)
-2.	Las incertidumbres pueden ser cuantificadas (por ejemplo: probabilidad de éxito de una campaña publicitaria, probable efecto en ventas, probabilidad de pasar de etapas, etc.)
-3.	Los objetivos están claros (por ejemplo: aumentar las ventas, maximizar utilidades, minimizar costos, etc.)
-
+A Decision Tree (or Decision Trees) is an analytical method that, through a schematic representation of the available alternatives, facilitates making better decisions, especially when there are risks, costs, benefits and multiple options. The name is derived from the appearance of the model similar to a tree and its use is wide in the field of decision making under uncertainty (Decision Theory) along with other tools such as Break-Even Analysis.
+Decision trees are especially useful when:
+1. The alternatives or courses of action are well defined (for example: accept or reject a proposal, increase production capacity or not, build or not a new warehouse, etc.)
+2. Uncertainties can be quantified (for example: probability of success of an advertising campaign, probable effect on sales, probability of passing stages, etc.)
+3. The objectives are clear (for example: increase sales, maximize profits, minimize costs, etc.)
+  
 ## Logistic Regression
 Logistic regression is a popular method to predict a categorical response. It is a special case of Generalized Linear models that predicts the probability of the outcomes. In spark.ml logistic regression can be used to predict a binary outcome by using binomial logistic regression, or it can be used to predict a multiclass outcome by using multinomial logistic regression. Use the family parameter to select between these two algorithms, or leave it unset and Spark will infer the correct variant.
 
@@ -109,17 +107,18 @@ MLPC employs backpropagation for learning the model. We use the logistic loss fu
 </div>
 
 # IMPLEMENTATION
-Para este proyecto usamos Spark porque tiene muchos beneficios:
 
-1. Velocidad: Spark puede ser 100 veces más rápido que Hadoop para el procesamiento de datos a gran escala al explotar la computación en memoria y otras optimizaciones. También es rápido cuando los datos se almacenan en el disco.
+For this project we use Spark because it has many benefits:
 
-2. Facilidad de uso: Opera en grandes conjuntos de datos, esto incluye una colección de más de 100 operadores para transformar datos y APIs de marcos de datos familiares para manipular datos semiestructurados. 
+1. Speed: Spark can be 100 times faster than Hadoop for large-scale data processing by exploiting in-memory computing and other optimizations. It is also fast when data is stored on disk.
 
-3. Un motor unificado: Viene empaquetado con bibliotecas que incluyen soporte para consultas SQL, transmisión de datos, aprendizaje automático y procesamiento de gráficos. 
+2. Ease of use: Operates on large data sets, this includes a collection of over 100 operators for transforming data and familiar data frame APIs for manipulating semi-structured data.
 
-Spark provee API para Python, Java y Scala, nosotras elegimos Scala porque es un lenguaje funcional que permite implementar el paradigma MapReduce de manera sencilla y rápida. Scala trabaja sobre la JVM, lo que nos permite disponer de las múltiples librerías creadas para Java.
+3. A unified engine: It comes bundled with libraries that include support for SQL queries, data streaming, machine learning, and graphics processing.
 
-Los datos utilizados son sobre un banco que se pueden encontrar [aquí](https://archive.ics.uci.edu/ml/datasets/Bank+Marketing), esta información es sobre campañas de marketing (llamadas telefónicoas) de un banco portugués. 
+Spark provides API for Python, Java and Scala, we chose Scala because it is a functional language that allows us to implement the MapReduce paradigm easily and quickly. Scala works on the JVM, which allows us to have the multiple libraries created for Java.
+
+The data used is about a bank that can be found [here] (https://archive.ics.uci.edu/ml/datasets/Bank+Marketing), this information is about marketing campaigns (phone calls) of a bank Portuguese.
 
 ## SVM
 ```Scala
@@ -130,17 +129,19 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.linalg.Vectors
 ```
-Hicimos la importación de varias librerias, solo una se necesita para SVM pero los datos ofrecidos incluyen valores string, por lo que se uriliza StringIndexer para transformar y con VectorAssembler se juntan los features.
+We imported several libraries, only one is needed for SVM but the data offered includes string values, so StringIndexer is used to transform and with VectorAssembler the features are joined.
+
 ```Scala
 val data  = spark.read.option("header","true").option("inferSchema","true").option("delimiter", ";").format("csv").load("C:/bank-full.csv")
 data.show()
 ```
-Leemos el archivo csv, el delimitador será ; porque así se encuentran separados los datos en el archivo.
+We read the csv file, the delimiter will be; because that's how the data in the file is separated.
+
 ```Scala
 val label = new StringIndexer().setInputCol("y").setOutputCol("label")
 val labeltransform = label.fit(data).transform(data)
 ```
-La columna y será nuestro label, pero esta tiene valores string por lo que usamos StringIndexer para tranformar estos datos a numéricos. Con Labeltransform hacemos un fit y transformamos data
+The y column will be our label, but it has string values so we use StringIndexer to transform this data to numeric. With Labeltransform we make a fit and transform data
 
 ```Scala
 val assembler = new VectorAssembler().setInputCols (Array ("balance", "day", "duration", "pdays", "previous")).setOutputCol("features")
@@ -148,14 +149,15 @@ val data2 = assembler.transform(labeltransform)
 
 val training = data2.select("features", "label")
 ```
-El vector Assembler se utiliza para juntas varias columnas en un arreglo, este se usó para poder tener features, para ello agarramos las columnas con valores numéricos, transformamos labeltransform porque este ya tiene label y por último cramos training que solo contiene features y label.
+The Assembler vector is used to join several columns in an arrangement, this was used to have features, for this we grab the columns with numerical values, we transform labeltransform because it already has a label and finally cramos training that only contains features and label.
 
 ```Scala
 val lsvc = new LinearSVC().setMaxIter(10).setRegParam(0.1)
 val lsvcModel = lsvc.fit(training)
 println(s"Coefficients: ${lsvcModel.coefficients} Intercept: ${lsvcModel.intercept}")
 ```
-Para SVM usamos training e imprimimos los Coefficients con Intercept
+
+For SVM we use training and print the Coefficients with Intercept
 
 ## Decision Tree
 ```Scala
@@ -175,18 +177,20 @@ val assembler = new VectorAssembler().setInputCols (Array ("balance", "day", "du
 val data2 = assembler.transform(labeltransform)
 val training = data2.select("features", "label")
 ```
-Importamos las librerías necesarios y hacemos todo para tener el dataframe con el formato de features y label
+
+We import the necessary libraries and do everything to have the dataframe with the features and label format
 
 ```Scala
 val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexedLabel").fit(training)
 val featureIndexer = new VectorIndexer().setInputCol("features").setOutputCol("indexedFeatures").setMaxCategories(4).fit(training)
 ```
-Usamos StringIndexer para que label se convierte en indexedLabel y lo mismo hacemos con features, usando VectorIndexer y dándole un máximo de categoría de 4
+
+We use StringIndexer so that label becomes indexedLabel and we do the same with features, using VectorIndexer and giving it a maximum category of 4
 
 ```Scala
 val Array(trainingData, testData) = training.randomSplit(Array(0.7, 0.3))
 ```
-Creamos trainingData y testData, donde el primero va a contener el 70% de datos mientras el otro se queda con el 30, con randomsplit los datos de aplican a cada uno de forma aleatoria.
+We create trainingData and testData, where the first one will contain 70% of data while the other keeps 30, with randomsplit the data is applied to each one in a random way.
 
 ```Scala
 val dt = new DecisionTreeClassifier().setLabelCol("indexedLabel").setFeaturesCol("indexedFeatures")
@@ -195,7 +199,9 @@ val pipeline = new Pipeline().setStages(Array(labelIndexer, featureIndexer, dt, 
 val model = pipeline.fit(trainingData)
 val predictions = model.transform(testData)
 ```
-Creamos nuestro Decision Tree Classifier donde declaramos la columna label y la columna features, con labelConverter creamos la predicción en base a labelIndexer, con pipeline (que nos permite hacer varios procesos a la vez) juntamos los indexers, dt y labelConverter, creamos el modelo con el pipeline y finalmente creamos la variable predicciones con la transformación del modelo.
+
+We create our Decision Tree Classifier where we declare the label column and the features column, with labelConverter we create the prediction based on labelIndexer, with pipeline (which allows us to do several processes at the same time) we join the indexers, dt and labelConverter, we create the model with the pipeline and finally we create the predictions variable with the transformation of the model.
+
 
 ```Scala
 predictions.select("predictedLabel", "label", "features").show(20)
@@ -223,7 +229,8 @@ predictions.select("predictedLabel", "label", "features").show(20)
 |           0.0|  0.0|[-1547.0,27.0,492...|
 +--------------+-----+--------------------+
 ```
-Mostramos solo 20 líneas para comparar la predicción de label, en la primera prueba que se hizo se pudo observar que hubo un 100% de exactitud con las primeras 20 líneas, pero en realidad hay muchos datos en el dataframe.
+
+We show only 20 lines to compare the label prediction, in the first test that was done it was observed that there was 100% accuracy with the first 20 lines, but in reality there is a lot of data in the dataframe.
 
 ```Scala
 val evaluator = new MulticlassClassificationEvaluator().setLabelCol("indexedLabel").setPredictionCol("prediction").setMetricName("accuracy")
@@ -232,11 +239,12 @@ println(s"Test Error = ${(1.0 - accuracy)}")
 val treeModel = model.stages(2).asInstanceOf[DecisionTreeClassificationModel]
 println(s"Learned classification tree model:\n ${treeModel.toDebugString}")
 ```
-Creamos el evaluador con MulticlassClassificationEvaluator, donde damos label, la predicción y la exactitud, con eso imprimimos la exactitud, el error y los árboles.
+
+We create the evaluator with MulticlassClassificationEvaluator, where we label, the prediction and the exactitude, with that we print the exactitude, the error and the trees.
 
 ## Logistic Regression
 
-Descripcion de codigo para nuestro modelo de Logistic Regression
+Code description for our Logistic Regression model
 
 ```Scala
 import org.apache.spark.sql.SparkSession
@@ -248,7 +256,7 @@ import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.log4j._
 ```
 
-Importamos las librerias necesarias para realizar nuestro modelo de Logistic Regression las librerias para evaluar y transformar los datos, estos incluyen valores string, por lo que se uriliza StringIndexer para transformar y con VectorAssembler se juntan los features.
+We import the necessary libraries to make our Logistic Regression model the libraries to evaluate and transform the data, these include string values, so StringIndexer is used to transform and with VectorAssembler the features are joined.
 
 ```Scala
 Logger.getLogger("org").setLevel(Level.ERROR)
@@ -256,10 +264,9 @@ Logger.getLogger("org").setLevel(Level.ERROR)
 val spark = SparkSession.builder().getOrCreate()
 val data  = spark.read.option("header","true").option("inferSchema","true").option("delimiter", ";").format("csv").load("bank-full.csv")
 ```
-
-Se carga la libreria para minimizar errores dentro de la corrida del codigo
-Creamos nuestra variable spark para inicar una session normal
-Leemos el archivo csv, el delimitador será `;` ya que este es el que divide los datos.
+The library is loaded to minimize errors within the code run
+We create our spark variable to start a normal session
+We read the csv file, the delimiter will be `;` since this is the one that divides the data.
 
 ```Scala
 
@@ -267,7 +274,7 @@ val label = new StringIndexer().setInputCol("y").setOutputCol("label")
 val labeltransform = label.fit(data).transform(data)
 ```
 
-La columna `y` será nuestro `label`, pero esta tiene valores string por lo que usamos StringIndexer para tranformar estos datos a numéricos. Con Labeltransform hacemos un fit y transformamos data
+The `y` column will be our` label`, but it has string values so we use StringIndexer to transform this data to numeric. With Labeltransform we make a fit and transform data
 
 ```Scala
 val assembler = new VectorAssembler().setInputCols (Array ("balance", "day", "duration", "pdays", "previous")).setOutputCol("features")
@@ -275,16 +282,16 @@ val data2 = assembler.transform(labeltransform)
 data2.show(1)
 ```
 
-El vector Assembler se utiliza para juntas varias columnas en un arreglo, este se usó para poder tener features, para ello agarramos las columnas con valores numéricos, transformamos labeltransform porque este ya tiene label.
-Mostramos como queda nuestro nuevo dataset
+The Assembler vector is used to join several columns in an arrangement, this was used to have features, for this we grab the columns with numerical values, we transform labeltransform because it already has a label.
+We show how our new dataset looks
 
 ```Scala
 val training = data2.select("features", "label")
 training.show(1)
 ```
 
-Creamos una variable training que solo contiene features y label.
-Mostramos el nuevo data set ya limpio. 
+We create a training variable that only contains features and label.
+We show the new clean data set.
 
 ```Scala
 val splits = training.randomSplit(Array(0.7, 0.3), seed = 12345)
@@ -293,9 +300,8 @@ val test = splits(1)
 println("training set = ", train.count())
 println("test set = ", test.count())
 ```
-
-Creamos un split para dividir el 70% de los datos en train y el 30% en test
-Imprimimos la cuenta de nuestros valores para training y test 
+We create a split to divide 70% of the data in train and 30% in test
+We print the account of our values for training and test
 
 ```Scala
 val lr = new  LogisticRegression().setMaxIter(10).setRegParam(0.1)
@@ -303,10 +309,9 @@ val model = lr.fit(train)
 val resultados = model.transform(test)
 val evaluador = new MulticlassClassificationEvaluator().setMetricName("accuracy")
 ```
-
-Creamo un objeto `lr`  el cual el argumento de LogisticRegression para nuestro modelo
-Creamos una variable la cual utiliza el modelo realiza el fit con el dataset de train despues de realizar la carga con el train se utiliza el modelo ahora transformando los datos del data test.
-Para evaluar la efectividad de nuestro modelo creamos un objeto el cual nos dara este valor 
+I create an `lr` object which is the LogisticRegression argument for our model
+We create a variable which the model uses, it performs the fit with the train dataset after loading with the train, the model is used now transforming the data from the test data.
+To evaluate the effectiveness of our model we create an object which will give us this value
 
 ```Scala
 println(s"Coeficientes: ${model.coefficients}")
@@ -314,7 +319,7 @@ println(s"Intercepciones: ${model.intercept}")
 println(s"Grado de exactitud = ${evaluador.evaluate(resultados)}")
 ```
 
-Imprimimos nuestros coeficientes e intercepiciones aundao a esto el grado de exactitud que tiene nuestro modelo que realizamos
+We print our coefficients and interceptions based on the degree of accuracy of our model that we carry out.
 
 ## Multilayer Perceptron
 ```Scala
@@ -325,7 +330,7 @@ import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 ```
-Importamos las librerias necesarias para realizar nuestro modelo Multilayer Perceptron las librerías para evaluar y transformar los datos, estos incluyen valores string, por lo que se uriliza StringIndexer para transformar y con VectorAssembler se juntan los features.
+We import the necessary libraries to make our Multilayer Perceptron model, the libraries to evaluate and transform the data, these include string values, so StringIndexer is used to transform and with VectorAssembler the features are joined.
 
 ```Scala
 val data  = spark.read.option("header","true").option("inferSchema","true").option("delimiter", ";").format("csv").load("C:/bank-full.csv")
@@ -335,21 +340,23 @@ val assembler = new VectorAssembler().setInputCols (Array ("balance", "day", "du
 val data2 = assembler.transform(labeltransform)
 val training = data2.select("features", "label")
 ```
-Leemos el archivo csv, el delimitador será `;` ya que este es el que divide los datos.
-La columna será nuestro label, pero esta tiene valores string por lo que usamos StringIndexer para transformar estos datos a numéricos. Con Labeltransform hacemos un fit y transformamos data
-El vector Assembler se utiliza para juntar varias columnas en un arreglo, este se usó para poder tener features, para ello agarramos las columnas con valores numéricos, transformamos labeltransform porque este ya tiene label. Mostramos como queda nuestro nuevo dataset
+We read the csv file, the delimiter will be `;` since this is the one that divides the data.
+The column will be our label, but it has string values so we use StringIndexer to transform this data to numeric. With Labeltransform we make a fit and transform data
+The Assembler vector is used to join several columns in an arrangement, this was used to have features, for this we grab the columns with numerical values, we transform labeltransform because it already has a label. We show how our new dataset looks
+
 ```Scala
 val splits = training.randomSplit(Array(0.7, 0.3), seed = 1234L)
 val train = splits(0)
 val test = splits(1)
 ```
-Creamos un split para dividir el 70% de los datos en train y el 30% en test
+
+We create a split to divide 70% of the data in train and 30% in test
 
 ```Scala
 val layers = Array [Int] (5, 3, 3, 2)
 val trainer = new MultilayerPerceptronClassifier().setLayers(layers).setBlockSize(128).setSeed(1234L).setMaxIter(100)
 ```
-Para definir las capas se debe tener en cuenta que el primer número es la cantidad de features, durante todos los ejemplos se usaron 5 columnas, los dos valores siguientes son las capas ocultas y el último se define el número de clases, que en este caso es de 2, si no se sabe cuantas clases son, al momento de correr la línea de código te aparece un mensaje de error diciendo cuantas clases tiene en realidad.
+To define the layers it must be taken into account that the first number is the number of features, during all the examples 5 columns were used, the next two values are the hidden layers and the last one defines the number of classes, which in this case it is 2, if you don't know how many classes there are, when you run the line of code you get an error message saying how many classes it actually has.
 
 ```Scala
 val modelML = trainer.fit(train)
@@ -359,19 +366,19 @@ val evaluator = new MulticlassClassificationEvaluator().setMetricName("accuracy"
 
 println(s"Test set accuracy = ${evaluator.evaluate(predictionAndLabels)}")
 ```
-Creamos el modelo con el fit de train, el resultado con la transformación de test y creamos la predicción donde al resultado se le selecciona prediction y label, evaluator tendrá la exactiud y por último se imprime la exactitud de la predicción
+We create the model with the train fit, the result with the test transformation and create the prediction where prediction and label are selected for the result, evaluator will have the accuracy and finally the accuracy of the prediction is printed
 
 # RESULTS
-Para obtener los resultados fue necesario hacer 10 pruebas para cada algoritmo de Machine Learning para ver si los resultados cambiaban o eran los mismos.
+To obtain the results, it was necessary to do 10 tests for each Machine Learning algorithm to see if the results changed or were the same.
 
 1. Suport Vector Machine
 
-Las primeras 5 pruebas arrojaron los mismos resultados, se hicieron en diferentes días en la misma computadora, los resultados de ello fueron:
+The first 5 tests yielded the same results, they were done on different days on the same computer, the results of which were:
 ```Scala
 Coefficients: [-2.125897501491213E-6,-0.013517727458849872,7.514021888017163E-4,2.7022337506408964E-4,0.011177544540215354] 
 Intercept: -1.084924165339881
 ```
-Las otras 5 pruebas se hicieron en una computadora distinta 
+The other 5 tests were done on a different computer
 
 ```Scala
 Coefficients: [-2.1258975014911423E-6,-0.013517727458849597,7.514021888017214E-4,2.702233750640862E-4,0.011177544540215589]
@@ -380,9 +387,10 @@ Intercept: -1.0849241653398864
 
 1. Decision Tree
 
-Lo mismo ocurrió que en SVM, en una computadora se tienen 5 resultados iguales y en la otra salieron otros resultados, pero esos 5 resultados son iguales.
+The same thing happened that in SVM, in one computer you have 5 equal results and in the other other results came out, but those 5 results are equal.
 
-En la primeras 5 pruebas la probabilidad de exactitud fue de 0.8907834778774071 (89.1%) mientras el error fue de 0.06896551724137934 (6.89%), y estos fueron los resultados de los árboles 
+In the first 5 tests the accuracy probability was 0.8907834778774071 (89.1%) while the error was 0.06896551724137934 (6.89%), and these were the results of the trees
+
 ```Scala
 If (feature 2 <= 567.5)
    If (feature 2 <= 204.5)
@@ -425,15 +433,15 @@ If (feature 2 <= 567.5)
       Else (feature 2 > 2553.0)
        Predict: 0.0
 ```
-En las otras 5 pruebas la probabilidad de exactitud fue de 
+In the other 5 tests the probability of accuracy was
 ```Scala
 0.8933757133569313 (89.34%) 
 ```
-mientras el error fue de 
+while the error was
 ```Scala
 0.10662428664306867 (10.66%)
 ```
-Estos fueron los resultados de los árboles
+These were the results of the trees
 ```Scala
   If (feature 2 <= 480.5)
    If (feature 3 <= 18.5)
@@ -482,7 +490,7 @@ Estos fueron los resultados de los árboles
 
 3. Logistic Regression
 
-Al realizar las 5 interaciones de este modelo nos arrojo los mismos resultados, lo unico en lo que cambia es dependiendo de el equipo que se utiliza para correr el modelo como podemos observar en una computadora da diferentes resultados a la otra
+When performing the 5 interactions of this model, it gave us the same results, the only thing that changes is depending on the equipment that is used to run the model, as we can observe in a computer it gives different results to the other
 
 3.1
 
@@ -490,7 +498,7 @@ Al realizar las 5 interaciones de este modelo nos arrojo los mismos resultados, 
 Coeficientes: [2.1953717210865443E-5,-0.0039087241148942735,0.0020207318126466336,0.0013950274211932889,0.04274086623441127]
 Intercepciones: -2.706584067945768
 ```
-Con una efectividad de :
+With an effectiveness of:
 ```Scala
 Grado de exactitud = 0.8849252856724289 `88.49 %`
 ```
@@ -500,34 +508,35 @@ Grado de exactitud = 0.8849252856724289 `88.49 %`
 Coeficientes: [2.1295060967543102E-5,-0.0032248638711286446,0.002004245563577638,0.0014137466827612378,0.0371939132948556]
 Intercepciones: -2.695580402935833
 ```
-Con una efectividad de :
+With an effectiveness of:
 ```Scala
 Grado de exactitud = 0.8886545454545455 `88.87 %`
 ```
 
 1. Multilayer Perceptron
 
-Este solo nos arrojó el porcentaje de la exactitud, durante las 5 primeras pruebas la respuesta fue de 
+This only gave us the percentage of accuracy, during the first 5 tests the response was
 ```Scala
 0.8835474819081377 `(88.35%)` 
 ```
 
-mientras que en las otras pruebas fue de 
+while in the other tests it was
 ```Scala
 0.8829225352112676 `(88.29%)`
 ```
 
 
 # CONCLUSIONS
-Como hemos visto a lo largo del curso hay diferentes modelos para la prediccion de datos, claro que cada uno tiene sus ventajas y desventajas, todo depende de los datos, lo que se requiera y el grado de exactitud que desees en las predicciones, asi como podemos ver que tambien depende del equipo en el cuar realices el montado del modelo por que entre PC puede cambiar el porcentaje de efectividad. 
-En el caso de nuestro team el modelo con mayor efetividad es el "Decision Tree" con un porcentaje por muy poco mayor a los demas modelos por lo que este seria el adecuado a utilizar por nuestro team en cualquier implmentacion con nuestros PC.
+As we have seen throughout the course there are different models for predicting data, of course each one has its advantages and disadvantages, it all depends on the data, what is required and the degree of accuracy you want in the predictions, as well as We can see that it also depends on the equipment in which you make the mounting of the model because between PC the percentage of effectiveness can change.
+In the case of our team, the most effective model is the "Decision Tree" with a percentage that is slightly higher than the other models, so this would be the appropriate one to be used by our team in any implementation with our PCs.
+
 # REFERENCES
 [1] Zhang, X. D. (2020). Machine learning. In A Matrix Algebra Approach to Artificial Intelligence (pp. 223-440). Springer, Singapore.
 
-[2] MathWorks (----) Máquina de vectores de soporte (SVM). From: https://la.mathworks.com/discovery/support-vector-machine.html
+[2] MathWorks (----) Support Vector Machine (SVM). From: https://la.mathworks.com/discovery/support-vector-machine.html
 
 [3] Ilabaca, S. (----). Apache Spark. January, 2021, from Analytics Web Site: https://www.analytics10.com/que-es-apache-spark/
 
-[4] GEO Tutoriales. (2016). Árbol de Decisión (Qué es y para qué sirve). 2020, de Gestión de Operaciones Sitio web: https://www.gestiondeoperaciones.net/procesos/arbol-de-decision/
+[4] GEO Tutorials. (2016). Decision Tree (What it is and what it is for). 2020, Operations Management Website: https://www.gestiondeoperaciones.net/procesos/arbol-de-decision/
 
-[5] Spark. (----). Logistic regression. 2020, de Spark Sitio web: https://spark.apache.org/docs/2.4.7/ml-classification-regression.html#logistic-regression
+[5] Spark. (----). Logistic regression. 2020, from Spark Website: https://spark.apache.org/docs/2.4.7/ml-classification-regression.html#logistic-regression
