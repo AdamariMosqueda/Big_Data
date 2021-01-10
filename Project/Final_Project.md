@@ -337,8 +337,60 @@ If (feature 2 <= 567.5)
       Else (feature 2 > 2553.0)
        Predict: 0.0
 ```
-En las otras 5 pruebas la probabilidad de exactitud fue de **Resultados Nayeli
-
+En las otras 5 pruebas la probabilidad de exactitud fue de 
+```Scala
+0.8933757133569313 (89.34%) 
+```
+mientras el error fue de 
+```Scala
+0.10662428664306867 (10.66%)
+```
+Estos fueron los resultados de los árboles
+```Scala
+  If (feature 2 <= 480.5)
+   If (feature 3 <= 18.5)
+    Predict: 0.0
+   Else (feature 3 > 18.5)
+    If (feature 2 <= 170.5)
+     Predict: 0.0
+    Else (feature 2 > 170.5)
+     If (feature 3 <= 188.5)
+      If (feature 3 <= 95.5)
+       Predict: 1.0
+      Else (feature 3 > 95.5)
+       Predict: 0.0
+     Else (feature 3 > 188.5)
+      If (feature 3 <= 458.5)
+       Predict: 0.0
+      Else (feature 3 > 458.5)
+       Predict: 1.0
+  Else (feature 2 > 480.5)
+   If (feature 2 <= 671.5)
+    If (feature 3 <= 3.5)
+     Predict: 0.0
+    Else (feature 3 > 3.5)
+     If (feature 3 <= 95.5)
+      Predict: 1.0
+     Else (feature 3 > 95.5)
+      If (feature 1 <= 21.5)
+       Predict: 0.0
+      Else (feature 1 > 21.5)
+       Predict: 1.0
+   Else (feature 2 > 671.5)
+    If (feature 2 <= 879.0)
+     If (feature 3 <= 3.5)
+      Predict: 0.0
+     Else (feature 3 > 3.5)
+      Predict: 1.0
+    Else (feature 2 > 879.0)
+     If (feature 1 <= 29.5)
+      If (feature 1 <= 26.5)
+       Predict: 1.0
+      Else (feature 1 > 26.5)
+       Predict: 0.0
+     Else (feature 1 > 29.5)
+      Predict: 1.0
+```
 
 3. Logistic Regression
 
