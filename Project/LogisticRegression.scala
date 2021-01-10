@@ -3,8 +3,7 @@ import org.apache.spark.ml.feature.StringIndexer
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.ml.classification.LogisticRegression
-import org.apache.spark.ml.evaluation.{BinaryClassificationEvaluator,MulticlassClassificationEvaluator}
-import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.log4j._
 
 Logger.getLogger("org").setLevel(Level.ERROR)
