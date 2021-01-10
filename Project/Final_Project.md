@@ -285,9 +285,12 @@ Intercept: -1.084924165339881
 ```
 Las otras 5 pruebas se hicieron en una computadora distinta 
 
-**Resultados Nayeli
+```Scala
+Coefficients: [-2.1258975014911423E-6,-0.013517727458849597,7.514021888017214E-4,2.702233750640862E-4,0.011177544540215589]
+Intercept: -1.0849241653398864
+```
 
-2. Decision Tree
+1. Decision Tree
 
 Lo mismo ocurrió que en SVM, en una computadora se tienen 5 resultados iguales y en la otra salieron otros resultados, pero esos 5 resultados son iguales.
 

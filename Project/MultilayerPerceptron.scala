@@ -8,7 +8,7 @@ import org.apache.log4j._
 
 Logger.getLogger("org").setLevel(Level.ERROR)
 
-val data  = spark.read.option("header","true").option("inferSchema","true").option("delimiter", ";").format("csv").load("C:/bank-full.csv")
+val data  = spark.read.option("header","true").option("inferSchema","true").option("delimiter", ";").format("csv").load("bank-full.csv")
 
 val label = new StringIndexer().setInputCol("y").setOutputCol("label")
 val labeltransform = label.fit(data).transform(data)
