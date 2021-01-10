@@ -72,11 +72,34 @@ El entrenamiento de una máquina de vectores de soporte consta de dos fases:
 
 
 ## Decision Tree
+Un Árbol de Decisión (o Árboles de Decisiones) es un método analítico que a través de una representación esquemática de las alternativas disponible facilita la toma de mejores decisiones, especialmente cuando existen riesgos, costos, beneficios y múltiples opciones. El nombre se deriva de la apariencia del modelo parecido a un árbol y su uso es amplio en el ámbito de la toma de decisiones bajo incertidumbre (Teoría de Decisiones) junto a otras herramientas como el Análisis del Punto de Equilibrio.
+Los árboles de decisión son especialmente útiles cuando:
+1.	Las alternativas o cursos de acción están bien definidas (por ejemplo: aceptar o rechazar una propuesta, aumentar o no la capacidad de producción, construir o no una nueva bodega, etc.)
+2.	Las incertidumbres pueden ser cuantificadas (por ejemplo: probabilidad de éxito de una campaña publicitaria, probable efecto en ventas, probabilidad de pasar de etapas, etc.)
+3.	Los objetivos están claros (por ejemplo: aumentar las ventas, maximizar utilidades, minimizar costos, etc.)
 
 ## Logistic Regression
+Logistic regression is a popular method to predict a categorical response. It is a special case of Generalized Linear models that predicts the probability of the outcomes. In spark.ml logistic regression can be used to predict a binary outcome by using binomial logistic regression, or it can be used to predict a multiclass outcome by using multinomial logistic regression. Use the family parameter to select between these two algorithms, or leave it unset and Spark will infer the correct variant.
 
+>Multinomial logistic regression can be used for binary classification by setting the family param to “multinomial”. It will produce two sets of coefficients and two intercepts.
+
+>When fitting LogisticRegressionModel without intercept on dataset with constant nonzero column, Spark MLlib outputs zero coefficients for constant nonzero columns. This behavior is the same as R glmnet but different from LIBSVM.
 ## Multilayer Perceptron
+Multilayer perceptron classifier (MLPC) is a classifier based on the feedforward artificial neural network. MLPC consists of multiple layers of nodes. Each layer is fully connected to the next layer in the network. Nodes in the input layer represent the input data. All other nodes map inputs to outputs by a linear combination of the inputs with the node’s weights `w` and bias `b` and applying an activation function. This can be written in matrix form for MLPC with `K+1` layers as follows:
+<div align="center">
+>y(x)=fK(...f2(wT2f1(wT1x+b1)+b2)...+bK)
+</div>
+Nodes in intermediate layers use sigmoid (logistic) function:
+<div align="center">
+f(zi)=11+e−zi
+</div>
+Nodes in the output layer use softmax function:
+<div align="center">
+f(zi)=ezi∑Nk=1ezk
+</div>
+The number of nodes N in the output layer corresponds to the number of classes.
 
+MLPC employs backpropagation for learning the model. We use the logistic loss function for optimization and L-BFGS as an optimization routine.
 # IMPLEMENTATION
 Para este proyecto usamos Spark porque tiene muchos beneficios:
 
