@@ -86,17 +86,16 @@ Logistic regression is a popular method to predict a categorical response. It is
 >When fitting LogisticRegressionModel without intercept on dataset with constant nonzero column, Spark MLlib outputs zero coefficients for constant nonzero columns. This behavior is the same as R glmnet but different from LIBSVM.
 ## Multilayer Perceptron
 Multilayer perceptron classifier (MLPC) is a classifier based on the feedforward artificial neural network. MLPC consists of multiple layers of nodes. Each layer is fully connected to the next layer in the network. Nodes in the input layer represent the input data. All other nodes map inputs to outputs by a linear combination of the inputs with the node’s weights `w` and bias `b` and applying an activation function. This can be written in matrix form for MLPC with `K+1` layers as follows:
-<div align="center">
->y(x)=fK(...f2(wT2f1(wT1x+b1)+b2)...+bK)
-</div>
+
+> y(x)=fK(...f2(wT2f1(wT1x+b1)+b2)...+bK)
 Nodes in intermediate layers use sigmoid (logistic) function:
-<div align="center">
-f(zi)=11+e−zi
-</div>
+
+> f(zi)=11+e−zi
+
 Nodes in the output layer use softmax function:
-<div align="center">
-f(zi)=ezi∑Nk=1ezk
-</div>
+
+> f(zi)=ezi∑Nk=1ezk
+
 The number of nodes N in the output layer corresponds to the number of classes.
 
 MLPC employs backpropagation for learning the model. We use the logistic loss function for optimization and L-BFGS as an optimization routine.
