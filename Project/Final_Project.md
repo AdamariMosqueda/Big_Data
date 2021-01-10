@@ -324,6 +324,10 @@ import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.spark.ml.{Pipeline, PipelineModel}
+```
+Importamos las librerias necesarias para realizar nuestro modelo Multilayer Perceptron las librerías para evaluar y transformar los datos, estos incluyen valores string, por lo que se uriliza StringIndexer para transformar y con VectorAssembler se juntan los features.
+
+```Scala
 val data  = spark.read.option("header","true").option("inferSchema","true").option("delimiter", ";").format("csv").load("C:/bank-full.csv")
 val label = new StringIndexer().setInputCol("y").setOutputCol("label")
 val labeltransform = label.fit(data).transform(data)
@@ -331,7 +335,9 @@ val assembler = new VectorAssembler().setInputCols (Array ("balance", "day", "du
 val data2 = assembler.transform(labeltransform)
 val training = data2.select("features", "label")
 ```
-
+Leemos el archivo csv, el delimitador será `;` ya que este es el que divide los datos.
+La columna será nuestro label, pero esta tiene valores string por lo que usamos StringIndexer para transformar estos datos a numéricos. Con Labeltransform hacemos un fit y transformamos data
+El vector Assembler se utiliza para juntar varias columnas en un arreglo, este se usó para poder tener features, para ello agarramos las columnas con valores numéricos, transformamos labeltransform porque este ya tiene label. Mostramos como queda nuestro nuevo dataset
 ```Scala
 val splits = training.randomSplit(Array(0.7, 0.3), seed = 1234L)
 val train = splits(0)
