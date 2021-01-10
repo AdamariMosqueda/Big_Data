@@ -51,7 +51,10 @@ MOSQUEDA ESPINOZA ADAMARI ANTONIA 16212363
 - [CONCLUSIONS](#conclusions)
 - [REFERENCES](#references)
 
+<div align="justify"> 
+
 # INTRODUCTION
+
 # THEORETICAL FRAMEWORK
 Machine learning (ML) is a subset of artificial intelligence, which build a mathematical model based on sample data, known as “training data,” in order to make predictions or decisions without being explicitly programmed to perform the task.
 
@@ -88,6 +91,7 @@ Logistic regression is a popular method to predict a categorical response. It is
 Multilayer perceptron classifier (MLPC) is a classifier based on the feedforward artificial neural network. MLPC consists of multiple layers of nodes. Each layer is fully connected to the next layer in the network. Nodes in the input layer represent the input data. All other nodes map inputs to outputs by a linear combination of the inputs with the node’s weights `w` and bias `b` and applying an activation function. This can be written in matrix form for MLPC with `K+1` layers as follows:
 
 > y(x)=fK(...f2(wT2f1(wT1x+b1)+b2)...+bK)
+
 Nodes in intermediate layers use sigmoid (logistic) function:
 
 > f(zi)=11+e−zi
@@ -99,6 +103,9 @@ Nodes in the output layer use softmax function:
 The number of nodes N in the output layer corresponds to the number of classes.
 
 MLPC employs backpropagation for learning the model. We use the logistic loss function for optimization and L-BFGS as an optimization routine.
+
+</div>
+
 # IMPLEMENTATION
 Para este proyecto usamos Spark porque tiene muchos beneficios:
 
