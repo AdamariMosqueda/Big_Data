@@ -1787,3 +1787,5 @@ The WSSE variable is created where we show the sum of the squared distances of t
 # Final Project
 
 [Link to final project](https://github.com/AdamariMosqueda/Big_Data/blob/Final_Project/Project/Final_Project.md)
+
+[Link to IEEE format (Spanish)](https://github.com/AdamariMosqueda/Big_Data/blob/Final_Project/Project/Proyecto_Final_IEEE.pdf)
